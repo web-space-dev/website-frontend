@@ -9,8 +9,6 @@ const { protocol, hostname, port, pathname } = new URL(
   process.env.WORDPRESS_API_URL
 );
 
-console.log("check me", hostname);
-
 /** @type {import('next').NextConfig} */
 module.exports = {
   images: {

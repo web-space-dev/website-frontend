@@ -99,6 +99,60 @@ export async function getAllPostsForHome(preview) {
   return data?.posts;
 }
 
+export async function getAllPostsForHome(preview) {
+  const data = await fetchAPI(
+    `
+    query HomePage {
+      page(id: "cG9zdDo5") {
+        id
+        title
+        featuredImage {
+          node {
+            sourceUrl
+          }
+        }
+        homeFields {
+          heroTitle
+          whatWeDo {
+            title
+            pills {
+              pillText
+            }
+          }
+          showcaseTitle
+          skillsTitle
+          approach {
+            title
+            paragraph
+          }
+        }
+      }
+      projects(first: 3) {
+        nodes {
+          title
+          slug
+          featuredImage {
+            node {
+              altText
+              sourceUrl
+            }
+          }
+        }
+      }
+      
+    }
+  `,
+    {
+      variables: {
+        onlyEnabled: !preview,
+        preview,
+      },
+    }
+  );
+
+  return data?.posts;
+}
+
 export async function getPostAndMorePosts(slug, preview, previewData) {
   const postPreview = preview && previewData?.post;
   // The slug may be the id of an unpublished post
