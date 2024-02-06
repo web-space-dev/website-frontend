@@ -1,3 +1,6 @@
+import { IHomePage } from "../interfaces";
+import { ISiteData } from "../interfaces/site";
+
 const API_URL = process.env.WORDPRESS_API_URL;
 
 async function fetchAPI(query = "", { variables }: Record<string, any> = {}) {
@@ -59,47 +62,22 @@ export async function getAllPostsWithSlug() {
   return data?.posts;
 }
 
-export async function getAllPostsForHome(preview) {
+export async function getSiteData(): Promise<ISiteData> {
   const data = await fetchAPI(
     `
-    query AllPosts {
-      posts(first: 20, where: { orderby: { field: DATE, order: DESC } }) {
-        edges {
-          node {
-            title
-            excerpt
-            slug
-            date
-            featuredImage {
-              node {
-                sourceUrl
-              }
-            }
-            author {
-              node {
-                name
-                firstName
-                lastName
-          
-              }
-            }
-          }
-        }
+    query {
+      generalSettings {
+        title
+        description
       }
     }
-  `,
-    {
-      variables: {
-        onlyEnabled: !preview,
-        preview,
-      },
-    }
+    `
   );
 
-  return data?.posts;
+  return data;
 }
 
-export async function getAllPostsForHome(preview) {
+export async function getHomeData(preview: boolean): Promise<IHomePage> {
   const data = await fetchAPI(
     `
     query HomePage {
@@ -139,7 +117,21 @@ export async function getAllPostsForHome(preview) {
           }
         }
       }
-      
+      skillCategories {
+        nodes {
+          name
+          skills {
+            nodes {
+              title
+              featuredImage {
+                node {
+                  sourceUrl
+                }
+              }
+            }
+          }
+        }
+      }
     }
   `,
     {
@@ -150,7 +142,7 @@ export async function getAllPostsForHome(preview) {
     }
   );
 
-  return data?.posts;
+  return data;
 }
 
 export async function getPostAndMorePosts(slug, preview, previewData) {

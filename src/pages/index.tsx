@@ -1,55 +1,57 @@
 import Head from "next/head";
 import { GetStaticProps } from "next";
-import Container from "../components/container";
+import Container from "../components/global/container";
 import MoreStories from "../components/more-stories";
 import HeroPost from "../components/hero-post";
 import Intro from "../components/intro";
 import Layout from "../components/layout";
-// import { getAllPostsForHome } from "../lib/api";
-import { CMS_NAME } from "../lib/constants";
 
-export default function Index({ pageData, preview }) {
-  // { allPosts: { edges }, preview }
-  // const heroPost = edges[0]?.node
-  // const morePosts = edges.slice(1)
+import { getHomeData, getSiteData } from "../lib/api";
+import { IHomePage } from "../interfaces";
+import { ISiteData } from "../interfaces/site";
+import Hero from "../components/home/Hero";
+import WhatWeDo from "../components/home/WhatWeDo";
+import Showcase from "../components/home/ShowCase";
+import Skills from "../components/home/Skills";
+import Approach from "../components/home/Approach";
+
+interface IIndex {
+  siteData: ISiteData;
+  pageData: IHomePage;
+  preview: boolean;
+}
+
+export default function Index({ siteData, pageData, preview }: IIndex) {
+  const { page, projects, skillCategories } = pageData;
 
   return (
-    <Layout preview={preview}>
-      <Head>
-        <title>Testies</title>
-      </Head>
-      <h1>hello world</h1>
-    </Layout>
-  );
-  return (
-    <Layout preview={preview}>
-      <Head>
-        <title>{`Next.js Blog Example with ${CMS_NAME}`}</title>
-      </Head>
-      <Container>
-        <Intro />
-        {heroPost && (
-          <HeroPost
-            title={heroPost.title}
-            coverImage={heroPost.featuredImage}
-            date={heroPost.date}
-            author={heroPost.author}
-            slug={heroPost.slug}
-            excerpt={heroPost.excerpt}
-          />
-        )}
-        {morePosts.length > 0 && <MoreStories posts={morePosts} />}
-      </Container>
+    <Layout preview={preview} pageTitle={page.title} siteData={siteData}>
+      {/* Hero section */}
+      <Hero title={page.homeFields.heroTitle} />
+
+      {/* What we do */}
+      <WhatWeDo items={page.homeFields.whatWeDo} />
+      {/* Showcase */}
+      <Showcase title={page.homeFields.showcaseTitle} projects={projects} />
+
+      {/* Skills */}
+      <Skills
+        title={page.homeFields.skillsTitle}
+        categories={skillCategories}
+      />
+
+      {/* Approach */}
+      <Approach items={page.homeFields.approach} />
     </Layout>
   );
 }
 
 export const getStaticProps: GetStaticProps = async ({ preview = false }) => {
-  // const allPosts = await getAllPostsForHome(preview);
-  const homeData = await getHomeData(preview);
+  const pageData = await getHomeData(preview);
+  const siteData = await getSiteData();
 
   return {
-    props: { homeData, preview },
+    props: { siteData, pageData, preview },
     revalidate: 10,
   };
 };

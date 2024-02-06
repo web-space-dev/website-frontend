@@ -1,16 +1,31 @@
-import Alert from './alert'
-import Footer from './footer'
-import Meta from './meta'
+import { ISiteData } from "../interfaces/site";
+import Alert from "./alert";
+import Footer from "./global/footer";
+import Wrapper from "./global/Wrapper";
+import Meta from "./meta";
 
-export default function Layout({ preview, children }) {
+interface ILayout {
+  preview: boolean;
+  children: React.ReactNode;
+  pageTitle?: string;
+  siteData?: ISiteData;
+}
+
+export default function Layout({
+  preview,
+  pageTitle,
+  siteData,
+  children,
+}: ILayout) {
   return (
     <>
-      <Meta />
+      <Wrapper pageTitle={pageTitle} siteData={siteData} />
+
       <div className="min-h-screen">
         <Alert preview={preview} />
         <main>{children}</main>
       </div>
       <Footer />
     </>
-  )
+  );
 }

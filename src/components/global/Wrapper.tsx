@@ -1,9 +1,23 @@
-import Head from 'next/head'
-import { CMS_NAME, HOME_OG_IMAGE_URL } from '../lib/constants'
+// import { StaticQuery, graphql } from "gatsby";
+import React from "react";
+import { Helmet } from "react-helmet";
+import { GetStaticProps } from "next";
+import { ISiteData } from "../../interfaces/site";
+import { getSiteData } from "../../lib/api";
+import { HOME_OG_IMAGE_URL } from "../../lib/constants";
+import Head from "next/head";
 
-export default function Meta() {
+interface IWrapper {
+  pageTitle: string;
+  siteData: ISiteData;
+}
+
+export default function Wrapper({ pageTitle, siteData }: IWrapper) {
   return (
     <Head>
+      <title>
+        {pageTitle} | {siteData.generalSettings.title}
+      </title>
       <link
         rel="apple-touch-icon"
         sizes="180x180"
@@ -32,11 +46,16 @@ export default function Meta() {
       <meta name="msapplication-config" content="/favicon/browserconfig.xml" />
       <meta name="theme-color" content="#000" />
       <link rel="alternate" type="application/rss+xml" href="/feed.xml" />
-      <meta
-        name="description"
-        content={`A statically generated blog example using Next.js and ${CMS_NAME}.`}
-      />
+      <meta name="description" content={siteData.generalSettings.description} />
       <meta property="og:image" content={HOME_OG_IMAGE_URL} />
     </Head>
-  )
+  );
 }
+
+export const getStaticProps: GetStaticProps = async () => {
+  const siteData = await getSiteData();
+
+  return {
+    props: { siteData },
+  };
+};
