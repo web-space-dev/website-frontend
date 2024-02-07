@@ -5,11 +5,12 @@ import { usePathname } from "next/navigation";
 const StyledNav = styled.nav`
   display: flex;
   position: fixed;
-  bottom: 8px;
+  bottom: 16px;
   left: 25%;
   right: 25%;
   margin: auto;
-  border-radius: 1rem;
+  padding: 0 0.5rem;
+  border-radius: 0.75rem;
   background-color: rgba(57, 151, 156, 0.2);
   width: max-content;
   backdrop-filter: blur(5px);
@@ -24,13 +25,13 @@ const StyledDiv = styled.div`
 const StyledLink = styled(Link)`
   padding: 0.25rem 0.75rem;
   margin: 0.5rem 0;
-  border-radius: 0.75rem;
-  transition: all 0.5s ease-in-out;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease-in-out;
   color: #000;
   text-decoration: none;
 
   &:hover {
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: rgba(57, 151, 156, 0.2);
   }
 `;
 
@@ -45,8 +46,8 @@ const StyledSpan = styled.span<StyledSpanProps>`
 `;
 
 const links = [
-  { name: "About", path: "" },
-  { name: "Projects", path: "#" },
+  { name: "About", path: "about" },
+  { name: "Projects", path: "projects" },
   { name: "Client space", path: "#" },
   { name: "chat", path: "#" },
 ];
