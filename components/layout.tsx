@@ -1,6 +1,7 @@
-import Alert from './alert'
-import Footer from './footer'
-import Meta from './meta'
+import Alert from "./alert";
+import Footer from "./footer";
+import Meta from "./meta";
+import Navbar from "./navbar";
 
 export default function Layout({ preview, children }) {
   return (
@@ -10,7 +11,8 @@ export default function Layout({ preview, children }) {
         <Alert preview={preview} />
         <main>{children}</main>
       </div>
+      <Navbar />
       <Footer />
     </>
-  )
+  );
 }
