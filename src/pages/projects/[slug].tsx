@@ -1,27 +1,18 @@
 import { useRouter } from "next/router";
 import ErrorPage from "next/error";
-import Head from "next/head";
 import { GetStaticPaths, GetStaticProps } from "next";
 import Container from "../../components/global/container";
-import ProjectBody from "../../components/project-body";
-import MoreStories from "../../components/more-stories";
 import Header from "../../components/global/header";
-import ProjectHeader from "../../components/project-header";
-import SectionSeparator from "../../components/section-separator";
 import Layout from "../../components/layout";
-import ProjectTitle from "../../components/project-title";
-import Tags from "../../components/tags";
 import {
   getAllProjectsWithSlug,
   getProjectAndMoreProjects,
   getSiteData,
 } from "../../lib/api";
-import { CMS_NAME } from "../../lib/constants";
 import Image from "next/image";
 import { ISiteData } from "../../interfaces/site";
 import { IProjectData } from "../../interfaces/project";
-import CoverImage from "../../components/project/cover-image";
-import Hero from "../../components/home/Hero";
+import { Hero } from "../../components/project/hero";
 
 interface IProject extends IProjectData {
   siteData: ISiteData;
