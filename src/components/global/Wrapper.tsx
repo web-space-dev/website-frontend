@@ -1,6 +1,4 @@
-// import { StaticQuery, graphql } from "gatsby";
 import React from "react";
-import { Helmet } from "react-helmet";
 import { GetStaticProps } from "next";
 import { ISiteData } from "../../interfaces/site";
 import { getSiteData } from "../../lib/api";

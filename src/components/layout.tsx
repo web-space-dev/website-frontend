@@ -1,8 +1,7 @@
 import { ISiteData } from "../interfaces/site";
-import Alert from "./alert";
+import { darkerGrotesque } from "../styles/variables";
 import Footer from "./global/footer";
 import Wrapper from "./global/Wrapper";
-import Meta from "./meta";
 
 interface ILayout {
   preview: boolean;
@@ -21,10 +20,8 @@ export default function Layout({
     <>
       <Wrapper pageTitle={pageTitle} siteData={siteData} />
 
-      <div className="min-h-screen">
-        <Alert preview={preview} />
-        <main>{children}</main>
-      </div>
+      <main className={darkerGrotesque.className}>{children}</main>
+
       <Footer />
     </>
   );
