@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Projects } from "../../interfaces/home";
 
 interface IShowcase {
@@ -19,6 +20,7 @@ export default function Showcase({ title, projects }: IShowcase) {
               src={project.featuredImage.node.sourceUrl}
               alt={project.featuredImage.node.altText}
             />
+            <Link href={`/projects/${project.slug}`}>View project</Link>
           </div>
         );
       })}

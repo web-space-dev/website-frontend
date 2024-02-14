@@ -1,5 +1,5 @@
 import { IHomePage } from "../interfaces/home";
-import { IProjectData } from "../interfaces/project";
+import { IProjectData, IProjectsData } from "../interfaces/project";
 import { ISiteData } from "../interfaces/site";
 
 const API_URL = process.env.WORDPRESS_API_URL;
@@ -129,6 +129,34 @@ export async function getHomeData(preview: boolean): Promise<IHomePage> {
   return data;
 }
 
+export async function getProjectsData(
+  preview: boolean
+): Promise<IProjectsData> {
+  const data = await fetchAPI(`
+    query ProjectsPage {
+      projects {
+        nodes {
+          title
+          slug
+          projectCategories {
+            nodes {
+              name
+              slug
+            }
+          }
+          featuredImage {
+            node {
+              altText
+              sourceUrl
+            }
+          }
+        }
+      }
+    }`);
+
+  return data;
+}
+
 export async function getProjectAndMoreProjects(slug): Promise<IProjectData> {
   const data = await fetchAPI(
     `
@@ -140,6 +168,18 @@ export async function getProjectAndMoreProjects(slug): Promise<IProjectData> {
             node {
               altText
               sourceUrl
+            }
+          }
+          tags {
+            nodes {
+              name
+              slug
+            }
+          }
+          projectCategories {
+            nodes {
+              name
+              slug
             }
           }
           projectFields {
@@ -223,6 +263,12 @@ export async function getProjectAndMoreProjects(slug): Promise<IProjectData> {
           nodes {
             title
             slug
+                   projectCategories {
+            nodes {
+              name
+              slug
+            }
+          }
             featuredImage {
               node {
                 altText

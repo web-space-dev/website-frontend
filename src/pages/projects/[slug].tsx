@@ -13,6 +13,7 @@ import Image from "next/image";
 import { ISiteData } from "../../interfaces/site";
 import { IProjectData } from "../../interfaces/project";
 import { Hero } from "../../components/project/hero";
+import ProjectBody from "../../components/project/content";
 
 interface IProject extends IProjectData {
   siteData: ISiteData;
@@ -40,8 +41,8 @@ export default function Project({
         ) : (
           <>
             <Hero project={project} />
-
-            <h2>{project.title}</h2>
+            {/* <Content */}
+            <ProjectBody content={project.projectFields.content} />
 
             {/* Other Projects */}
             <h2>Other projects</h2>
