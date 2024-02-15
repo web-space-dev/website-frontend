@@ -1,5 +1,4 @@
 import { ISiteData } from "../interfaces/site";
-import { darkerGrotesque } from "../styles/variables";
 import Footer from "./global/footer";
 import Wrapper from "./global/Wrapper";
 
@@ -20,7 +19,7 @@ export default function Layout({
     <>
       <Wrapper pageTitle={pageTitle} siteData={siteData} />
 
-      <main className={darkerGrotesque.className}>{children}</main>
+      <main>{children}</main>
 
       <Footer />
     </>

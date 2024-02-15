@@ -1,4 +1,4 @@
-import { Darker_Grotesque } from "@next/font/google";
+import { Darker_Grotesque } from "next/font/google";
 
 export const colors = {
   white: "#F8F8F8",
@@ -25,7 +25,8 @@ export type WebSpaceColorVal = (typeof colors)[WebSpaceColorKey];
 
 export const darkerGrotesque = Darker_Grotesque({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  display: "swap",
+  // weight: ["400", "500", "600"],
 });
 
 /**
