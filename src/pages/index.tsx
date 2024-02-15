@@ -5,11 +5,11 @@ import { IHomePage } from "../interfaces/home";
 import { ISiteData } from "../interfaces/site";
 
 import Layout from "../components/layout";
-import Hero from "../components/home/Hero";
-import WhatWeDo from "../components/home/WhatWeDo";
-import Showcase from "../components/home/ShowCase";
-import Skills from "../components/home/Skills";
-import Approach from "../components/home/Approach";
+import Hero from "../components/home/hero";
+import WhatWeDo from "../components/home/what-we-do";
+import Showcase from "../components/home/show-case";
+import Skills from "../components/home/skills";
+import Approach from "../components/home/approach";
 import Navbar from "../components/navbar";
 
 interface IIndex {

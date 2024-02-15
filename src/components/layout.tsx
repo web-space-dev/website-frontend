@@ -2,7 +2,7 @@ import { ISiteData } from "../interfaces/site";
 import { StyledWrapper } from "../styles/styled-wrapper";
 import { darkerGrotesque } from "../styles/variables";
 import Footer from "./global/footer";
-import Wrapper from "./global/Wrapper";
+import Wrapper from "./global/wrapper";
 
 interface ILayout {
   preview: boolean;
