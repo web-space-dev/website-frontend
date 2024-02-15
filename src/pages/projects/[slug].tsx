@@ -1,7 +1,6 @@
 import { useRouter } from "next/router";
 import ErrorPage from "next/error";
 import { GetStaticPaths, GetStaticProps } from "next";
-import Container from "../../components/global/container";
 import Header from "../../components/global/header";
 import Layout from "../../components/layout";
 import {
@@ -34,33 +33,31 @@ export default function Project({
 
   return (
     <Layout preview={preview} pageTitle={project.title} siteData={siteData}>
-      <Container>
-        <Header />
-        {router.isFallback ? (
-          <h2>Loading</h2>
-        ) : (
-          <>
-            <Hero project={project} />
-            {/* <Content */}
-            <ProjectBody content={project.projectFields.content} />
+      <Header />
+      {router.isFallback ? (
+        <h2>Loading</h2>
+      ) : (
+        <>
+          <Hero project={project} />
+          {/* <Content */}
+          <ProjectBody content={project.projectFields.content} />
 
-            {/* Other Projects */}
-            <h2>Other projects</h2>
-            {projects.nodes.map((project, index) => (
-              <div key={index}>
-                <Image
-                  width={500}
-                  height={200}
-                  alt={`Cover Image for ${project.title}`}
-                  loader={() => project.featuredImage?.node.sourceUrl}
-                  src={project?.featuredImage?.node.sourceUrl}
-                />
-                <h3>{project.title}</h3>
-              </div>
-            ))}
-          </>
-        )}
-      </Container>
+          {/* Other Projects */}
+          <h2>Other projects</h2>
+          {projects.nodes.map((project, index) => (
+            <div key={index}>
+              <Image
+                width={500}
+                height={200}
+                alt={`Cover Image for ${project.title}`}
+                loader={() => project.featuredImage?.node.sourceUrl}
+                src={project?.featuredImage?.node.sourceUrl}
+              />
+              <h3>{project.title}</h3>
+            </div>
+          ))}
+        </>
+      )}
     </Layout>
   );
 }

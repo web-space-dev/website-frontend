@@ -65,18 +65,26 @@ export const widths = {
   xl: 1140,
 };
 
+export const baseFontSize = 22;
+
 export const dimensions = {
   fontSize: {
     regular: 22,
     large: 24,
   },
   headingSizes: {
-    h1: 2.441,
-    h2: 1.953,
-    h3: 1.563,
-    h4: 1.25,
-    h5: 1.05,
+    h1: 64,
+    h2: 66,
+    h3: 36,
+    h4: 30,
   },
+  // headingSizes: {
+  //   h1: 2.441,
+  //   h2: 1.953,
+  //   h3: 1.563,
+  //   h4: 1.25,
+  //   h5: 1.05,
+  // },
   headingSizesMobile: {
     h1: 2,
   },

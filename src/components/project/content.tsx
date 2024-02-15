@@ -31,7 +31,7 @@ export default function ProjectBody({ content }: IProps) {
 
   return (
     <>
-      {content.map((item, index) => {
+      {content?.map((item, index) => {
         return <div key={index}>{renderContent(item)}</div>;
       })}
     </>

@@ -1,7 +1,8 @@
 import { css } from "@emotion/react";
-import { breakpoints, colors, dimensions } from "./variables";
+import { baseFontSize, breakpoints, colors, dimensions } from "./variables";
 
 export const getEmSize = (size: number) => size / dimensions.fontSize.regular;
+const getRemSize = (px: number): string => `${px / baseFontSize}rem`;
 
 export const theme = css`
   html {
@@ -81,21 +82,22 @@ export const theme = css`
 
   h1 {
     margin-top: 0;
-    font-size: ${dimensions.headingSizes.h1}rem;
+
+    font-size: ${getRemSize(dimensions.headingSizes.h1)};
     @media (min-width: ${getEmSize(breakpoints.sm)}em) {
-      font-size: ${dimensions.headingSizesMobile.h1};
+      font-size: ${getRemSize(dimensions.headingSizes.h1)};
     }
   }
   h2 {
-    font-size: ${dimensions.headingSizes.h2}rem;
+    font-size: ${getRemSize(dimensions.headingSizes.h2)};
   }
   h3 {
-    font-size: ${dimensions.headingSizes.h3}rem;
+    font-size: ${getRemSize(dimensions.headingSizes.h3)};
   }
   h4,
   h5,
   h6 {
-    font-size: ${dimensions.headingSizes.h4}rem;
+    font-size: ${getRemSize(dimensions.headingSizes.h4)};
   }
   h1,
   h4,
