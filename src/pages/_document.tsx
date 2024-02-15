@@ -1,9 +1,8 @@
 import { Html, Head, Main, NextScript } from "next/document";
-import { darkerGrotesque } from "../styles/variables";
 
 export default function Document() {
   return (
-    <Html lang="en" className={darkerGrotesque.className}>
+    <Html lang="en">
       <Head />
       <body>
         <Main />

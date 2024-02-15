@@ -26,7 +26,7 @@ export type WebSpaceColorVal = (typeof colors)[WebSpaceColorKey];
 export const darkerGrotesque = Darker_Grotesque({
   subsets: ["latin"],
   display: "swap",
-  // weight: ["400", "500", "600"],
+  weight: ["400", "500", "600"],
 });
 
 /**

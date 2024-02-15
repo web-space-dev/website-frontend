@@ -1,4 +1,6 @@
 import { ISiteData } from "../interfaces/site";
+import { StyledWrapper } from "../styles/styled-wrapper";
+import { darkerGrotesque } from "../styles/variables";
 import Footer from "./global/footer";
 import Wrapper from "./global/Wrapper";
 
@@ -16,12 +18,12 @@ export default function Layout({
   children,
 }: ILayout) {
   return (
-    <>
+    <StyledWrapper>
       <Wrapper pageTitle={pageTitle} siteData={siteData} />
 
       <main>{children}</main>
 
       <Footer />
-    </>
+    </StyledWrapper>
   );
 }

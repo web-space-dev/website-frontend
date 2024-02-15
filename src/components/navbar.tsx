@@ -45,7 +45,7 @@ const StyledSpan = styled.span<StyledSpanProps>`
 `;
 
 const links = [
-  { name: "About", path: "/" },
+  { name: "About", path: "" },
   { name: "Projects", path: "projects" },
   { name: "Client space", path: "#" },
   { name: "chat", path: "#" },
