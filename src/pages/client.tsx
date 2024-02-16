@@ -1,7 +1,7 @@
 export default function Client() {
   return (
     <>
-    <h1>HI from client</h1>
+    <h1>Client Space</h1>
     </>
   )
 }
