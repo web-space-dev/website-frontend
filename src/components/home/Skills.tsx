@@ -1,4 +1,4 @@
-import { SkillCategories } from "../../interfaces";
+import { SkillCategories } from "../../interfaces/home";
 
 interface ISkills {
   title: string;

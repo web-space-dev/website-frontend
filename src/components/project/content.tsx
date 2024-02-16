@@ -1,0 +1,39 @@
+import { Content } from "../../interfaces/project";
+import { ContentParagraph } from "./sections/content-paragraph";
+import Gallery1 from "./sections/gallery-1";
+import Gallery2 from "./sections/gallery-2";
+import LargeTextArea from "./sections/large-text-area";
+import DynamicTextAndImages from "./sections/the-challenge";
+
+interface IProps {
+  content: Content[];
+}
+
+export default function ProjectBody({ content }: IProps) {
+  const renderContent = (item: Content) => {
+    switch (item.__typename) {
+      case "ProjectFieldsContentLargeTextAreaLayout":
+        return <LargeTextArea text={item.largeTextArea} />;
+
+      case "ProjectFieldsContentGallery1Layout":
+        return <Gallery1 images={item.gallery1} />;
+
+      case "ProjectFieldsContentGallery2Layout":
+        return <Gallery2 images={item.gallery2} />;
+
+      case "ProjectFieldsContentTheChallengeLayout":
+        return <DynamicTextAndImages content={item.dynamicTextAndImage} />;
+
+      case "ProjectFieldsContentParagraphFieldLayout":
+        return <ContentParagraph content={item.paragraphItem} />;
+    }
+  };
+
+  return (
+    <>
+      {content?.map((item, index) => {
+        return <div key={index}>{renderContent(item)}</div>;
+      })}
+    </>
+  );
+}

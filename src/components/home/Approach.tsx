@@ -1,4 +1,4 @@
-import { Approach } from "../../interfaces";
+import { Approach } from "../../interfaces/home";
 
 interface IApproach {
   items: Approach[];

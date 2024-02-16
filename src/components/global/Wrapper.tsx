@@ -1,6 +1,4 @@
-// import { StaticQuery, graphql } from "gatsby";
 import React from "react";
-import { Helmet } from "react-helmet";
 import { GetStaticProps } from "next";
 import { ISiteData } from "../../interfaces/site";
 import { getSiteData } from "../../lib/api";
@@ -13,11 +11,13 @@ interface IWrapper {
 }
 
 export default function Wrapper({ pageTitle, siteData }: IWrapper) {
+  const renderTitle = pageTitle
+    ? `${pageTitle} | ${siteData.generalSettings.title}`
+    : siteData.generalSettings.title;
+
   return (
     <Head>
-      <title>
-        {pageTitle} | {siteData.generalSettings.title}
-      </title>
+      <title>{renderTitle}</title>
       <link
         rel="apple-touch-icon"
         sizes="180x180"
