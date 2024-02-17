@@ -131,9 +131,9 @@ const StyledSpan = styled.span<StyledSpanProps & { dark: boolean }>`
 `;
 
 const links = [
-  { name: "About", path: "about" },
+  { name: "About", path: "" },
   { name: "Projects", path: "projects" },
-  { name: "Client space", path: "client" },
+  { name: "Client space", path: "#" },
   { name: "chat", path: "#", icon: chatIcon },
 ];
 

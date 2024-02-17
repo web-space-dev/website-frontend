@@ -11,7 +11,7 @@ export const theme = css`
     width: 100vw;
     font-size: ${dimensions.fontSize.regular}px !important;
     line-height: ${dimensions.lineHeight.regular} !important;
-    font-family
+    font-family: "Darker Grotesque", sans-serif;
   }
   *,
   *::before,
