@@ -39,7 +39,7 @@ const StyledNavMobile = styled.nav<NavbarProps & { isMenuOpen: boolean }>`
   border-radius: 0.75rem;
   background-color: rgba(57, 151, 156, 0.2);
   backdrop-filter: blur(5px);
-  transition: all 0.3s ease-in-out;
+  transition: all 0.2s ease;
 
   @media (max-width: 700px) {
     width: ${(props) => (props.isMenuOpen ? "100vw" : "2rem")};
@@ -61,7 +61,8 @@ const StyledNavMobile = styled.nav<NavbarProps & { isMenuOpen: boolean }>`
 const StyledBtnMobile = styled.button<{ isMenuOpen: boolean }>`
   all: unset;
   display: flex;
-  margin-right: ${(props) => (props.isMenuOpen ? "0.5rem" : "auto")};
+  margin-right: ${(props) => (props.isMenuOpen ? "1rem" : "auto")};
+  margin-top: ${(props) => (props.isMenuOpen ? "1rem" : "auto")};
   margin-left: ${(props) => (props.isMenuOpen ? "auto" : "auto")};
 `;
 
@@ -72,8 +73,13 @@ const StyledDiv = styled.div`
 `;
 
 const StyledDivMobile = styled.div<{ isMenuOpen: boolean }>`
-  width: 20vw;
   display: ${(props) => (props.isMenuOpen ? "flex" : "none")};
+`;
+const StyledWrapperMobile = styled.div<{ isMenuOpen: boolean }>`
+  display: ${(props) => (props.isMenuOpen ? "flex" : "none")};
+  flex-direction: column;
+  align-items: center;
+  margin: auto;
 `;
 
 const StyledLink = styled.a<{ dark: boolean }>`
@@ -106,11 +112,6 @@ const StyledLinkMobile = styled.a<{ dark: boolean }>`
   }
 `;
 
-const iconStyle = {
-  width: "1rem",
-  margin: "-0.25rem 0",
-};
-
 type StyledSpanProps = {
   isActive: boolean;
 };
@@ -119,8 +120,8 @@ interface NavbarProps {
   dark: boolean;
 }
 
-const StyledSpan = styled.span<StyledSpanProps>`
-  box-shadow: 0 -0.5px 0 0.5px ${(props) => (!props.isActive ? "transparent" : "black")};
+const StyledSpan = styled.span<StyledSpanProps & { dark: boolean }>`
+  box-shadow: 0 -0.5px 0 0.5px ${(props) => (!props.isActive ? "transparent" : props.dark ? "black" : "white")};
   width: 1.5rem;
   transition: all 0.3s ease-in-out;
 
@@ -151,6 +152,11 @@ export default function Navbar({ dark }) {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  const iconStyle = {
+    width: "1rem",
+    margin: "-0.25rem 0",
+  };
+
   const iconStyleMobile = {
     margin: "auto",
   };
@@ -169,7 +175,7 @@ export default function Navbar({ dark }) {
                   link.name
                 )}
               </StyledLink>
-              <StyledSpan isActive={pathname === `/${link.path}`} />
+              <StyledSpan isActive={pathname === `/${link.path}`} dark={dark} />
             </StyledDiv>
           ))}
         </StyledNav>
@@ -177,25 +183,22 @@ export default function Navbar({ dark }) {
 
       {/* mobile */}
       {!isDesktop && (
-        <StyledNavMobile dark={dark} isMenuOpen={isMenuOpen} >
+        <StyledNavMobile dark={dark} isMenuOpen={isMenuOpen}>
           <StyledBtnMobile
             isMenuOpen={isMenuOpen}
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             {isMenuOpen ? (
-              <Image
-                src={closeIcon}
-                alt="burger icon"
-                style={iconStyleMobile}
-              />
+              <Image src={closeIcon} alt="close icon" style={iconStyleMobile} />
             ) : (
               <Image
                 src={burgerIcon}
-                alt="close icon"
+                alt="burger icon"
                 style={iconStyleMobile}
               />
             )}
           </StyledBtnMobile>
+          <StyledWrapperMobile isMenuOpen={isMenuOpen}>
           {links.map((link, index) => (
             <StyledDivMobile key={index} isMenuOpen={isMenuOpen}>
               <StyledLinkMobile href={`/${link.path}`} dark={dark}>
@@ -205,9 +208,10 @@ export default function Navbar({ dark }) {
                   link.name
                 )}
               </StyledLinkMobile>
-              <StyledSpan isActive={pathname === `/${link.path}`} />
+              <StyledSpan isActive={pathname === `/${link.path}`} dark={dark} />
             </StyledDivMobile>
           ))}
+          </StyledWrapperMobile>
         </StyledNavMobile>
       )}
     </>

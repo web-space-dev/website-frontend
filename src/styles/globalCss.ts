@@ -32,7 +32,7 @@ export const theme = css`
     overflow-x: hidden;
     // overflow-y: scroll;
     height: 100%;
-    
+
     color: ${colors.white};
     background-color: ${colors.black};
     -webkit-text-size-adjust: 100%;
@@ -65,7 +65,7 @@ export const theme = css`
   figcaption {
     font-size: 80%;
   }
-  
+
   h1,
   h2,
   h3,
