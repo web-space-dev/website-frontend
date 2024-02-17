@@ -8,7 +8,7 @@ import closeIcon from "../../public/svg/icon-close.svg";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-const StyledNav = styled.nav`
+const StyledNav = styled.nav<NavbarProps>`
   display: flex;
   position: fixed;
   padding: 0 0.5rem;
@@ -18,11 +18,12 @@ const StyledNav = styled.nav`
   backdrop-filter: blur(5px);
 
   @media (min-width: 700px) {
-    height: "auto";
+    height: auto;
     bottom: 16px;
     left: 5%;
     right: 5%;
     margin: auto;
+    gap: 0.5rem;
 
     @media (max-width: 700px) {
       display: none;
@@ -30,7 +31,7 @@ const StyledNav = styled.nav`
   }
 `;
 
-const StyledNavMobile = styled.nav<{ isMenuOpen: boolean }>`
+const StyledNavMobile = styled.nav<NavbarProps & { isMenuOpen: boolean }>`
   display: flex;
   flex-direction: column;
   position: fixed;
@@ -75,12 +76,12 @@ const StyledDivMobile = styled.div<{ isMenuOpen: boolean }>`
   display: ${(props) => (props.isMenuOpen ? "flex" : "none")};
 `;
 
-const StyledLink = styled.a`
+const StyledLink = styled.a<{ dark: boolean }>`
   padding: 0.25rem 0.75rem;
   margin: 0.5rem 0;
   border-radius: 0.5rem;
   transition: all 0.3s ease-in-out;
-  color: #000;
+  color: ${(props) => (props.dark ? "white" : "#000")};
   text-decoration: none;
 
   &:hover {
@@ -92,12 +93,12 @@ const StyledLink = styled.a`
   }
 `;
 
-const StyledLinkMobile = styled.a`
+const StyledLinkMobile = styled.a<{ dark: boolean }>`
   padding: 0.25rem 0.75rem;
   margin: 0.5rem 0;
   border-radius: 0.5rem;
   transition: all 0.3s ease-in-out;
-  color: #000;
+  color: ${(props) => (props.dark ? "white" : "#000")};
   text-decoration: none;
 
   @media (min-width: 700px) {
@@ -113,6 +114,10 @@ const iconStyle = {
 type StyledSpanProps = {
   isActive: boolean;
 };
+
+interface NavbarProps {
+  dark: boolean;
+}
 
 const StyledSpan = styled.span<StyledSpanProps>`
   box-shadow: 0 -0.5px 0 0.5px ${(props) => (!props.isActive ? "transparent" : "black")};
@@ -131,7 +136,7 @@ const links = [
   { name: "chat", path: "#", icon: chatIcon },
 ];
 
-export default function Navbar() {
+export default function Navbar({ dark }) {
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
@@ -154,10 +159,10 @@ export default function Navbar() {
     <>
       {/* desktop */}
       {isDesktop && (
-        <StyledNav>
+        <StyledNav dark={dark}>
           {links.map((link, index) => (
             <StyledDiv key={index}>
-              <StyledLink href={`/${link.path}`}>
+              <StyledLink href={`/${link.path}`} dark={dark}>
                 {link.icon ? (
                   <Image src={link.icon} alt={link.name} style={iconStyle} />
                 ) : (
@@ -172,7 +177,7 @@ export default function Navbar() {
 
       {/* mobile */}
       {!isDesktop && (
-        <StyledNavMobile isMenuOpen={isMenuOpen}>
+        <StyledNavMobile dark={dark} isMenuOpen={isMenuOpen} >
           <StyledBtnMobile
             isMenuOpen={isMenuOpen}
             onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -193,7 +198,7 @@ export default function Navbar() {
           </StyledBtnMobile>
           {links.map((link, index) => (
             <StyledDivMobile key={index} isMenuOpen={isMenuOpen}>
-              <StyledLinkMobile href={`/${link.path}`}>
+              <StyledLinkMobile href={`/${link.path}`} dark={dark}>
                 {link.icon ? (
                   <Image src={link.icon} alt={link.name} style={iconStyle} />
                 ) : (

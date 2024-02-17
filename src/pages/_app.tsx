@@ -5,7 +5,7 @@ import Navbar from "../components/navbar";
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
-      <Navbar />
+      <Navbar dark={true} />
       <Component {...pageProps} />
     </>
   );
