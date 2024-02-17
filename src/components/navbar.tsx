@@ -152,6 +152,14 @@ export default function Navbar({ dark }) {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+  }, [isMenuOpen]);
+
   const iconStyle = {
     width: "1rem",
     margin: "-0.25rem 0",
@@ -199,18 +207,21 @@ export default function Navbar({ dark }) {
             )}
           </StyledBtnMobile>
           <StyledWrapperMobile isMenuOpen={isMenuOpen}>
-          {links.map((link, index) => (
-            <StyledDivMobile key={index} isMenuOpen={isMenuOpen}>
-              <StyledLinkMobile href={`/${link.path}`} dark={dark}>
-                {link.icon ? (
-                  <Image src={link.icon} alt={link.name} style={iconStyle} />
-                ) : (
-                  link.name
-                )}
-              </StyledLinkMobile>
-              <StyledSpan isActive={pathname === `/${link.path}`} dark={dark} />
-            </StyledDivMobile>
-          ))}
+            {links.map((link, index) => (
+              <StyledDivMobile key={index} isMenuOpen={isMenuOpen}>
+                <StyledLinkMobile href={`/${link.path}`} dark={dark}>
+                  {link.icon ? (
+                    <Image src={link.icon} alt={link.name} style={iconStyle} />
+                  ) : (
+                    link.name
+                  )}
+                </StyledLinkMobile>
+                <StyledSpan
+                  isActive={pathname === `/${link.path}`}
+                  dark={dark}
+                />
+              </StyledDivMobile>
+            ))}
           </StyledWrapperMobile>
         </StyledNavMobile>
       )}
