@@ -35,22 +35,25 @@ const StyledNavMobile = styled.nav<{ isMenuOpen: boolean }>`
   flex-direction: column;
   position: fixed;
   padding: 0.5rem 0.5rem;
-  border-radius: 1.25rem;
+  border-radius: 0.75rem;
   background-color: rgba(57, 151, 156, 0.2);
-  width: max-content;
   backdrop-filter: blur(5px);
+  transition: all 0.3s ease-in-out;
 
   @media (max-width: 700px) {
-    width: ${(props) => (props.isMenuOpen ? "auto" : "2rem")};
-    height: ${(props) => (props.isMenuOpen ? "auto" : "2rem")};
-    top: 1rem;
-    right: 1rem;
+    width: ${(props) => (props.isMenuOpen ? "100vw" : "2rem")};
+    height: ${(props) => (props.isMenuOpen ? "100vh" : "2rem")};
+    top: ${(props) => (props.isMenuOpen ? "0" : "1rem")};
+    right: ${(props) => (props.isMenuOpen ? "0" : "1rem")};
+    border-radius: ${(props) => (props.isMenuOpen ? "0" : "0.75rem")};
     flex-direction: ${(props) => (props.isMenuOpen ? "column" : "row")};
     align-items: ${(props) => (props.isMenuOpen ? "flex-start" : "center")};
+    z-index: 999;
   }
 
   @media (min-width: 700px) {
     display: none;
+    width: max-content;
   }
 `;
 
@@ -104,7 +107,7 @@ const StyledLinkMobile = styled.a`
 
 const iconStyle = {
   width: "1rem",
-  margin: "-0.5rem 0",
+  margin: "-0.25rem 0",
 };
 
 type StyledSpanProps = {

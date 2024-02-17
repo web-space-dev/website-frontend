@@ -1,8 +1,7 @@
 import { ISiteData } from "../interfaces/site";
-import Alert from "./alert";
+import { StyledWrapper } from "../styles/styled-wrapper";
 import Footer from "./global/footer";
-import Wrapper from "./global/Wrapper";
-import Meta from "./meta";
+import Wrapper from "./global/wrapper";
 
 interface ILayout {
   preview: boolean;
@@ -18,14 +17,12 @@ export default function Layout({
   children,
 }: ILayout) {
   return (
-    <>
+    <StyledWrapper>
       <Wrapper pageTitle={pageTitle} siteData={siteData} />
 
-      <div className="min-h-screen">
-        <Alert preview={preview} />
-        <main>{children}</main>
-      </div>
+      <main>{children}</main>
+
       <Footer />
-    </>
+    </StyledWrapper>
   );
 }

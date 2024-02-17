@@ -1,4 +1,4 @@
-import { WhatWeDo } from "../../interfaces";
+import { WhatWeDo } from "../../interfaces/home";
 
 interface IWhatWeDo {
   items: WhatWeDo[];
