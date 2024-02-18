@@ -78,6 +78,7 @@ export const theme = css`
     font-weight: 600;
     line-height: ${dimensions.lineHeight.heading};
     text-rendering: optimizeLegibility;
+    letter-spacing: 1px;
   }
 
   h1 {

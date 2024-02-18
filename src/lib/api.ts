@@ -93,6 +93,12 @@ export async function getHomeData(preview: boolean): Promise<IHomePage> {
         nodes {
           title
           slug
+          projectCategories {
+            nodes {
+              name
+              slug
+            }
+          }
           featuredImage {
             node {
               altText

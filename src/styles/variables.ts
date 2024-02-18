@@ -78,6 +78,7 @@ export const dimensions = {
     h3: 36,
     h4: 30,
     h5: 20,
+    small: 60,
     medium: 110,
     large: 240,
     extraLarge: 344,
