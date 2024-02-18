@@ -1,17 +1,14 @@
 import styled from "@emotion/styled";
 import { Pill as IPill, WhatWeDo } from "../../interfaces/home";
-import { colors, dimensions } from "../../styles/variables";
+import { dimensions } from "../../styles/variables";
 import { getRemSize } from "../../styles/globalCss";
 import { GridContainer } from "../global/grid/GridContainer";
 import Pill from "../global/pill";
 import { useState } from "react";
 import { css } from "@emotion/react";
-import { is } from "date-fns/locale";
 
 const StyledWrapper = styled(GridContainer)`
-  margin-top: 280px;
-  /* display: flex; */
-  /* align-items: center; */
+  margin: 140px 0;
 `;
 
 const StyledTitle = styled.h2`
@@ -30,10 +27,11 @@ const StyledProcessList = styled.ul`
 const StyledProcessListTitle = styled.h3`
   margin-top: 0;
   font-size: ${getRemSize(dimensions.headingSizes.medium)};
+  transition: 0.3s ease-in-out;
   ${({ isGlassy }: { isGlassy: boolean }) =>
     isGlassy &&
     css`
-      color: red;
+      filter: blur(4px);
     `}
 `;
 
@@ -54,7 +52,7 @@ const StyledProcessItemExpand = styled.div<IStyledProcessItemExpand>`
     isExpanded &&
     css`
       margin: 60px 0 40px 0;
-      max-height: 500px; // adjust this value as needed
+      max-height: 500px;
       opacity: 1;
     `}
 `;
@@ -63,39 +61,41 @@ interface IProcessItem {
   title: string;
   pills: IPill[];
   index: number;
-  hoveredItem: number | null;
-  setHoveredItem: (index: number) => void;
+  hoverItems: boolean[];
+  setHoverItems: (items: boolean[]) => void;
 }
 
 const ProcessItem = ({
   title,
   pills,
-  hoveredItem,
-  setHoveredItem,
+  hoverItems,
+  setHoverItems,
   index,
 }: IProcessItem) => {
-  const [isHovered, setIsHovered] = useState(false);
+  const setHovering = (option: boolean) => {
+    const newHoverItems = hoverItems;
+    newHoverItems[index] = option;
 
-  const setHovering = () => {
-    setIsHovered(true);
-    setHoveredItem(index);
+    setHoverItems([...newHoverItems]);
+  };
+
+  const isGlassy = () => {
+    return !hoverItems[index] && hoverItems.some((item) => item);
   };
 
   return (
     <StyledProcessItem
-      onMouseEnter={() => setHovering()}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseEnter={() => setHovering(true)}
+      onMouseLeave={() => setHovering(false)}
     >
-      <StyledProcessListTitle isGlassy={hoveredItem !== null}>
+      <StyledProcessListTitle isGlassy={isGlassy()}>
         {title}
       </StyledProcessListTitle>
-      {/* {isHovered && ( */}
-      <StyledProcessItemExpand isExpanded={isHovered}>
+      <StyledProcessItemExpand isExpanded={hoverItems[index]}>
         {pills.map((pill, index) => (
           <Pill key={`${pill.pillText}-${index}`} pillText={pill.pillText} />
         ))}
       </StyledProcessItemExpand>
-      {/* )} */}
     </StyledProcessItem>
   );
 };
@@ -105,7 +105,9 @@ interface IWhatWeDo {
 }
 
 export default function WhatWeDo({ items }: IWhatWeDo) {
-  const [hoveredItem, setHoveredItem] = useState<number | null>(null);
+  const [hoverItems, setHoverItems] = useState(
+    new Array(items.length).fill(false)
+  );
 
   return (
     <StyledWrapper>
@@ -117,8 +119,8 @@ export default function WhatWeDo({ items }: IWhatWeDo) {
             title={item.title}
             pills={item.pills}
             index={index}
-            hoveredItem={hoveredItem}
-            setHoveredItem={setHoveredItem}
+            hoverItems={hoverItems}
+            setHoverItems={setHoverItems}
           />
         ))}
       </StyledProcessList>
