@@ -3,6 +3,7 @@ import { Darker_Grotesque } from "next/font/google";
 export const colors = {
   white: "#F8F8F8",
   black: "#1D1D1D",
+  blackLight: "#00000019",
   accent: "#39979C",
   accentLight: "#39979C33",
   bgLight: "#FFFFFF33",

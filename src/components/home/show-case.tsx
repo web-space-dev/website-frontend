@@ -6,6 +6,7 @@ import { dimensions } from "../../styles/variables";
 import { GridContainer } from "../global/grid/GridContainer";
 import Image from "next/image";
 import { Project, Projects } from "../../interfaces/project";
+import { IconButton } from "../global/icon-button";
 
 const StyledWrapper = styled(GridContainer)`
   margin: 40px 0;
@@ -31,19 +32,22 @@ const StyledShowcaseWrapper = styled.div`
   height: 100%;
   & div {
     margin: 0 10px;
-    border-radius: 12px;
   }
 `;
 
 const StyledShowcaseDetails = styled.div`
   position: relative;
   height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
 `;
 
 const StyledAllProjects = styled.div`
   width: 50%;
   height: 100%;
-  background-color: #bc515114;
+  background-color: #bc5151;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -65,10 +69,20 @@ const StyledShowcaseContent = styled.div`
   width: 100%;
   align-items: center;
   margin: 0 15px;
+
+  & h3,
+  p {
+    margin: 0 15px;
+  }
 `;
 
 const StyledShowcaseTitle = styled.h3`
   font-size: ${getRemSize(dimensions.headingSizes.h2)};
+  font-weight: 400;
+`;
+
+const StyledShowcaseCategory = styled.p`
+  font-size: ${getRemSize(dimensions.headingSizes.h4)};
   font-weight: 400;
 `;
 
@@ -94,7 +108,9 @@ export default function Showcase({ title, projects }: IShowcase) {
               />
               <StyledShowcaseContent>
                 <StyledShowcaseTitle>{project.title}</StyledShowcaseTitle>
-                <p>{project.projectCategories?.nodes[0]?.name}</p>
+                <StyledShowcaseCategory>
+                  {project.projectCategories?.nodes[0]?.name}
+                </StyledShowcaseCategory>
               </StyledShowcaseContent>
 
               {/* <Link href={`/projects/${project.slug}`}>View project</Link> */}
@@ -102,7 +118,7 @@ export default function Showcase({ title, projects }: IShowcase) {
 
             <StyledAllProjects>
               <Link href="/projects">View all projects</Link>
-              {/* <StyledIconButton /> */}
+              <IconButton link="/" />
             </StyledAllProjects>
           </StyledShowcaseWrapper>
         );
