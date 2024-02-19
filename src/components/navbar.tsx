@@ -3,10 +3,9 @@ import styled from "@emotion/styled";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import chatIcon from "../../public/svg/icon-chat.svg";
-import burgerIcon from "../../public/svg/icon-burger.svg";
-import closeIcon from "../../public/svg/icon-close.svg";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { NavbarMobile } from "./global/navigation/navbar-mobile";
 
 const StyledNav = styled.nav<NavbarProps>`
   display: flex;
@@ -31,55 +30,10 @@ const StyledNav = styled.nav<NavbarProps>`
   }
 `;
 
-const StyledNavMobile = styled.nav<NavbarProps & { isMenuOpen: boolean }>`
-  display: flex;
-  flex-direction: column;
-  position: fixed;
-  padding: 0.5rem 0.5rem;
-  border-radius: 0.75rem;
-  background-color: rgba(57, 151, 156, 0.2);
-  backdrop-filter: blur(5px);
-  transition: all 0.2s ease;
-
-  @media (max-width: 700px) {
-    width: ${(props) => (props.isMenuOpen ? "100vw" : "2rem")};
-    height: ${(props) => (props.isMenuOpen ? "100vh" : "2rem")};
-    top: ${(props) => (props.isMenuOpen ? "0" : "1rem")};
-    right: ${(props) => (props.isMenuOpen ? "0" : "1rem")};
-    border-radius: ${(props) => (props.isMenuOpen ? "0" : "0.75rem")};
-    flex-direction: ${(props) => (props.isMenuOpen ? "column" : "row")};
-    align-items: ${(props) => (props.isMenuOpen ? "flex-start" : "center")};
-    z-index: 999;
-  }
-
-  @media (min-width: 700px) {
-    display: none;
-    width: max-content;
-  }
-`;
-
-const StyledBtnMobile = styled.button<{ isMenuOpen: boolean }>`
-  all: unset;
-  display: flex;
-  margin-right: ${(props) => (props.isMenuOpen ? "1rem" : "auto")};
-  margin-top: ${(props) => (props.isMenuOpen ? "1rem" : "auto")};
-  margin-left: ${(props) => (props.isMenuOpen ? "auto" : "auto")};
-`;
-
 const StyledDiv = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
-
-const StyledDivMobile = styled.div<{ isMenuOpen: boolean }>`
-  display: ${(props) => (props.isMenuOpen ? "flex" : "none")};
-`;
-const StyledWrapperMobile = styled.div<{ isMenuOpen: boolean }>`
-  display: ${(props) => (props.isMenuOpen ? "flex" : "none")};
-  flex-direction: column;
-  align-items: center;
-  margin: auto;
 `;
 
 const StyledLink = styled.a<{ dark: boolean }>`
@@ -99,19 +53,6 @@ const StyledLink = styled.a<{ dark: boolean }>`
   }
 `;
 
-const StyledLinkMobile = styled.a<{ dark: boolean }>`
-  padding: 0.25rem 0.75rem;
-  margin: 0.5rem 0;
-  border-radius: 0.5rem;
-  transition: all 0.3s ease-in-out;
-  color: ${(props) => (props.dark ? "white" : "#000")};
-  text-decoration: none;
-
-  @media (min-width: 700px) {
-    display: none;
-  }
-`;
-
 type StyledSpanProps = {
   isActive: boolean;
 };
@@ -120,8 +61,8 @@ interface NavbarProps {
   dark: boolean;
 }
 
-const StyledSpan = styled.span<StyledSpanProps & { dark: boolean }>`
-  box-shadow: 0 -0.5px 0 0.5px ${(props) => (!props.isActive ? "transparent" : props.dark ? "black" : "white")};
+export const StyledNavSpan = styled.span<StyledSpanProps & { dark: boolean }>`
+  box-shadow: 0 -0.5px 0 0.5px ${(props) => (!props.isActive ? "transparent" : props.dark ? "white" : "black")};
   width: 1.5rem;
   transition: all 0.3s ease-in-out;
 
@@ -139,7 +80,6 @@ const links = [
 
 export default function Navbar({ dark }) {
   const pathname = usePathname();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
 
   useEffect(() => {
@@ -152,27 +92,15 @@ export default function Navbar({ dark }) {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  useEffect(() => {
-    if (isMenuOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
-  }, [isMenuOpen]);
-
   const iconStyle = {
     width: "1rem",
     margin: "-0.25rem 0",
   };
 
-  const iconStyleMobile = {
-    margin: "auto",
-  };
-
   return (
     <>
       {/* desktop */}
-      {isDesktop && (
+      {isDesktop ? (
         <StyledNav dark={dark}>
           {links.map((link, index) => (
             <StyledDiv key={index}>
@@ -183,47 +111,15 @@ export default function Navbar({ dark }) {
                   link.name
                 )}
               </StyledLink>
-              <StyledSpan isActive={pathname === `/${link.path}`} dark={dark} />
+              <StyledNavSpan
+                isActive={pathname === `/${link.path}`}
+                dark={dark}
+              />
             </StyledDiv>
           ))}
         </StyledNav>
-      )}
-
-      {/* mobile */}
-      {!isDesktop && (
-        <StyledNavMobile dark={dark} isMenuOpen={isMenuOpen}>
-          <StyledBtnMobile
-            isMenuOpen={isMenuOpen}
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
-            {isMenuOpen ? (
-              <Image src={closeIcon} alt="close icon" style={iconStyleMobile} />
-            ) : (
-              <Image
-                src={burgerIcon}
-                alt="burger icon"
-                style={iconStyleMobile}
-              />
-            )}
-          </StyledBtnMobile>
-          <StyledWrapperMobile isMenuOpen={isMenuOpen}>
-            {links.map((link, index) => (
-              <StyledDivMobile key={index} isMenuOpen={isMenuOpen}>
-                <StyledLinkMobile href={`/${link.path}`} dark={dark}>
-                  {link.icon ? (
-                    <Image src={link.icon} alt={link.name} style={iconStyle} />
-                  ) : (
-                    link.name
-                  )}
-                </StyledLinkMobile>
-                <StyledSpan
-                  isActive={pathname === `/${link.path}`}
-                  dark={dark}
-                />
-              </StyledDivMobile>
-            ))}
-          </StyledWrapperMobile>
-        </StyledNavMobile>
+      ) : (
+        <NavbarMobile dark={dark} links={links} />
       )}
     </>
   );
