@@ -1,7 +1,6 @@
 import { GetStaticProps } from "next";
 import { ISiteData } from "../../interfaces/site";
 import Layout from "../../components/layout";
-import Navbar from "../../components/navbar";
 import { getProjectsData, getSiteData } from "../../lib/api";
 import { IProjectsData } from "../../interfaces/project";
 import Image from "next/image";
@@ -16,7 +15,6 @@ interface IIndex {
 export default function Index({ siteData, pageData, preview }: IIndex) {
   return (
     <Layout preview={preview} pageTitle={"Projects"} siteData={siteData}>
-      <Navbar />
       <h1>Take a look at our Projects</h1>
 
       {pageData.projects.nodes.map((project, index) => {
