@@ -1,35 +1,39 @@
 import styled from "@emotion/styled";
 import Image from "next/image";
-import Link from "next/link";
 import { colors } from "../../styles/variables";
+import ArrowUpRight from "../../icons/arrow-up-right";
 
 const StyledIconButton = styled.button`
   width: 58px;
   height: 70px;
   padding: 20px 14px;
   border: 2px solid ${colors.blackLight};
-  /* background-color: red; */
-  &:hover {
-    fill: ${colors.white};
-    background-color: ${colors.accent};
+  transition: 0.3s ease;
 
+  &:hover {
+    background-color: ${colors.accent};
     border-color: ${colors.accent};
+
+    path {
+      fill: ${colors.white};
+    }
   }
+`;
+
+const StyledIcon = styled(ArrowUpRight)`
+  width: 30px;
+  height: 30px;
+  margin-left: -2px;
 `;
 
 interface IconButtonProps {
   link: string;
 }
 
-export function IconButton({ link }: IconButtonProps) {
+export function IconButton() {
   return (
     <StyledIconButton>
-      <Image
-        src="/icons/arrow-up-right.svg"
-        alt="arrow-right"
-        width={30}
-        height={30}
-      />
+      <StyledIcon />
     </StyledIconButton>
   );
 }

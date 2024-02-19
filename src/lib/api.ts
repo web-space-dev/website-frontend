@@ -70,7 +70,9 @@ export async function getHomeData(preview: boolean): Promise<IHomePage> {
         title
         featuredImage {
           node {
+            altText
             sourceUrl
+            placeholderDataURI
           }
         }
         homeFields {
@@ -103,6 +105,7 @@ export async function getHomeData(preview: boolean): Promise<IHomePage> {
             node {
               altText
               sourceUrl
+              placeholderDataURI
             }
           }
         }
@@ -115,7 +118,9 @@ export async function getHomeData(preview: boolean): Promise<IHomePage> {
               title
               featuredImage {
                 node {
+                  altText
                   sourceUrl
+                  placeholderDataURI
                 }
               }
             }
@@ -154,6 +159,7 @@ export async function getProjectsData(
             node {
               altText
               sourceUrl
+              placeholderDataURI
             }
           }
         }
@@ -174,6 +180,7 @@ export async function getProjectAndMoreProjects(slug): Promise<IProjectData> {
             node {
               altText
               sourceUrl
+              placeholderDataURI
             }
           }
           tags {
@@ -212,6 +219,7 @@ export async function getProjectAndMoreProjects(slug): Promise<IProjectData> {
                 gallery1 {
                   nodes {
                     sourceUrl
+                    placeholderDataURI
                     altText
                   }
                 }
@@ -221,6 +229,7 @@ export async function getProjectAndMoreProjects(slug): Promise<IProjectData> {
                 gallery2 {
                   nodes {
                     sourceUrl
+                    placeholderDataURI
                     altText
                   }
                 }
@@ -239,6 +248,7 @@ export async function getProjectAndMoreProjects(slug): Promise<IProjectData> {
                       node {
                         altText
                         sourceUrl
+                        placeholderDataURI
                       }
                     }
                   }
@@ -279,6 +289,7 @@ export async function getProjectAndMoreProjects(slug): Promise<IProjectData> {
               node {
                 altText
                 sourceUrl
+                placeholderDataURI
               }
             }
           }
