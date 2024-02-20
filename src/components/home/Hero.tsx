@@ -5,7 +5,6 @@ import Image from "next/image";
 
 const StyledWrapper = styled(GridContainer)`
   height: 100vh;
-  display: flex;
   align-items: center;
 `;
 
@@ -16,6 +15,7 @@ const Background = styled.span`
 `;
 
 const StyledHeading = styled.h1`
+  grid-column: 2 / span 10;
   color: ${colors.black};
   font-weight: 600;
 `;

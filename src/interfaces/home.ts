@@ -1,3 +1,5 @@
+import { Projects } from "./project";
+
 export interface IHomePage {
   page: Page;
   projects: Projects;
@@ -17,6 +19,8 @@ export interface PageFeaturedImage {
 
 export interface PurpleNode {
   sourceUrl: string;
+  altText: string;
+  placeholderDataURI: string;
 }
 
 export interface HomeFields {
@@ -39,25 +43,6 @@ export interface WhatWeDo {
 
 export interface Pill {
   pillText: string;
-}
-
-export interface Projects {
-  nodes: ProjectsNode[];
-}
-
-export interface ProjectsNode {
-  title: string;
-  slug: string;
-  featuredImage: PurpleFeaturedImage;
-}
-
-export interface PurpleFeaturedImage {
-  node: FluffyNode;
-}
-
-export interface FluffyNode {
-  altText: string;
-  sourceUrl: string;
 }
 
 export interface SkillCategories {

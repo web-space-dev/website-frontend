@@ -21,11 +21,11 @@ export default function Index({ siteData, pageData, preview }: IIndex) {
         return (
           <div key={index}>
             <Image
-              loader={() => project.featuredImage.node.sourceUrl}
-              src={project.featuredImage.node.sourceUrl}
               alt={project.featuredImage.node.altText}
               width={200}
               height={200}
+              loader={() => project.featuredImage.node.sourceUrl}
+              src={project.featuredImage.node.sourceUrl}
             />
             <h2>{project.title}</h2>
             <Link href={`/projects/${project.slug}`}>Read more</Link>

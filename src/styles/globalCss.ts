@@ -2,7 +2,7 @@ import { css } from "@emotion/react";
 import { baseFontSize, breakpoints, colors, dimensions } from "./variables";
 
 export const getEmSize = (size: number) => size / dimensions.fontSize.regular;
-const getRemSize = (px: number): string => `${px / baseFontSize}rem`;
+export const getRemSize = (px: number): string => `${px / baseFontSize}rem`;
 
 export const theme = css`
   html {
@@ -74,18 +74,20 @@ export const theme = css`
   h6 {
     margin-top: 1.414rem;
     margin-bottom: 0.5rem;
-    color: ${colors.black};
+    color: ${colors.white};
     font-weight: 600;
     line-height: ${dimensions.lineHeight.heading};
     text-rendering: optimizeLegibility;
+    letter-spacing: 1px;
   }
 
   h1 {
     margin-top: 0;
 
     font-size: ${getRemSize(dimensions.headingSizes.h1)};
-    @media (min-width: ${getEmSize(breakpoints.sm)}em) {
-      font-size: ${getRemSize(dimensions.headingSizes.h1)};
+    font-weight: 500;
+    @media (max-width: ${breakpoints.md}px) {
+      font-size: ${getRemSize(dimensions.headingSizesMobile.h1)};
     }
   }
   h2 {

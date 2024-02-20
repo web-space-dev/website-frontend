@@ -35,6 +35,7 @@ export interface Image {
 export interface Node {
   altText: string;
   sourceUrl: string;
+  placeholderDataURI: string;
 }
 
 export interface ProjectCategories {
@@ -81,6 +82,7 @@ export interface Image {
 export interface Node {
   altText: string;
   sourceUrl: string;
+  placeholderDataURI: string;
 }
 
 export interface Gallery {
