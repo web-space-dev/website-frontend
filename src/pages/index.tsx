@@ -23,7 +23,6 @@ export default function Index({ siteData, pageData, preview }: IIndex) {
 
   return (
     <Layout preview={preview} pageTitle={page.title} siteData={siteData}>
-      <Navbar />
       {/* Hero section */}
       <Hero title={page.homeFields.heroTitle} />
 
