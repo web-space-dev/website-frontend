@@ -31,9 +31,24 @@ const StyledContainer = styled.div<IStyledContainerProps>`
 `;
 
 const StyledProjectInfo = styled.div`
+display: flex;
+justify-content: space-between;
+align-items: center;
 position: absolute;
-background-color: #46744d80;
+width: 55vw;
+bottom: 0.5rem;
+right: 0.5rem;
+background-color: #ffffff4b;
+backdrop-filter: blur(5px);
+border-radius: inherit;
+padding: 0.5rem 0.5rem;
 `;
+
+const H2 = styled.h2`
+margin: 0;
+font-size: 1rem;
+font-weight: normal;
+`
 
 export default function Index({ siteData, pageData, preview }: IIndex) {
   return (
@@ -51,7 +66,7 @@ export default function Index({ siteData, pageData, preview }: IIndex) {
               src={project.featuredImage.node.sourceUrl}
             /> */}
             <StyledProjectInfo>
-              <h2>{project.title}</h2>
+              <H2>{project.title}</H2>
               <Link href={`/projects/${project.slug}`}>Read more</Link>
             </StyledProjectInfo>
           </StyledContainer>
