@@ -6,14 +6,13 @@ import { IProjectsData } from "../../interfaces/project";
 import Image from "next/image";
 import Link from "next/link";
 import styled from "@emotion/styled";
-
+import { IconButton } from "../../components/global/icon-button";
 
 interface IIndex {
   siteData: ISiteData;
   pageData: IProjectsData;
   preview: boolean;
 }
-
 
 interface IStyledContainerProps {
   imageSrc: string;
@@ -22,33 +21,70 @@ interface IStyledContainerProps {
 const StyledContainer = styled.div<IStyledContainerProps>`
   display: flex;
   flex-direction: column;
-  background-image: url(${props => props.imageSrc});
+  background-image: url(${(props) => props.imageSrc});
   background-size: cover;
   height: 12rem;
-  margin: 0.25rem 0.5rem;
+  margin: .5rem 1rem;
   border-radius: 0.5rem;
   position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(202, 1, 1, 0);
+    border-radius: inherit;
+    transition: background-color 0.3s ease-in-out;
+  }
+
+  &:hover {
+    &::after {
+      background-color: rgba(0, 0, 0, 0.267);
+    }
+  }
 `;
 
 const StyledProjectInfo = styled.div`
-display: flex;
-justify-content: space-between;
-align-items: center;
-position: absolute;
-width: 55vw;
-bottom: 0.5rem;
-right: 0.5rem;
-background-color: #ffffff4b;
-backdrop-filter: blur(5px);
-border-radius: inherit;
-padding: 0.5rem 0.5rem;
+  display: grid;
+  grid-template-columns: 1fr 3rem;
+  align-items: center;
+  position: absolute;
+  width: 55vw;
+  bottom: 0.5rem;
+  right: 0.5rem;
+  background-color: #ffffff4b;
+  backdrop-filter: blur(5px);
+  border-radius: inherit;
+  padding: 0.25rem 0.25rem;
+  z-index: 999;
+`;
+
+const StyledProjectDetails = styled.div`
+  display: flex;
+  width: auto;
+  padding: 0 1rem;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 2rem;
+`;
+
+const StyledLink = styled.a`
+  display: flex;
+  justify-content: flex-end;
 `;
 
 const H2 = styled.h2`
-margin: 0;
-font-size: 1rem;
-font-weight: normal;
-`
+  margin: 0;
+  font-size: 1rem;
+  font-weight: normal;
+`;
+
+const StyledShowcaseCategory = styled.p`
+  margin: 0;
+`;
 
 export default function Index({ siteData, pageData, preview }: IIndex) {
   return (
@@ -57,7 +93,10 @@ export default function Index({ siteData, pageData, preview }: IIndex) {
 
       {pageData.projects.nodes.map((project, index) => {
         return (
-          <StyledContainer imageSrc={project.featuredImage.node.sourceUrl} key={index}>
+          <StyledContainer
+            imageSrc={project.featuredImage.node.sourceUrl}
+            key={index}
+          >
             {/* <Image
               alt={project.featuredImage.node.altText}
               width={200}
@@ -66,8 +105,15 @@ export default function Index({ siteData, pageData, preview }: IIndex) {
               src={project.featuredImage.node.sourceUrl}
             /> */}
             <StyledProjectInfo>
-              <H2>{project.title}</H2>
-              <Link href={`/projects/${project.slug}`}>Read more</Link>
+              <StyledProjectDetails>
+                <H2>{project.title}</H2>
+                <StyledShowcaseCategory>
+                  {project.projectCategories?.nodes[0]?.name}
+                </StyledShowcaseCategory>
+              </StyledProjectDetails>
+              <StyledLink href={`/projects/${project.slug}`}>
+                <IconButton />
+              </StyledLink>
             </StyledProjectInfo>
           </StyledContainer>
         );
