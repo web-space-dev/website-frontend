@@ -52,7 +52,7 @@ const StyledProjectInfo = styled.div<{ isDesktop: boolean }>`
   display: ${(props) => (props.isDesktop ? "grid" : "flex")};
   grid-template-columns: 1fr 3rem;
   align-items: center;
-  position: ${(props) => (props.isDesktop ? "absolute" : "null")};
+  position: ${(props) => (props.isDesktop ? "absolute" : "unset")};
   width: ${(props) => (props.isDesktop ? "55vw" : "auto")};
   bottom: 0.5rem;
   right: 0.5rem;
@@ -61,7 +61,7 @@ const StyledProjectInfo = styled.div<{ isDesktop: boolean }>`
   border-radius: 0.5rem;
   padding: 0.25rem 0.25rem;
   margin: ${(props) => (props.isDesktop ? "0" : "0 1rem")};
-  z-index: 999;
+  z-index: 99;
 `;
 
 const StyledProjectDetails = styled.div`
