@@ -49,8 +49,9 @@ const StyledContainer = styled.div<IStyledContainerProps>`
 `;
 
 const StyledProjectInfo = styled.div<{ isDesktop: boolean }>`
-  display: ${(props) => (props.isDesktop ? "grid" : "flex")};
-  grid-template-columns: 1fr 3rem;
+  display: grid;
+  grid-template-columns: ${(props) =>
+    props.isDesktop ? "1fr 3rem" : "1fr 3rem"};
   align-items: center;
   position: ${(props) => (props.isDesktop ? "absolute" : "unset")};
   width: ${(props) => (props.isDesktop ? "55vw" : "auto")};
@@ -64,14 +65,15 @@ const StyledProjectInfo = styled.div<{ isDesktop: boolean }>`
   z-index: 99;
 `;
 
-const StyledProjectDetails = styled.div`
+const StyledProjectDetails = styled.div<{ isDesktop: boolean }>`
   display: flex;
+  flex-direction: ${(props) => (props.isDesktop ? "row" : "column!important")};
   max-width: 35rem;
   width: auto;
   padding: 0 1rem;
   flex-direction: row;
   justify-content: space-between;
-  gap: 2rem;
+  gap: ${(props) => (props.isDesktop ? "2rem" : "0")};
 `;
 
 const StyledLink = styled.a`
@@ -115,7 +117,7 @@ export default function Index({ siteData, pageData, preview }: IIndex) {
                 key={index}
               >
                 <StyledProjectInfo isDesktop={isDesktop}>
-                  <StyledProjectDetails>
+                  <StyledProjectDetails isDesktop={isDesktop}>
                     <H2>{project.title}</H2>
                     <StyledShowcaseCategory>
                       {project.projectCategories?.nodes[0]?.name}
@@ -133,7 +135,7 @@ export default function Index({ siteData, pageData, preview }: IIndex) {
                   key={index}
                 ></StyledContainer>
                 <StyledProjectInfo isDesktop={isDesktop}>
-                  <StyledProjectDetails>
+                  <StyledProjectDetails isDesktop={isDesktop}>
                     <H2>{project.title}</H2>
                     <StyledShowcaseCategory>
                       {project.projectCategories?.nodes[0]?.name}
