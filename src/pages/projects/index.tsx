@@ -7,6 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import styled from "@emotion/styled";
 import { IconButton } from "../../components/global/icon-button";
+import { useEffect, useState } from "react";
 
 interface IIndex {
   siteData: ISiteData;
@@ -24,7 +25,7 @@ const StyledContainer = styled.div<IStyledContainerProps>`
   background-image: url(${(props) => props.imageSrc});
   background-size: cover;
   height: 12rem;
-  margin: .5rem 1rem;
+  margin: 0.5rem 1rem;
   border-radius: 0.5rem;
   position: relative;
 
@@ -47,23 +48,25 @@ const StyledContainer = styled.div<IStyledContainerProps>`
   }
 `;
 
-const StyledProjectInfo = styled.div`
-  display: grid;
+const StyledProjectInfo = styled.div<{ isDesktop: boolean }>`
+  display: ${(props) => (props.isDesktop ? "grid" : "flex")};
   grid-template-columns: 1fr 3rem;
   align-items: center;
-  position: absolute;
-  width: 55vw;
+  position: ${(props) => (props.isDesktop ? "absolute" : "null")};
+  width: ${(props) => (props.isDesktop ? "55vw" : "auto")};
   bottom: 0.5rem;
   right: 0.5rem;
   background-color: #ffffff4b;
   backdrop-filter: blur(5px);
-  border-radius: inherit;
+  border-radius: 0.5rem;
   padding: 0.25rem 0.25rem;
+  margin: ${(props) => (props.isDesktop ? "0" : "0 1rem")};
   z-index: 999;
 `;
 
 const StyledProjectDetails = styled.div`
   display: flex;
+  max-width: 35rem;
   width: auto;
   padding: 0 1rem;
   flex-direction: row;
@@ -87,35 +90,62 @@ const StyledShowcaseCategory = styled.p`
 `;
 
 export default function Index({ siteData, pageData, preview }: IIndex) {
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    function handleResize() {
+      setIsDesktop(window.innerWidth > 700);
+    }
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
     <Layout preview={preview} pageTitle={"Projects"} siteData={siteData}>
       <h1>Take a look at our Projects</h1>
 
       {pageData.projects.nodes.map((project, index) => {
         return (
-          <StyledContainer
-            imageSrc={project.featuredImage.node.sourceUrl}
-            key={index}
-          >
-            {/* <Image
-              alt={project.featuredImage.node.altText}
-              width={200}
-              height={200}
-              loader={() => project.featuredImage.node.sourceUrl}
-              src={project.featuredImage.node.sourceUrl}
-            /> */}
-            <StyledProjectInfo>
-              <StyledProjectDetails>
-                <H2>{project.title}</H2>
-                <StyledShowcaseCategory>
-                  {project.projectCategories?.nodes[0]?.name}
-                </StyledShowcaseCategory>
-              </StyledProjectDetails>
-              <StyledLink href={`/projects/${project.slug}`}>
-                <IconButton />
-              </StyledLink>
-            </StyledProjectInfo>
-          </StyledContainer>
+          <>
+            {isDesktop ? (
+              <StyledContainer
+                imageSrc={project.featuredImage.node.sourceUrl}
+                key={index}
+              >
+                <StyledProjectInfo isDesktop={isDesktop}>
+                  <StyledProjectDetails>
+                    <H2>{project.title}</H2>
+                    <StyledShowcaseCategory>
+                      {project.projectCategories?.nodes[0]?.name}
+                    </StyledShowcaseCategory>
+                  </StyledProjectDetails>
+                  <StyledLink href={`/projects/${project.slug}`}>
+                    <IconButton />
+                  </StyledLink>
+                </StyledProjectInfo>
+              </StyledContainer>
+            ) : (
+              <>
+                <StyledContainer
+                  imageSrc={project.featuredImage.node.sourceUrl}
+                  key={index}
+                ></StyledContainer>
+                <StyledProjectInfo isDesktop={isDesktop}>
+                  <StyledProjectDetails>
+                    <H2>{project.title}</H2>
+                    <StyledShowcaseCategory>
+                      {project.projectCategories?.nodes[0]?.name}
+                    </StyledShowcaseCategory>
+                  </StyledProjectDetails>
+                  <StyledLink href={`/projects/${project.slug}`}>
+                    <IconButton />
+                  </StyledLink>
+                </StyledProjectInfo>
+              </>
+            )}
+          </>
         );
       })}
     </Layout>
