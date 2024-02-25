@@ -8,51 +8,64 @@ import { colors } from "../../../styles/variables";
 const StyledNavMobile = styled.nav<{ dark: boolean; isMenuOpen: boolean }>`
   display: flex;
   flex-direction: column;
+  align-items: flex-end;
   position: fixed;
-  padding: 0.5rem 0.5rem;
-  border-radius: 0.75rem;
-  /* background-color: rgba(57, 151, 156, 0.2); */
-  background-color: ${colors.accentLight};
-  backdrop-filter: blur(5px);
-  transition: all 0.2s ease;
-
-  @media (max-width: 700px) {
-    width: ${(props) => (props.isMenuOpen ? "100vw" : "2rem")};
-    height: ${(props) => (props.isMenuOpen ? "100vh" : "2rem")};
-    top: ${(props) => (props.isMenuOpen ? "0" : "1rem")};
-    right: ${(props) => (props.isMenuOpen ? "0" : "1rem")};
-    border-radius: ${(props) => (props.isMenuOpen ? "0" : "0.75rem")};
-    flex-direction: ${(props) => (props.isMenuOpen ? "column" : "row")};
-    align-items: ${(props) => (props.isMenuOpen ? "flex-start" : "center")};
-    z-index: 999;
-  }
-
-  @media (min-width: 700px) {
-    display: none;
-    width: max-content;
-  }
+  padding: 1rem;
+  z-index: 999;
+  backdrop-filter: ${(props) => (props.isMenuOpen ? "blur(10px)" : "0")};
+  width: 100vw;
+  height: 100vh;
+  transition: backdrop-filter 0.3s ease-in-out;
+  mask-image: linear-gradient(
+    to bottom,
+    #000000 0%,
+    #000000 20%,
+    #00000071 50%,
+    #000000a3 75%,
+    #00000045 100%
+  );
 `;
 const StyledBtnMobile = styled.button<{ isMenuOpen: boolean }>`
   all: unset;
   display: flex;
-  margin: ${(props) => (props.isMenuOpen ? "1rem 1rem unset auto" : "unset")};
-  /* margin-right: ${(props) => (props.isMenuOpen ? "1rem" : "auto")}; */
-  /* margin-top: ${(props) => (props.isMenuOpen ? "1rem" : "auto")}; */
-  /* margin-left: ${(props) => (props.isMenuOpen ? "auto" : "auto")}; */
+  border-radius: 2rem;
+  width: 2rem;
+  height: 2rem;
+  background-color: ${colors.accentLight};
+  padding: 0.25rem;
+  margin-bottom: 1rem;
 `;
 
-const StyledDivMobile = styled.div<{ isMenuOpen: boolean }>`
+const StyledDivMobile = styled.div<IStyledDivMobileProps>`
   display: ${(props) => (props.isMenuOpen ? "flex" : "none")};
+  background-color: ${colors.accentLight};
+  backdrop-filter: blur(5px);
+  border-radius: 2rem;
+  border: 2px solid ${colors.accent};
+  opacity: 0;
+  animation: fadeIn 0.5s forwards;
+  animation-delay: ${(props) => props.index * 0.1}s;
+
+  @keyframes fadeIn {
+    to {
+      opacity: 1;
+    }
+  }
+
+  &:hover {
+    background-color: ${colors.accent};
+  }
 `;
 const StyledWrapperMobile = styled.div<{ isMenuOpen: boolean }>`
   display: ${(props) => (props.isMenuOpen ? "flex" : "none")};
   flex-direction: column;
-  align-items: center;
-  margin: auto;
+  gap: 0.5rem;
+  align-items: flex-end;
+  /* margin: auto; */
 `;
 const StyledLinkMobile = styled.a<{ dark: boolean }>`
   padding: 0.25rem 0.75rem;
-  margin: 0.5rem 0;
+  margin: 0.25rem 0;
   border-radius: 0.5rem;
   transition: all 0.3s ease-in-out;
   color: ${(props) => (props.dark ? colors.white : colors.black)};
@@ -72,6 +85,11 @@ interface NavbarMobileProps {
   }[];
 }
 
+interface IStyledDivMobileProps {
+  isMenuOpen: boolean;
+  index: number;
+}
+
 export function NavbarMobile({ dark, links }: NavbarMobileProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
@@ -84,17 +102,8 @@ export function NavbarMobile({ dark, links }: NavbarMobileProps) {
     }
   }, [isMenuOpen]);
 
-  const iconStyleClose = {
+  const iconStyleMenu = {
     margin: "auto",
-    position: "absolute" as "absolute",
-    right: "1rem",
-    top: "1rem",
-  };
-  const iconStyleBurger = {
-    margin: "auto",
-    position: "absolute" as "absolute",
-    right: "0.5rem",
-    top: "0.5rem",
   };
 
   const iconStyle = {
@@ -103,7 +112,7 @@ export function NavbarMobile({ dark, links }: NavbarMobileProps) {
   };
 
   return (
-    <StyledNavMobile dark={dark} isMenuOpen={isMenuOpen}>
+    <StyledNavMobile isMenuOpen={isMenuOpen} dark={dark}>
       <StyledBtnMobile
         isMenuOpen={isMenuOpen}
         onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -112,7 +121,7 @@ export function NavbarMobile({ dark, links }: NavbarMobileProps) {
           <Image
             src={"/svg/icon-close.svg"}
             alt="close icon"
-            style={iconStyleClose}
+            style={iconStyleMenu}
             width={24}
             height={24}
           />
@@ -120,15 +129,17 @@ export function NavbarMobile({ dark, links }: NavbarMobileProps) {
           <Image
             src={"/svg/icon-burger.svg"}
             alt="burger icon"
-            style={iconStyleBurger}
+            style={iconStyleMenu}
             width={24}
             height={24}
           />
         )}
       </StyledBtnMobile>
+      {/* <StyledNavMobile dark={dark} isMenuOpen={isMenuOpen}>
+      </StyledNavMobile> */}
       <StyledWrapperMobile isMenuOpen={isMenuOpen}>
         {links.map((link, index) => (
-          <StyledDivMobile key={index} isMenuOpen={isMenuOpen}>
+          <StyledDivMobile key={index} isMenuOpen={isMenuOpen} index={index}>
             <StyledLinkMobile href={`/${link.path}`} dark={dark}>
               {link.icon ? (
                 <Image src={link.icon} alt={link.name} style={iconStyle} />
