@@ -19,14 +19,14 @@ interface IStyledContainerProps {
   imageSrc: string;
 }
 
-const StyledContainer = styled.div<IStyledContainerProps>`
+const StyledContainer = styled.div<IStyledContainerProps & { isDesktop: boolean }>`
   display: flex;
   flex-direction: column;
   background-image: url(${(props) => props.imageSrc});
   background-size: cover;
   height: 12rem;
   margin: 0.5rem 1rem;
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
   position: relative;
 
   &::after {
@@ -50,8 +50,7 @@ const StyledContainer = styled.div<IStyledContainerProps>`
 
 const StyledProjectInfo = styled.div<{ isDesktop: boolean }>`
   display: grid;
-  grid-template-columns: ${(props) =>
-    props.isDesktop ? "1fr 3rem" : "1fr 3rem"};
+  grid-template-columns: ${(props) => props.isDesktop ? "1fr 3rem" : "1fr 3rem"};
   align-items: center;
   position: ${(props) => (props.isDesktop ? "absolute" : "unset")};
   width: ${(props) => (props.isDesktop ? "55vw" : "auto")};
@@ -59,9 +58,9 @@ const StyledProjectInfo = styled.div<{ isDesktop: boolean }>`
   right: 0.5rem;
   background-color: #ffffff4b;
   backdrop-filter: blur(5px);
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
   padding: 0.25rem 0.25rem;
-  margin: ${(props) => (props.isDesktop ? "0" : "0 1rem")};
+  margin: ${(props) => (props.isDesktop ? "0" : "-0.10rem 1rem 1rem 1rem")};
   z-index: 99;
 `;
 
@@ -113,6 +112,7 @@ export default function Index({ siteData, pageData, preview }: IIndex) {
           <>
             {isDesktop ? (
               <StyledContainer
+                isDesktop={isDesktop}
                 imageSrc={project.featuredImage.node.sourceUrl}
                 key={index}
               >
@@ -131,6 +131,7 @@ export default function Index({ siteData, pageData, preview }: IIndex) {
             ) : (
               <>
                 <StyledContainer
+                  isDesktop={isDesktop}
                   imageSrc={project.featuredImage.node.sourceUrl}
                   key={index}
                 ></StyledContainer>
