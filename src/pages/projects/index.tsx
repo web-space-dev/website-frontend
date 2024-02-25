@@ -23,11 +23,27 @@ const StyledContainer = styled.div<IStyledContainerProps & { isDesktop: boolean 
   display: flex;
   flex-direction: column;
   background-image: url(${(props) => props.imageSrc});
-  background-size: cover;
-  height: 12rem;
+  background-size: ${(props) => (props.isDesktop ? "cover" : "cover")};
+  background-repeat: no-repeat;
+  background-position: center;
+  height: ${(props) => (props.isDesktop ? "12rem" : "20rem")};
   margin: 0.5rem 1rem;
   border-radius: 0.75rem;
   position: relative;
+  overflow: hidden;
+
+
+  /* &::before {
+    content: "";
+    width: 100%;
+    height: 100%;
+    background-image: url(${(props) => props.imageSrc});
+    background-size: ${(props) => (props.isDesktop ? "cover" : "cover")};
+    background-repeat: no-repeat;
+    filter: blur(8px);
+    opacity: 0.6;
+    z-index: -1;
+  } */
 
   &::after {
     content: "";
