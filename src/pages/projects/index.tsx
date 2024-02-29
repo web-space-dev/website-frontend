@@ -26,9 +26,9 @@ const StyledContainer = styled.div<IStyledContainerProps & { isDesktop: boolean 
   background-size: ${(props) => (props.isDesktop ? "cover" : "cover")};
   background-repeat: no-repeat;
   background-position: center;
-  height: ${(props) => (props.isDesktop ? "12rem" : "20rem")};
-  margin: 0.5rem 1rem;
-  border-radius: 0.75rem;
+  height: ${(props) => (props.isDesktop ? "19rem" : "20rem")};
+  margin: 0.75rem 1.25rem;
+  border-radius: 1rem;
   position: relative;
   overflow: hidden;
 
@@ -69,13 +69,13 @@ const StyledProjectInfo = styled.div<{ isDesktop: boolean }>`
   grid-template-columns: ${(props) => props.isDesktop ? "1fr 3rem" : "1fr 3rem"};
   align-items: center;
   position: ${(props) => (props.isDesktop ? "absolute" : "unset")};
-  width: ${(props) => (props.isDesktop ? "55vw" : "auto")};
+  width: ${(props) => (props.isDesktop ? "50vw" : "auto")};
   bottom: 0.5rem;
   right: 0.5rem;
   background-color: #ffffff4b;
   backdrop-filter: blur(5px);
   border-radius: 0.75rem;
-  padding: 0.25rem 0.25rem;
+  padding: 0.75rem 0.25rem;
   margin: ${(props) => (props.isDesktop ? "0" : "-0.10rem 1rem 1rem 1rem")};
   z-index: 99;
 `;
