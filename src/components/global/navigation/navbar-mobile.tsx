@@ -10,11 +10,13 @@ const StyledNavMobile = styled.nav<{ dark: boolean; isMenuOpen: boolean }>`
   flex-direction: column;
   align-items: flex-end;
   position: fixed;
+  top: 0;
+  right: 0;
   padding: 1rem;
   z-index: 999;
   backdrop-filter: ${(props) => (props.isMenuOpen ? "blur(15px)" : "0")};
-  width: 100vw;
-  height: 100vh;
+  width: ${(props) => (props.isMenuOpen ? "100vw" : "auto")};
+  height: ${(props) => (props.isMenuOpen ? "100vh" : "auto")};
   transition: backdrop-filter 0.3s ease-in-out;
   mask-image: linear-gradient(
     to bottom,
@@ -44,6 +46,7 @@ const StyledDivMobile = styled.div<IStyledDivMobileProps>`
   opacity: 0;
   animation: fadeIn 0.5s forwards;
   animation-delay: ${(props) => props.index * 0.1}s;
+  transition: background-color 0.3s ease-in-out;
 
   @keyframes fadeIn {
     to {
@@ -68,6 +71,14 @@ const StyledLinkMobile = styled.a<{ dark: boolean }>`
   transition: all 0.3s ease-in-out;
   color: ${(props) => (props.dark ? colors.white : colors.black)};
   text-decoration: none;
+
+  &:hover {
+    color: ${colors.white}!important;
+  }
+
+  &:focus {
+    color: ${colors.white}!important;
+  }
 `;
 
 interface NavbarMobileProps {
@@ -129,11 +140,10 @@ export function NavbarMobile({ dark, links }: NavbarMobileProps) {
         {links.map((link, index) => (
           <StyledDivMobile key={index} index={index}>
             <StyledLinkMobile href={`/${link.path}`} dark={dark}>
-              {link.icon ? (
+              {link.icon && (
                 <Image src={link.icon} alt={link.name} style={iconStyle} />
-              ) : (
-                link.name
               )}
+              {!link.icon && link.name}
             </StyledLinkMobile>
             <StyledNavSpan
               isActive={pathname === `/${link.path}`}
