@@ -17,14 +17,12 @@ const StyledNavMobile = styled.nav<{ dark: boolean; isMenuOpen: boolean }>`
   backdrop-filter: ${(props) => (props.isMenuOpen ? "blur(15px)" : "0")};
   width: ${(props) => (props.isMenuOpen ? "100vw" : "auto")};
   height: ${(props) => (props.isMenuOpen ? "100vh" : "auto")};
-  transition: backdrop-filter 0.3s ease-in-out;
-  mask-image: linear-gradient(
-    to bottom,
-    #000000 0%,
-    #000000 50%,
-    #000000a3 75%,
-    #00000045 100%
-  );
+  transition: ${(props) =>
+    props.isMenuOpen ? "backdrop-filter 0.3s ease-in-out" : "none"};
+  mask-image: ${(props) =>
+    props.isMenuOpen
+      ? "linear-gradient(to bottom, #000000 0%, #000000 50%, #000000a3 75%, #00000045 100%)"
+      : "none"};
 `;
 const StyledBtnMobile = styled.button`
   all: unset;
@@ -35,6 +33,10 @@ const StyledBtnMobile = styled.button`
   background-color: ${colors.accentLight};
   padding: 0.25rem;
   margin-bottom: 1rem;
+
+  &:hover {
+    background-color: ${colors.accent};
+  }
 `;
 
 const StyledDivMobile = styled.div<IStyledDivMobileProps>`
