@@ -20,7 +20,7 @@ interface IStyledContainerProps {
   imageSrc: string;
 }
 
-const StyledContainer = styled.div< IStyledContainerProps & { isDesktop: boolean } >`
+const StyledContainer = styled.div<IStyledContainerProps & { isDesktop: boolean }>`
   display: flex;
   flex-direction: column;
   background-image: url(${(props) => props.imageSrc});
@@ -100,15 +100,21 @@ const StyledLink = styled.a`
   align-items: center;
 `;
 
-const StyledHeader = styled.div`
+const StyledHeader = styled.div<{ isDesktop: boolean }>`
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin: 1.5rem auto 0.75rem auto;
-  gap: 1rem;
+  max-width: ${(props) => (props.isDesktop ? "auto" : "80vw")};
+  flex-direction: ${(props) => (props.isDesktop ? "row" : "column")};
+  align-items: ${(props) => (props.isDesktop ? "center" : "flex-start")};
+  margin: ${(props) =>
+    props.isDesktop
+      ? "1.5rem auto 0.75rem auto"
+      : "2.5rem 1.25rem 0rem 1.25rem"};
+  gap: ${(props) => (props.isDesktop ? "1rem" : "0")};
 `;
 
-const StyledArrow = styled(ArrowDown)``;
+const StyledArrow = styled(ArrowDown)`
+  fill: #b30707;
+`;
 
 const H2 = styled.h2`
   margin: 0;
@@ -148,9 +154,10 @@ export default function Index({ siteData, pageData, preview }: IIndex) {
 
   return (
     <Layout preview={preview} pageTitle={"Projects"} siteData={siteData}>
-      <StyledHeader>
-        <H1>Take a look at our Projects</H1>
-        <StyledArrow />
+      <StyledHeader isDesktop={isDesktop}>
+        <H1>
+          Take a look at our Projects <StyledArrow />
+        </H1>
       </StyledHeader>
 
       {pageData.projects.nodes.map((project, index) => {
