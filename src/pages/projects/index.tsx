@@ -8,6 +8,7 @@ import Link from "next/link";
 import styled from "@emotion/styled";
 import { IconButton } from "../../components/global/icon-button";
 import React, { useEffect, useState } from "react";
+import ArrowDown from "../../icons/arrow-down";
 
 interface IIndex {
   siteData: ISiteData;
@@ -101,6 +102,16 @@ const StyledLink = styled.a`
   align-items: center;
 `;
 
+const StyledHeader = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 1rem auto;
+  gap: 1rem;
+`;
+
+const StyledArrow = styled(ArrowDown)``;
+
 const H2 = styled.h2`
   margin: 0;
   font-size: 1.25rem;
@@ -110,6 +121,11 @@ const H2 = styled.h2`
   @media (max-width: 700px) {
     font-size: 1rem;
   }
+`;
+
+const H1 = styled.h1`
+  margin: 0;
+  padding: 0;
 `;
 
 const StyledShowcaseCategory = styled.p`
@@ -137,7 +153,10 @@ export default function Index({ siteData, pageData, preview }: IIndex) {
 
   return (
     <Layout preview={preview} pageTitle={"Projects"} siteData={siteData}>
-      <h1>Take a look at our Projects</h1>
+      <StyledHeader>
+        <H1>Take a look at our Projects</H1>
+        <StyledArrow />
+      </StyledHeader>
 
       {pageData.projects.nodes.map((project, index) => {
         return (
