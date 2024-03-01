@@ -32,7 +32,6 @@ const StyledContainer = styled.div<IStyledContainerProps & { isDesktop: boolean 
   position: relative;
   overflow: hidden;
 
-
   /* &::before {
     content: "";
     width: 100%;
@@ -66,16 +65,17 @@ const StyledContainer = styled.div<IStyledContainerProps & { isDesktop: boolean 
 
 const StyledProjectInfo = styled.div<{ isDesktop: boolean }>`
   display: grid;
-  grid-template-columns: ${(props) => props.isDesktop ? "1fr 3rem" : "1fr 3rem"};
+  grid-template-columns: ${(props) =>
+    props.isDesktop ? "1fr 3rem" : "1fr 4rem"};
   align-items: center;
   position: ${(props) => (props.isDesktop ? "absolute" : "unset")};
   width: ${(props) => (props.isDesktop ? "50vw" : "auto")};
-  bottom: 0.5rem;
-  right: 0.5rem;
+  bottom: 0.75rem;
+  right: 0.75rem;
   background-color: #ffffff4b;
   backdrop-filter: blur(5px);
   border-radius: 0.75rem;
-  padding: 0.75rem 0.25rem;
+  padding: 0.3rem 0.3rem;
   margin: ${(props) => (props.isDesktop ? "0" : "-0.10rem 1rem 1rem 1rem")};
   z-index: 99;
 `;
@@ -85,25 +85,36 @@ const StyledProjectDetails = styled.div<{ isDesktop: boolean }>`
   flex-direction: ${(props) => (props.isDesktop ? "row" : "column!important")};
   max-width: 35rem;
   width: auto;
-  padding: 0 1rem;
+  padding: 0 2rem 0 1rem;
   flex-direction: row;
   justify-content: space-between;
   gap: ${(props) => (props.isDesktop ? "2rem" : "0")};
+  align-items: ${(props) => (props.isDesktop ? "center" : "unset")};
 `;
 
 const StyledLink = styled.a`
   display: flex;
   justify-content: flex-end;
+  align-items: center;
 `;
 
 const H2 = styled.h2`
   margin: 0;
-  font-size: 1rem;
+  font-size: 1.25rem;
   font-weight: normal;
+
+  @media (max-width: 700px) {
+    font-size: 1rem;
+  }
 `;
 
 const StyledShowcaseCategory = styled.p`
   margin: 0;
+  font-size: 1.25rem;
+
+  @media (max-width: 700px) {
+    font-size: 1rem;
+  }
 `;
 
 export default function Index({ siteData, pageData, preview }: IIndex) {
