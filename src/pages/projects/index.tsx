@@ -7,7 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import styled from "@emotion/styled";
 import { IconButton } from "../../components/global/icon-button";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 interface IIndex {
   siteData: ISiteData;
@@ -19,7 +19,9 @@ interface IStyledContainerProps {
   imageSrc: string;
 }
 
-const StyledContainer = styled.div<IStyledContainerProps & { isDesktop: boolean }>`
+const StyledContainer = styled.div<
+  IStyledContainerProps & { isDesktop: boolean }
+>`
   display: flex;
   flex-direction: column;
   background-image: url(${(props) => props.imageSrc});
@@ -136,12 +138,11 @@ export default function Index({ siteData, pageData, preview }: IIndex) {
 
       {pageData.projects.nodes.map((project, index) => {
         return (
-          <>
+          <React.Fragment key={`${project.title}`}>
             {isDesktop ? (
               <StyledContainer
                 isDesktop={isDesktop}
                 imageSrc={project.featuredImage.node.sourceUrl}
-                key={index}
               >
                 <StyledProjectInfo isDesktop={isDesktop}>
                   <StyledProjectDetails isDesktop={isDesktop}>
@@ -160,7 +161,6 @@ export default function Index({ siteData, pageData, preview }: IIndex) {
                 <StyledContainer
                   isDesktop={isDesktop}
                   imageSrc={project.featuredImage.node.sourceUrl}
-                  key={index}
                 ></StyledContainer>
                 <StyledProjectInfo isDesktop={isDesktop}>
                   <StyledProjectDetails isDesktop={isDesktop}>
@@ -175,7 +175,7 @@ export default function Index({ siteData, pageData, preview }: IIndex) {
                 </StyledProjectInfo>
               </>
             )}
-          </>
+          </React.Fragment>
         );
       })}
     </Layout>
