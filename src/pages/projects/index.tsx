@@ -20,16 +20,14 @@ interface IStyledContainerProps {
   imageSrc: string;
 }
 
-const StyledContainer = styled.div<
-  IStyledContainerProps & { isDesktop: boolean }
->`
+const StyledContainer = styled.div< IStyledContainerProps & { isDesktop: boolean } >`
   display: flex;
   flex-direction: column;
   background-image: url(${(props) => props.imageSrc});
   background-size: ${(props) => (props.isDesktop ? "cover" : "cover")};
   background-repeat: no-repeat;
   background-position: center;
-  height: ${(props) => (props.isDesktop ? "19rem" : "20rem")};
+  height: 20rem;
   margin: 0.75rem 1.25rem;
   border-radius: 1rem;
   position: relative;
