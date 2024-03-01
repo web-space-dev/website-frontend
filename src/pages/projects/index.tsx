@@ -68,10 +68,11 @@ const StyledContainer = styled.div<
 const StyledProjectInfo = styled.div<{ isDesktop: boolean }>`
   display: grid;
   grid-template-columns: ${(props) =>
-    props.isDesktop ? "1fr 3rem" : "1fr 4rem"};
+    props.isDesktop ? "2fr 4rem" : "2fr 3rem"};
   align-items: center;
   position: ${(props) => (props.isDesktop ? "absolute" : "unset")};
   width: ${(props) => (props.isDesktop ? "50vw" : "auto")};
+  height: 86px;
   bottom: 0.75rem;
   right: 0.75rem;
   background-color: #ffffff4b;
@@ -103,6 +104,7 @@ const StyledLink = styled.a`
 const H2 = styled.h2`
   margin: 0;
   font-size: 1.25rem;
+  line-height: 1.25rem;
   font-weight: normal;
 
   @media (max-width: 700px) {
@@ -113,6 +115,7 @@ const H2 = styled.h2`
 const StyledShowcaseCategory = styled.p`
   margin: 0;
   font-size: 1.25rem;
+  line-height: 1.25rem;
 
   @media (max-width: 700px) {
     font-size: 1rem;

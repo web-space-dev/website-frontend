@@ -7,8 +7,8 @@ const StyledIconButton = styled.button`
   /* width: 58px;
   height: 70px;
   padding: 20px 14px; */
-  width: 3.25rem;
-  height: 2.75rem;
+  width: 3.5rem;
+  height: 3rem;
   padding: 0;
   border: 2px solid ${colors.blackLight};
   transition: 0.3s ease;
