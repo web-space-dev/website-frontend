@@ -106,7 +106,7 @@ const StyledHeader = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin: 1rem auto;
+  margin: 1.5rem auto 0.75rem auto;
   gap: 1rem;
 `;
 
@@ -123,10 +123,7 @@ const H2 = styled.h2`
   }
 `;
 
-const H1 = styled.h1`
-  margin: 0;
-  padding: 0;
-`;
+const H1 = styled.h1``;
 
 const StyledShowcaseCategory = styled.p`
   margin: 0;
