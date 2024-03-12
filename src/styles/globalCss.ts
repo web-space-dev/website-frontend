@@ -8,10 +8,10 @@ export const theme = css`
   html {
     box-sizing: border-box;
     scroll-behavior: smooth;
-    width: 100vw;
+    width: 100%;
     font-size: ${dimensions.fontSize.regular}px !important;
     line-height: ${dimensions.lineHeight.regular} !important;
-    font-family
+    font-family: "Darker Grotesque", sans-serif;
   }
   *,
   *::before,
@@ -32,7 +32,7 @@ export const theme = css`
     overflow-x: hidden;
     // overflow-y: scroll;
     height: 100%;
-    
+
     color: ${colors.white};
     background-color: ${colors.black};
     -webkit-text-size-adjust: 100%;
@@ -65,7 +65,7 @@ export const theme = css`
   figcaption {
     font-size: 80%;
   }
-  
+
   h1,
   h2,
   h3,
