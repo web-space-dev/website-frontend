@@ -84,8 +84,17 @@ export function NavbarMobile({ dark, links }: NavbarMobileProps) {
     }
   }, [isMenuOpen]);
 
-  const iconStyleMobile = {
+  const iconStyleClose = {
     margin: "auto",
+    position: "absolute" as "absolute",
+    right: "1rem",
+    top: "1rem",
+  };
+  const iconStyleBurger = {
+    margin: "auto",
+    position: "absolute" as "absolute",
+    right: "0.5rem",
+    top: "0.5rem",
   };
 
   const iconStyle = {
@@ -103,7 +112,7 @@ export function NavbarMobile({ dark, links }: NavbarMobileProps) {
           <Image
             src={"/svg/icon-close.svg"}
             alt="close icon"
-            style={iconStyleMobile}
+            style={iconStyleClose}
             width={24}
             height={24}
           />
@@ -111,7 +120,7 @@ export function NavbarMobile({ dark, links }: NavbarMobileProps) {
           <Image
             src={"/svg/icon-burger.svg"}
             alt="burger icon"
-            style={iconStyleMobile}
+            style={iconStyleBurger}
             width={24}
             height={24}
           />

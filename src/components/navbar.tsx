@@ -15,6 +15,7 @@ const StyledNav = styled.nav<NavbarProps>`
   background-color: rgba(57, 151, 156, 0.2);
   width: max-content;
   backdrop-filter: blur(5px);
+  z-index: 999;
 
   @media (min-width: 700px) {
     height: auto;

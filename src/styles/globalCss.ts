@@ -8,7 +8,7 @@ export const theme = css`
   html {
     box-sizing: border-box;
     scroll-behavior: smooth;
-    width: 100vw;
+    width: 100%;
     font-size: ${dimensions.fontSize.regular}px !important;
     line-height: ${dimensions.lineHeight.regular} !important;
     font-family: "Darker Grotesque", sans-serif;
