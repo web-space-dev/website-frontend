@@ -5,8 +5,9 @@ import { colors, dimensions } from "../../../styles/variables";
 import { getRemSize } from "../../../styles/globalCss";
 import { IconButton } from "../../global/icon-button";
 import { CustomImage } from "../../global/image";
+import { motion } from "framer-motion";
 
-const StyledShowcaseWrapper = styled.div`
+const StyledShowcaseWrapper = styled(motion.div)`
   grid-column: 1 / span 12;
   position: absolute;
   top: 85px;
@@ -105,11 +106,12 @@ const StyledLink = styled(Link)`
 
 interface ShowcaseItemProps {
   project: Project;
+  style: any;
 }
 
-export function ShowcaseItem({ project }) {
+export function ShowcaseItem({ project, style }) {
   return (
-    <StyledShowcaseWrapper>
+    <StyledShowcaseWrapper style={style}>
       <StyledShowcaseDetails>
         <StyledShowcaseImage>
           <CustomImage
