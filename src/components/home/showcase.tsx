@@ -3,9 +3,9 @@
 import styled from "@emotion/styled";
 import { getRemSize } from "../../styles/globalCss";
 import { colors, dimensions } from "../../styles/variables";
-import { GridContainer } from "../global/grid/GridContainer";
+import { GridContainer } from "../global/grid/gridContainer";
 import { Project, Projects } from "../../interfaces/project";
-import { IconButton } from "../global/icon-button";
+import { IconButton } from "../global/iconButton";
 import { CustomImage } from "../global/image";
 import { useEffect, useState } from "react";
 

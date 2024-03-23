@@ -6,8 +6,8 @@ import { ISiteData } from "../interfaces/site";
 
 import Layout from "../components/layout";
 import Hero from "../components/home/hero";
-import WhatWeDo from "../components/home/what-we-do";
-import Showcase from "../components/home/show-case";
+import WhatWeDo from "../components/home/whatWeDo";
+import Showcase from "../components/home/showcase";
 import Skills from "../components/home/skills";
 import Approach from "../components/home/approach";
 import Navbar from "../components/navbar";

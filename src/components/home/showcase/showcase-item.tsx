@@ -3,7 +3,7 @@ import { Project } from "../../../interfaces/project";
 import Link from "next/link";
 import { colors, dimensions } from "../../../styles/variables";
 import { getRemSize } from "../../../styles/globalCss";
-import { IconButton } from "../../global/icon-button";
+import { IconButton } from "../../global/iconButton";
 import { CustomImage } from "../../global/image";
 import { motion } from "framer-motion";
 

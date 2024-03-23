@@ -6,9 +6,9 @@ import { IProjectsData } from "../../interfaces/project";
 import Image from "next/image";
 import Link from "next/link";
 import styled from "@emotion/styled";
-import { IconButton } from "../../components/global/icon-button";
+import { IconButton } from "../../components/global/iconButton";
 import React, { useEffect, useState } from "react";
-import ArrowDown from "../../icons/arrow-down";
+import ArrowDown from "../../icons/arrowDown";
 
 interface IIndex {
   siteData: ISiteData;
@@ -20,7 +20,9 @@ interface IStyledContainerProps {
   imageSrc: string;
 }
 
-const StyledContainer = styled.div<IStyledContainerProps & { isDesktop: boolean }>`
+const StyledContainer = styled.div<
+  IStyledContainerProps & { isDesktop: boolean }
+>`
   display: flex;
   flex-direction: column;
   background-image: url(${(props) => props.imageSrc});

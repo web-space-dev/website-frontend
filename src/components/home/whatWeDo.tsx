@@ -1,8 +1,8 @@
 import styled from "@emotion/styled";
 import { Pill as IPill, WhatWeDo } from "../../interfaces/home";
-import { dimensions } from "../../styles/variables";
+import { colors, dimensions } from "../../styles/variables";
 import { getRemSize } from "../../styles/globalCss";
-import { GridContainer } from "../global/grid/GridContainer";
+import { GridContainer } from "../global/grid/gridContainer";
 import Pill from "../global/pill";
 import { useState } from "react";
 import { css } from "@emotion/react";
@@ -57,6 +57,17 @@ const StyledProcessItemExpand = styled.div<IStyledProcessItemExpand>`
     `}
 `;
 
+const StyledPill = styled.span`
+  background-color: ${colors.white};
+  color: ${colors.black};
+  padding: 10px 30px;
+  margin: 0 16px;
+  border-radius: 50px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  display: inline-block;
+`;
+
 interface IProcessItem {
   title: string;
   pills: IPill[];
@@ -93,7 +104,9 @@ const ProcessItem = ({
       </StyledProcessListTitle>
       <StyledProcessItemExpand isExpanded={hoverItems[index]}>
         {pills.map((pill, index) => (
-          <Pill key={`${pill.pillText}-${index}`} pillText={pill.pillText} />
+          <StyledPill key={`${pill.pillText}-${index}`}>
+            {pill.pillText}
+          </StyledPill>
         ))}
       </StyledProcessItemExpand>
     </StyledProcessItem>

@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { colors } from "../../styles/variables";
-import { GridContainer } from "../global/grid/GridContainer";
+import { GridContainer } from "../global/grid/gridContainer";
 import Image from "next/image";
 
 const StyledWrapper = styled(GridContainer)`
