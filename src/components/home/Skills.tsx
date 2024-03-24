@@ -1,10 +1,9 @@
 import styled from "@emotion/styled";
 import { SkillCategories } from "../../interfaces/home";
 import { GridContainer } from "../global/grid/gridContainer";
-import { colors, dimensions } from "../../styles/variables";
+import { colors } from "../../styles/variables";
 import { useState } from "react";
-import { motion } from "framer-motion";
-import { css } from "@emotion/css";
+import { AnimatePresence, motion } from "framer-motion";
 
 const StyledWrapper = styled(GridContainer)`
   margin: 140px auto;
@@ -22,12 +21,13 @@ const StyledSkillsWrapper = styled.div`
   align-items: center;
 `;
 
-const StyledLogoWrapper = styled.div`
+const StyledLogoWrapper = styled(motion.div)`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   max-width: 80%;
   margin: auto;
+  height: 315px;
 `;
 
 const StyledTabs = styled.div`
@@ -41,26 +41,16 @@ const StyledTabs = styled.div`
 `;
 const StyledTab = styled.button<{ isActive: boolean }>`
   position: relative;
-  /* padding: 1.5rem 3rem; */
-  /* font-size: 1rem; */
-  /* font-weight: 500; */
   font-size: 32px;
   font-weight: 500;
   color: ${colors.white};
-  /* outline: 2px solid skyblue; */
   border-radius: 9999px;
   transition: all 0.3s ease;
   background-color: transparent;
   -webkit-tap-highlight-color: transparent;
-
-  ${(props) =>
-    !props.isActive &&
-    css`
-      &:hover {
-        background-color: ${colors.accentLight};
-        /* color: rgba(255, 255, 255, 0.6); */
-      }
-    `}
+  &:hover {
+    text-decoration: none;
+  }
 `;
 
 const Bubble = styled(motion.span)`
@@ -86,17 +76,24 @@ export default function Skills({ title, categories }: ISkills) {
     <StyledWrapper>
       <StyledHeading>{title}</StyledHeading>
       <StyledSkillsWrapper>
-        <StyledLogoWrapper>
-          {categories.nodes.map((category, index) => {
-            return category.skills.nodes.map((skill, index) => (
+        <AnimatePresence mode="wait">
+          <StyledLogoWrapper
+            key={activeTab}
+            initial={{ y: 10, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: -10, opacity: 0 }}
+            transition={{ duration: 0.2 }}
+          >
+            {categories.nodes[activeTab].skills.nodes.map((skill, index) => (
               <img
                 key={index}
                 src={skill.featuredImage.node.sourceUrl}
                 alt={skill.title + "Logo"}
               />
-            ));
-          })}
-        </StyledLogoWrapper>
+            ))}
+          </StyledLogoWrapper>
+        </AnimatePresence>
+
         <StyledTabs>
           {categories.nodes.map((category, index) => (
             <StyledTab
