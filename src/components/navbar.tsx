@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import chatIcon from "../../public/svg/icon-chat.svg";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { NavbarMobile } from "./global/navigation/navbar-mobile";
+import { NavbarMobile } from "./global/navigation/navbarMobile";
 
 const StyledNav = styled.nav<NavbarProps>`
   display: flex;
