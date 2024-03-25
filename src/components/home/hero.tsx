@@ -31,7 +31,7 @@ export default function Hero({ title }) {
       <StyledWrapper>
         <StyledHeading>
           <StyledImage
-            src={`/Logo-icon.png`}
+            src={"/logo-icon.png"}
             alt="WebSpace Icon"
             width="33"
             height="40"
