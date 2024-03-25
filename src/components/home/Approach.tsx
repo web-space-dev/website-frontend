@@ -36,7 +36,7 @@ const StyledBox = styled(motion.div)`
   }
 `;
 const StyledCard = styled(motion.div)`
-  // margin-top: 10px;
+  margin-top: 10px;
   margin-right: 255px;
   width: 462px;
   min-width: 470px;
@@ -47,7 +47,7 @@ const StyledCard = styled(motion.div)`
   display: flex;
   align-items: center;
   flex: 0 0 auto;
-  overflow: hidden; 
+  overflow: hidden;
   scrollbar-width: none;
 
   @media (max-width: 768px) {
