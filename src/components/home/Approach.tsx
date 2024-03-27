@@ -33,11 +33,23 @@ const StyledBox = styled(motion.div)`
   scrollbar-width: none;
   position: relative;
   overflow: auto;
+  // background:
+  // /* Shadow covers */
+  // linear-gradient(to right, white 30%, rgba(255, 255, 255, 0)),
+  // linear-gradient(to left, white 70%, rgba(255, 255, 255, 0)) 100% 0,
+  // /* Shadows */
+  // radial-gradient(farthest-side at 0 50%, rgba(0, 0, 0, .2), rgba(0, 0, 0, 0)),
+  // radial-gradient(farthest-side at 100% 50%, rgba(0, 0, 0, .2), rgba(0, 0, 0, 0)) 100% 0;
+  // background-repeat: no-repeat;
+  // background-size: 40px 100%, 40px 100%, 14px 100%, 14px 100%;
+  // /* Opera doesn't support this in the shorthand */
+  // background-attachment: local, local, scroll, scroll;
 
   @media (max-width: 768px) {
     flex-direction: column;
     overflow-x: visible;
   }
+
 `;
 
 const StyledCard = styled(motion.div)`
@@ -93,6 +105,18 @@ const StyledParagraph = styled.span`
 `;
 export default function Approach({ items }: IApproach) {
   const boxRef = useRef(null);
+
+  useEffect(() => {
+    const box = boxRef.current;
+    const handleScroll = () => {
+      const shadowElement = box.querySelector(':before');
+      if (shadowElement) {
+        shadowElement.style.width = `${box.scrollLeft}px`;
+      }
+    };
+    box.addEventListener('scroll', handleScroll);
+    return () => box.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
     <StyledWrapper>
