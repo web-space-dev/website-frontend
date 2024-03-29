@@ -6,20 +6,20 @@ interface IPill {
 }
 
 const StyledPill = styled.span`
-  background-color: ${colors.white};
-  color: ${colors.accent};
-  padding: 12px 14px 7px 14px;
-  font-size: 17px;
-  border-radius: 50px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  display: inline-block;
-  margin-right: 20px;
-  height: 51px;
+background-color: ${colors.white};
+color: ${colors.accent};
+padding: 9px 21px 9px 21px;
+font-size: 14px;
+border-radius: 50px;
+font-weight: 700;
+letter-spacing: 3px;
+display: inline-block;
+margin-right: 20px;
+text-align: center;
+  // height: 38px;
   // display: flex;
   // justify-content: center;
   // align-items: center;
-  text-align: center;
 `;
 
 export default function Pill({ pillText }: IPill) {
