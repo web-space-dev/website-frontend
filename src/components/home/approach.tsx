@@ -1,13 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Approach } from "../../interfaces/home";
 import styled from "@emotion/styled";
-import { breakpoints, colors } from "../../styles/variables";
-import { GridContainer } from "../global/grid/GridContainer";
+import { breakpoints, colors, dimensions } from "../../styles/variables";
+import { GridContainer } from "../global/grid/gridContainer";
 import Pill from "../global/pill";
 import { motion } from "framer-motion";
-import { IconButton } from "../global/icon-button";
-import ArrowUpRight from "../../icons/arrow-up-right";
+import { IconButton } from "../global/iconButton";
+import ArrowUpRight from "../../icons/arrowUpRight";
 import Link from "next/link";
+import { getRemSize } from '../../styles/globalCss';
 
 interface IApproach {
   items: Approach[];
@@ -20,7 +21,11 @@ const StyledWrapper = styled(GridContainer)`
 
 const StyledHeading2 = styled.h2`
   font-weight: 521;
+  font-size: ${getRemSize(dimensions.headingSizes.medium.desktop)};
   grid-column: 1 / span 12;
+  @media all and (max-width: ${breakpoints.md}px) {
+    font-size: ${getRemSize(dimensions.headingSizes.medium.mobile)};
+  }
 `;
 
 const StyledBox = styled(motion.div)`
