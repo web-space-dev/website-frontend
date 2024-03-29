@@ -69,30 +69,49 @@ export const widths = {
 export const baseFontSize = 22;
 
 export const dimensions = {
-  fontSize: {
-    regular: 22,
-    large: 24,
-  },
   headingSizes: {
-    h1: 64,
-    h2: 66,
-    h3: 36,
-    h4: 30,
-    h5: 20,
-    small: 60,
-    medium: 110,
-    large: 240,
-    extraLarge: 344,
+    small: {
+      desktop: 20,
+      mobile: 20,
+    },
+    cta: {
+      desktop: 32,
+      mobile: 24,
+    },
+    medium: {
+      desktop: 64,
+      mobile: 32,
+    },
+    large: {
+      desktop: 110,
+      mobile: 40,
+    },
+    display2: {
+      desktop: 240,
+      mobile: 70,
+    },
+    display1: {
+      desktop: 344,
+      mobile: 103,
+    },
   },
-  headingSizesMobile: {
-    h1: 40,
-    h2: 40,
-    h3: 24,
-    h4: 20,
-    h5: 20,
-    medium: 36,
-    large: 70,
-    extraLarge: 103,
+  textSizes: {
+    small: {
+      desktop: 16,
+      mobile: 16,
+    },
+    normal: {
+      desktop: 30,
+      mobile: 20,
+    },
+    large: {
+      desktop: 64,
+      mobile: 30,
+    },
+    xLarge: {
+      desktop: 80,
+      mobile: 70,
+    },
   },
   lineHeight: {
     regular: 1.45,

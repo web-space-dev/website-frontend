@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { Pill as IPill, WhatWeDo } from "../../interfaces/home";
-import { colors, dimensions } from "../../styles/variables";
+import { breakpoints, colors, dimensions } from "../../styles/variables";
 import { getRemSize } from "../../styles/globalCss";
 import { GridContainer } from "../global/grid/gridContainer";
 import Pill from "../global/pill";
@@ -12,9 +12,12 @@ const StyledWrapper = styled(GridContainer)`
 `;
 
 const StyledTitle = styled.h2`
-  font-size: ${getRemSize(dimensions.headingSizes.h5)};
+  font-size: ${getRemSize(dimensions.headingSizes.small.desktop)};
   font-weight: 400;
   grid-column: 1 / span 2;
+  @media all and (max-width: ${breakpoints.md}px) {
+    grid-column: 1 / span 12;
+  }
 `;
 
 const StyledProcessList = styled.ul`
@@ -26,16 +29,17 @@ const StyledProcessList = styled.ul`
 
 const StyledProcessListTitle = styled.h3`
   margin-top: 0;
-  font-size: ${getRemSize(dimensions.headingSizes.medium)};
+  font-size: ${getRemSize(dimensions.headingSizes.large.desktop)};
   transition: 0.3s ease-in-out;
+  @media all and (max-width: ${breakpoints.md}px) {
+    font-size: ${getRemSize(dimensions.headingSizes.large.mobile)};
+  }
   ${({ isGlassy }: { isGlassy: boolean }) =>
     isGlassy &&
     css`
       filter: blur(4px);
     `}
 `;
-
-const StyledProcessItem = styled.li``;
 
 interface IStyledProcessItemExpand {
   isExpanded: boolean;
@@ -95,7 +99,7 @@ const ProcessItem = ({
   };
 
   return (
-    <StyledProcessItem
+    <li
       onMouseEnter={() => setHovering(true)}
       onMouseLeave={() => setHovering(false)}
     >
@@ -109,7 +113,7 @@ const ProcessItem = ({
           </StyledPill>
         ))}
       </StyledProcessItemExpand>
-    </StyledProcessItem>
+    </li>
   );
 };
 

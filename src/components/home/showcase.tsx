@@ -2,7 +2,7 @@
 
 import styled from "@emotion/styled";
 import { getRemSize } from "../../styles/globalCss";
-import { colors, dimensions } from "../../styles/variables";
+import { breakpoints, colors, dimensions } from "../../styles/variables";
 import { GridContainer } from "../global/grid/gridContainer";
 import { Project, Projects } from "../../interfaces/project";
 import { IconButton } from "../global/iconButton";
@@ -30,11 +30,14 @@ const StyledMotionWrapper = styled.div`
 `;
 
 const StyledTitle = styled.h2<{ color: string }>`
-  font-size: ${getRemSize(dimensions.headingSizes.large)};
+  font-size: ${getRemSize(dimensions.headingSizes.display2.desktop)};
   text-align: center;
   grid-column: 1 / span 12;
   line-height: 225px;
   color: ${({ color }) => color};
+  @media all and (max-width: ${breakpoints.md}px) {
+    font-size: ${getRemSize(dimensions.headingSizes.display2.mobile)};
+  }
 `;
 
 interface IShowcase {
