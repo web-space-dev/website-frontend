@@ -10,7 +10,6 @@ import WhatWeDo from "../components/home/whatWeDo";
 import Showcase from "../components/home/showcase";
 import Skills from "../components/home/skills";
 import Approach from "../components/home/approach";
-import Navbar from "../components/navbar";
 
 interface IIndex {
   siteData: ISiteData;
