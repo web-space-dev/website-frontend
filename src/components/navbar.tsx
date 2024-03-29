@@ -6,6 +6,8 @@ import chatIcon from "../../public/svg/icon-chat.svg";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { NavbarMobile } from "./global/navigation/navbarMobile";
+import { breakpoints } from "../styles/variables";
+import useIsDesktop from "../hooks/useIsDesktop";
 
 const StyledNav = styled.nav<NavbarProps>`
   display: flex;
@@ -81,17 +83,7 @@ const links = [
 
 export default function Navbar({ dark }) {
   const pathname = usePathname();
-  const [isDesktop, setIsDesktop] = useState(false);
-
-  useEffect(() => {
-    function handleResize() {
-      setIsDesktop(window.innerWidth > 700);
-    }
-    handleResize();
-    window.addEventListener("resize", handleResize);
-
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  const isDesktop = useIsDesktop();
 
   const iconStyle = {
     width: "1rem",
