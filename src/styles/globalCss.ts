@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
 import { baseFontSize, breakpoints, colors, dimensions } from "./variables";
 
-export const getEmSize = (size: number) => size / dimensions.fontSize.regular;
+export const getEmSize = (size: number) => size / baseFontSize;
 export const getRemSize = (px: number): string => `${px / baseFontSize}rem`;
 
 export const theme = css`
@@ -9,8 +9,8 @@ export const theme = css`
     box-sizing: border-box;
     scroll-behavior: smooth;
     width: 100%;
-    font-size: ${dimensions.fontSize.regular}px !important;
-    line-height: ${dimensions.lineHeight.regular} !important;
+    font-size: ${baseFontSize}px;
+    line-height: ${dimensions.lineHeight.regular};
     font-family: "Darker Grotesque", sans-serif;
   }
   *,
@@ -39,7 +39,6 @@ export const theme = css`
     -ms-text-size-adjust: 100%;
     margin: 0;
     padding: 0;
-    /* margin-left: calc(100vw - 100%);  */
   }
   label {
     color: ${colors.white};
@@ -51,7 +50,7 @@ export const theme = css`
     text-decoration: none;
     &:hover,
     &:focus {
-      color: ${colors.accent}!important;
+      color: ${colors.accent};
     }
   }
   img {
@@ -84,23 +83,13 @@ export const theme = css`
   h1 {
     margin-top: 0;
 
-    font-size: ${getRemSize(dimensions.headingSizes.h1)};
+    font-size: ${getRemSize(dimensions.headingSizes.medium.desktop)};
     font-weight: 500;
     @media (max-width: ${breakpoints.md}px) {
-      font-size: ${getRemSize(dimensions.headingSizesMobile.h1)};
+      font-size: ${getRemSize(dimensions.headingSizes.medium.mobile)};
     }
   }
-  h2 {
-    font-size: ${getRemSize(dimensions.headingSizes.h2)};
-  }
-  h3 {
-    font-size: ${getRemSize(dimensions.headingSizes.h3)};
-  }
-  h4,
-  h5,
-  h6 {
-    font-size: ${getRemSize(dimensions.headingSizes.h4)};
-  }
+
   h1,
   h4,
   p {
@@ -109,6 +98,10 @@ export const theme = css`
   p {
     margin-top: 0;
     margin-bottom: 1rem;
+    font-size: ${getRemSize(dimensions.textSizes.normal.desktop)};
+    @media (max-width: ${breakpoints.md}px) {
+      font-size: ${getRemSize(dimensions.textSizes.normal.mobile)};
+    }
   }
   strong {
     color: ${colors.white};
@@ -148,7 +141,7 @@ export const theme = css`
   }
   input,
   textarea {
-    font-size: ${dimensions.fontSize.regular}px;
+    font-size: ${getRemSize(dimensions.textSizes.normal.desktop)};
     background: transparent;
     border: 2px solid ${colors.white};
     color: ${colors.white};
@@ -170,7 +163,7 @@ export const theme = css`
     justify-content: center;
     flex-direction: row;
     padding: 0;
-    font-size: ${dimensions.fontSize.large}px;
+    font-size: ${getRemSize(dimensions.textSizes.normal.mobile)};
     box-sizing: border-box;
     border-radius: 50px;
     height: 51px;

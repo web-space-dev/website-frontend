@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import Image from "next/image";
 import { colors } from "../../styles/variables";
-import ArrowUpRight from "../../icons/arrow-up-right";
+import ArrowUpRight from "../../icons/arrowUpRight";
 
 const StyledIconButton = styled.button`
   /* width: 58px;

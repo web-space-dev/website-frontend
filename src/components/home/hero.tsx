@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { colors } from "../../styles/variables";
-import { GridContainer } from "../global/grid/GridContainer";
+import { GridContainer } from "../global/grid/gridContainer";
 import Image from "next/image";
 
 const StyledWrapper = styled(GridContainer)`
@@ -31,7 +31,7 @@ export default function Hero({ title }) {
       <StyledWrapper>
         <StyledHeading>
           <StyledImage
-            src={`/Logo-icon.png`}
+            src={"/logo-icon.png"}
             alt="WebSpace Icon"
             width="33"
             height="40"

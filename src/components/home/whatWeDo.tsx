@@ -1,8 +1,8 @@
 import styled from "@emotion/styled";
 import { Pill as IPill, WhatWeDo } from "../../interfaces/home";
-import { dimensions } from "../../styles/variables";
+import { breakpoints, colors, dimensions } from "../../styles/variables";
 import { getRemSize } from "../../styles/globalCss";
-import { GridContainer } from "../global/grid/GridContainer";
+import { GridContainer } from "../global/grid/gridContainer";
 import Pill from "../global/pill";
 import { useState } from "react";
 import { css } from "@emotion/react";
@@ -12,9 +12,12 @@ const StyledWrapper = styled(GridContainer)`
 `;
 
 const StyledTitle = styled.h2`
-  font-size: ${getRemSize(dimensions.headingSizes.h5)};
+  font-size: ${getRemSize(dimensions.headingSizes.small.desktop)};
   font-weight: 400;
   grid-column: 1 / span 2;
+  @media all and (max-width: ${breakpoints.md}px) {
+    grid-column: 1 / span 12;
+  }
 `;
 
 const StyledProcessList = styled.ul`
@@ -26,16 +29,17 @@ const StyledProcessList = styled.ul`
 
 const StyledProcessListTitle = styled.h3`
   margin-top: 0;
-  font-size: ${getRemSize(dimensions.headingSizes.medium)};
+  font-size: ${getRemSize(dimensions.headingSizes.large.desktop)};
   transition: 0.3s ease-in-out;
+  @media all and (max-width: ${breakpoints.md}px) {
+    font-size: ${getRemSize(dimensions.headingSizes.large.mobile)};
+  }
   ${({ isGlassy }: { isGlassy: boolean }) =>
     isGlassy &&
     css`
       filter: blur(4px);
     `}
 `;
-
-const StyledProcessItem = styled.li``;
 
 interface IStyledProcessItemExpand {
   isExpanded: boolean;
@@ -55,6 +59,17 @@ const StyledProcessItemExpand = styled.div<IStyledProcessItemExpand>`
       max-height: 500px;
       opacity: 1;
     `}
+`;
+
+const StyledPill = styled.span`
+  background-color: ${colors.white};
+  color: ${colors.black};
+  padding: 10px 30px;
+  margin: 0 16px;
+  border-radius: 50px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  display: inline-block;
 `;
 
 interface IProcessItem {
@@ -84,7 +99,7 @@ const ProcessItem = ({
   };
 
   return (
-    <StyledProcessItem
+    <li
       onMouseEnter={() => setHovering(true)}
       onMouseLeave={() => setHovering(false)}
     >
@@ -93,10 +108,12 @@ const ProcessItem = ({
       </StyledProcessListTitle>
       <StyledProcessItemExpand isExpanded={hoverItems[index]}>
         {pills.map((pill, index) => (
-          <Pill key={`${pill.pillText}-${index}`} pillText={pill.pillText} />
+          <StyledPill key={`${pill.pillText}-${index}`}>
+            {pill.pillText}
+          </StyledPill>
         ))}
       </StyledProcessItemExpand>
-    </StyledProcessItem>
+    </li>
   );
 };
 
