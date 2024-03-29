@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from "react";
 import { Approach } from "../../interfaces/home";
 import styled from "@emotion/styled";
 import { breakpoints, colors, dimensions } from "../../styles/variables";
@@ -8,7 +8,8 @@ import { motion } from "framer-motion";
 import { IconButton } from "../global/iconButton";
 import ArrowUpRight from "../../icons/arrowUpRight";
 import Link from "next/link";
-import { getRemSize } from '../../styles/globalCss';
+import { getRemSize } from "../../styles/globalCss";
+import useIsIntersecting from "../../hooks/useIsIntersecting";
 
 interface IApproach {
   items: Approach[];
@@ -17,6 +18,7 @@ interface IApproach {
 const StyledWrapper = styled(GridContainer)`
   // height: 100vh;
   align-items: center;
+  position: relative;
 `;
 
 const StyledHeading2 = styled.h2`
@@ -28,14 +30,47 @@ const StyledHeading2 = styled.h2`
   }
 `;
 
+const StyledBoxWrapper = styled.div`
+  position: relative;
+`;
+interface IStyledApproachBorder {
+  isVisible: boolean;
+}
+
+const StyledApproachBorderLeft = styled.div<IStyledApproachBorder>`
+  height: 250px;
+  background: linear-gradient(to left, rgba(255, 255, 255, 0), ${colors.white});
+  position: absolute;
+  width: 12px;
+  left: 0;
+  top: 0;
+  transition: 0.2s ease;
+  opacity: ${(props) => (props.isVisible ? 1 : 0)};
+`;
+const StyledApproachBorderRight = styled.div<IStyledApproachBorder>`
+  height: 250px;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0),
+    ${colors.white}
+  );
+  position: absolute;
+  width: 12px;
+  right: 0;
+  top: 0;
+  transition: 0.2s ease;
+  opacity: ${(props) => (props.isVisible ? 1 : 0)};
+`;
+
 const StyledBox = styled(motion.div)`
-  grid-column: 1 / span 12;
+  /* grid-column: 1 / span 12; */
+  padding-left: 20px;
   display: flex;
   width: 100%;
-  height: 274px;
+  height: 250px;
   border: 0px 0px 5px 0px;
   // padding: 40px 0px 40px 0px;
-  overflow-x:  auto;
+  overflow-x: auto;
   scrollbar-width: none;
   position: relative;
   overflow: overflow;
@@ -46,7 +81,7 @@ const StyledBox = styled(motion.div)`
   }
 `;
 
-const StyledCard = styled(motion.div)`
+const StyledCard = styled.div`
   margin-right: 200px;
   margin-bottom: 10px;
   width: 580px;
@@ -61,16 +96,14 @@ const StyledCard = styled(motion.div)`
   overflow: hidden;
   scrollbar-width: none;
 
-
   @media all and (max-width: ${breakpoints.md}px) {
     width: 100%;
   }
-
 `;
 
 const StyledParagraphWrapper = styled.p`
-position: relative;
-`
+  position: relative;
+`;
 const StyledParagraphText = styled.span`
   font-weight: 430;
   line-height: 45px;
@@ -78,7 +111,6 @@ const StyledParagraphText = styled.span`
   letter-spacing: 2px;
   text-indent: 20px;
   // position: relative;
-
 `;
 const StyledCardPill = styled(motion.div)`
   margin-right: 200px;
@@ -96,8 +128,6 @@ const StyledCardPill = styled(motion.div)`
   overflow: auto;
   box-sizing: border-box;
 
-
-
   @media all and (max-width: ${breakpoints.md}px) {
     display: none;
   }
@@ -112,7 +142,7 @@ const StyledPillWrapper = styled.span`
 const StyledTextSpacer = styled.span`
   padding: 0 35px;
   visibility: hidden;
-`
+`;
 
 const SmallerIconButton = styled.div`
   width: 3rem;
@@ -124,9 +154,8 @@ const SmallerIconButton = styled.div`
     transform: scale(0.7);
   }
   @media all and (max-width: ${breakpoints.md}px) {
-
   }
-`
+`;
 const StyledPillButton = styled(motion.div)`
   display: none;
 
@@ -149,7 +178,7 @@ const StyledPillButton = styled(motion.div)`
     padding: 3vw;
     font-size: 5vw;
   }
-`
+`;
 const StyledIcon = styled(ArrowUpRight)`
   width: 30px;
   height: 30px;
@@ -158,7 +187,6 @@ const StyledIcon = styled(ArrowUpRight)`
   top: 25%;
   right: 6%;
 
-
   transition: 0.3s ease;
 
   &:hover {
@@ -166,51 +194,84 @@ const StyledIcon = styled(ArrowUpRight)`
   }
 
   @media all and (max-width: ${breakpoints.md}px) {
-    top: 38%;    /* adjust top for medium screens */
-    right: 6%;  /* adjust right for medium screens */
+    top: 38%; /* adjust top for medium screens */
+    right: 6%; /* adjust right for medium screens */
   }
 
   @media all and (max-width: ${breakpoints.sm}px) {
-    top: 29%;    /* adjust top for small screens */
-    right: 6%;  /* adjust right for small screens */
+    top: 29%; /* adjust top for small screens */
+    right: 6%; /* adjust right for small screens */
   }
-
 `;
 
 export default function Approach({ items }: IApproach) {
   const boxRef = useRef(null);
+  const borderLeftRef = useRef();
+  const borderRightRef = useRef();
+
+  const cardsRef = useRef([]);
 
   useEffect(() => {
-    const box = boxRef.current;
+    cardsRef.current = cardsRef.current.slice(0, items.length + 1);
+  }, [items]);
 
-    const handleScroll = () => {
-
-    };
-    box.addEventListener('scroll', handleScroll);
-    return () => box.removeEventListener('scroll', handleScroll);
-  }, []);
+  const isLeftIntersecting = useIsIntersecting(borderLeftRef, cardsRef, boxRef);
+  const isRightIntersecting = useIsIntersecting(
+    borderRightRef,
+    cardsRef,
+    boxRef
+  );
 
   return (
-    <StyledWrapper>
-      <StyledHeading2>Our approach</StyledHeading2>
-      <StyledBox ref={boxRef}>
-        {items.map((item, index) => (
-          <StyledCard key={index}>
+    <>
+      <StyledWrapper>
+        <StyledHeading2>Our approach</StyledHeading2>
+      </StyledWrapper>
+      <StyledBoxWrapper>
+        <StyledApproachBorderLeft
+          ref={borderLeftRef}
+          isVisible={isLeftIntersecting}
+        />
+        <StyledBox ref={boxRef}>
+          {items.map((item, index) => (
+            <StyledCard
+              key={index}
+              ref={(el) => (cardsRef.current[index + 1] = el)}
+            >
+              <StyledParagraphWrapper>
+                <StyledTextSpacer>{item.title}</StyledTextSpacer>
+                <StyledPillWrapper>
+                  <Pill pillText={item.title} />
+                </StyledPillWrapper>
+                <StyledParagraphText>{item.paragraph}</StyledParagraphText>
+              </StyledParagraphWrapper>
+            </StyledCard>
+          ))}
+          <StyledCardPill ref={(el) => (cardsRef.current[0] = el)}>
             <StyledParagraphWrapper>
-              <StyledTextSpacer>{item.title}</StyledTextSpacer>
-              <StyledPillWrapper><Pill pillText={item.title} /></StyledPillWrapper>
-              <StyledParagraphText>{item.paragraph}</StyledParagraphText>
+              <StyledParagraphText>
+                Check out <br /> our work
+              </StyledParagraphText>
             </StyledParagraphWrapper>
-          </StyledCard>
-        ))}
-          <StyledCardPill>
-            <StyledParagraphWrapper>
-            <StyledParagraphText>Check out <br /> our work</StyledParagraphText>
-            </StyledParagraphWrapper>
-            <SmallerIconButton><Link href="/projects"><IconButton /></Link></SmallerIconButton>
+            <SmallerIconButton>
+              <Link href="/projects">
+                <IconButton />
+              </Link>
+            </SmallerIconButton>
           </StyledCardPill>
-          <StyledPillButton> Check out more <Link href="/projects"><StyledIcon /></Link> </StyledPillButton>
-      </StyledBox>
-    </StyledWrapper>
+          <StyledPillButton>
+            {" "}
+            Check out more{" "}
+            <Link href="/projects">
+              <StyledIcon />
+            </Link>{" "}
+          </StyledPillButton>
+        </StyledBox>
+        <StyledApproachBorderRight
+          ref={borderRightRef}
+          isVisible={isRightIntersecting}
+        />
+      </StyledBoxWrapper>
+    </>
   );
 }
