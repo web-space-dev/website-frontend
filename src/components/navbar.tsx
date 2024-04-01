@@ -8,8 +8,9 @@ import { useEffect, useState } from "react";
 import { NavbarMobile } from "./global/navigation/navbarMobile";
 import { breakpoints } from "../styles/variables";
 import useIsDesktop from "../hooks/useIsDesktop";
+import { Contact } from "./contact";
 
-const StyledNav = styled.nav<NavbarProps>`
+const StyledNav = styled.nav`
   display: flex;
   position: fixed;
   padding: 0 0.5rem;
@@ -39,7 +40,7 @@ const StyledDiv = styled.div`
   align-items: center;
 `;
 
-const StyledLink = styled.a<{ dark: boolean }>`
+const StyledLink = styled.a<NavbarProps>`
   padding: 0.25rem 0.75rem;
   margin: 0.5rem 0;
   border-radius: 0.5rem;
@@ -64,7 +65,7 @@ interface NavbarProps {
   dark: boolean;
 }
 
-export const StyledNavSpan = styled.span<StyledSpanProps & { dark: boolean }>`
+export const StyledNavSpan = styled.span<StyledSpanProps & NavbarProps>`
   box-shadow: 0 -0.5px 0 0.5px ${(props) => (!props.isActive ? "transparent" : props.dark ? "white" : "black")};
   width: 1.5rem;
   transition: all 0.3s ease-in-out;
@@ -74,30 +75,44 @@ export const StyledNavSpan = styled.span<StyledSpanProps & { dark: boolean }>`
   }
 `;
 
-const links = [
-  { name: "About", path: "" },
-  { name: "Projects", path: "projects" },
-  { name: "Client space", path: "#" },
-  { name: "chat", path: "#", icon: chatIcon },
-];
-
 export default function Navbar({ dark }) {
   const pathname = usePathname();
   const isDesktop = useIsDesktop();
+  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
 
   const iconStyle = {
     width: "1rem",
     margin: "-0.25rem 0",
   };
 
+  const openContactModal = () => {
+    setIsContactModalOpen(true);
+  };
+
+  const links = [
+    { name: "About", path: "" },
+    { name: "Projects", path: "projects" },
+    { name: "Client space", path: "#" },
+    { name: "chat", path: "#", icon: chatIcon, onClick: openContactModal },
+  ];
+
   return (
     <>
       {/* desktop */}
       {isDesktop ? (
-        <StyledNav dark={dark}>
+        <StyledNav>
           {links.map((link, index) => (
             <StyledDiv key={index}>
-              <StyledLink href={`/${link.path}`} dark={dark}>
+              <StyledLink
+                href={`/${link.path}`}
+                dark={dark}
+                onClick={(event) => {
+                  event.preventDefault();
+                  if (link.onClick) {
+                    link.onClick();
+                  }
+                }}
+              >
                 {link.icon ? (
                   <Image src={link.icon} alt={link.name} style={iconStyle} />
                 ) : (
@@ -114,6 +129,10 @@ export default function Navbar({ dark }) {
       ) : (
         <NavbarMobile dark={dark} links={links} />
       )}
+      <Contact
+        isOpen={isContactModalOpen}
+        onClose={() => setIsContactModalOpen(false)}
+      />
     </>
   );
 }
