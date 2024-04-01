@@ -16,17 +16,17 @@ interface IApproach {
 }
 
 const StyledWrapper = styled(GridContainer)`
-  // height: 100vh;
   align-items: center;
   position: relative;
 `;
 
 const StyledHeading2 = styled.h2`
   font-weight: 521;
+  // margin-left: 1.4rem;
   font-size: ${getRemSize(dimensions.headingSizes.medium.desktop)};
-  grid-column: 1 / span 12;
+  grid-column: 1 / span 5;
   @media all and (max-width: ${breakpoints.md}px) {
-    font-size: ${getRemSize(dimensions.headingSizes.medium.mobile)};
+    display: none;
   }
 `;
 
@@ -38,7 +38,7 @@ interface IStyledApproachBorder {
 }
 
 const StyledApproachBorderLeft = styled.div<IStyledApproachBorder>`
-  height: 250px;
+  height: 303px;
   background: linear-gradient(to left, rgba(255, 255, 255, 0), ${colors.white});
   position: absolute;
   width: 12px;
@@ -46,9 +46,12 @@ const StyledApproachBorderLeft = styled.div<IStyledApproachBorder>`
   top: 0;
   transition: 0.2s ease;
   opacity: ${(props) => (props.isVisible ? 1 : 0)};
+  @media all and (max-width: ${breakpoints.md}px) {
+    display: none;
+  }
 `;
 const StyledApproachBorderRight = styled.div<IStyledApproachBorder>`
-  height: 250px;
+  height: 303px;
   background: linear-gradient(
     to right,
     rgba(255, 255, 255, 0),
@@ -60,72 +63,120 @@ const StyledApproachBorderRight = styled.div<IStyledApproachBorder>`
   top: 0;
   transition: 0.2s ease;
   opacity: ${(props) => (props.isVisible ? 1 : 0)};
+
+  @media all and (max-width: ${breakpoints.md}px) {
+    display: none;
+  }
 `;
 
 const StyledBox = styled(motion.div)`
-  /* grid-column: 1 / span 12; */
   padding-left: 20px;
   display: flex;
   width: 100%;
-  height: 250px;
+  height: 331px;
   border: 0px 0px 5px 0px;
-  // padding: 40px 0px 40px 0px;
   overflow-x: auto;
   scrollbar-width: none;
   position: relative;
-  overflow: overflow;
+  overflow-y: hidden;
   @media all and (max-width: ${breakpoints.md}px) {
     height: auto;
     flex-direction: column;
     overflow-x: visible;
+    padding-right: 20px;
+  }
+  @media all and (max-width: ${breakpoints.sm}px) {
+    height: auto;
+    flex-direction: column;
+    overflow-x: visible;
+    padding-right: 20px;
   }
 `;
 
 const StyledCard = styled.div`
   margin-right: 200px;
+  margin-left: 20px;
   margin-bottom: 10px;
-  width: 580px;
-  min-width: 470px;
-  height: 251px;
+  width: 100%;
+  max-width: 714px;
+  min-width: 250px;
+  height: 303px;
   border-radius: 20px;
-  padding: 30px 28px 30px 28px;
+  padding: 30px 38px;
   background-color: rgba(255, 255, 255, 0.2);
   display: flex;
   align-items: center;
   flex: 0 0 auto;
   overflow: hidden;
   scrollbar-width: none;
+  box-sizing: border-box;
 
   @media all and (max-width: ${breakpoints.md}px) {
     width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+    margin-bottom: 10px;
+  }
+  @media all and (max-width: ${breakpoints.sm}px) {
+    width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+    margin-bottom: 10px;
+    overflow: hidden;
   }
 `;
 
 const StyledParagraphWrapper = styled.p`
   position: relative;
+  overflow: hidden;
+  padding: 0;
+  // margin: auto;
+  box-sizing: border-box;
+
+  @media all and (max-width: ${breakpoints.md}px) {
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+  }
+  @media all and (max-width: ${breakpoints.sm}px) {
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+  }
 `;
 const StyledParagraphText = styled.span`
   font-weight: 430;
-  line-height: 45px;
-  font-size: 46px;
-  letter-spacing: 2px;
-  text-indent: 20px;
-  // position: relative;
+  line-height: 44px;
+  font-size: ${getRemSize(dimensions.textSizes.large.desktop)};
+  @media all and (max-width: ${breakpoints.md}px) {
+    font-size: ${getRemSize(dimensions.textSizes.large.mobile)};
+    margin-top: 1rem;
+  }
+  @media all and (max-width: ${breakpoints.sm}px) {
+    font-size: ${getRemSize(dimensions.textSizes.normal.desktop)};
+    line-height: 34px;
+  }
 `;
 const StyledCardPill = styled(motion.div)`
   margin-right: 200px;
-  width: 580px;
-  min-width: 470px;
-  height: 251px;
+  margin-left: 20px;
+  margin-bottom: 10px;
+  width: 714px;
+  // min-width: 470px;
+  height: 303px;
   border-radius: 20px;
-  padding: 30px 20px 30px 30px;
+  padding: 30px 38px;
   background-color: rgba(255, 255, 255, 0.2);
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex: 0 0 auto;
   scrollbar-width: none;
-  overflow: auto;
+  overflow: hidden;
   box-sizing: border-box;
 
   @media all and (max-width: ${breakpoints.md}px) {
@@ -134,14 +185,20 @@ const StyledCardPill = styled(motion.div)`
 `;
 
 const StyledPillWrapper = styled.span`
-  position: absolute;
-  top: 3px;
-  left: 4px;
+  @media all and (min-width: ${breakpoints.md}px) {
+    position: absolute;
+    top: 0px;
+    left: 5px;
+    overflow: hidden;
+  }
 `;
 
 const StyledTextSpacer = styled.span`
-  padding: 0 35px;
+  padding: 0 53px;
   visibility: hidden;
+  @media all and (max-width: ${breakpoints.md}px) {
+    display: none;
+  }
 `;
 
 const SmallerIconButton = styled.div`
@@ -153,30 +210,32 @@ const SmallerIconButton = styled.div`
     height: 100%;
     transform: scale(0.7);
   }
-  @media all and (max-width: ${breakpoints.md}px) {
-  }
 `;
 const StyledPillButton = styled(motion.div)`
   display: none;
 
   @media all and (max-width: ${breakpoints.md}px) {
     width: 47%;
+    max-width: 777px;
     min-width: 237px;
     margin-left: auto;
     margin-right: auto;
+    margin-top: 24px;
     background-color: ${colors.white};
     color: ${colors.black};
+    font-weight: 521px;
     border-radius: 26px;
-    padding: 3vw;
-    font-size: 4vw;
+    padding: 4vw;
+    font-size: 25px;
     letter-spacing: 2px;
     display: flex;
     align-items: center;
     position: relative;
   }
   @media all and (max-width: ${breakpoints.sm}px) {
-    padding: 3vw;
-    font-size: 5vw;
+    min-width: 237px;
+    padding: 4vw;
+    font-size: 25px;
   }
 `;
 const StyledIcon = styled(ArrowUpRight)`
@@ -194,14 +253,13 @@ const StyledIcon = styled(ArrowUpRight)`
   }
 
   @media all and (max-width: ${breakpoints.md}px) {
-    top: 38%; /* adjust top for medium screens */
-    right: 6%; /* adjust right for medium screens */
+    top: 38%;
+    right: 6%;
   }
 
   @media all and (max-width: ${breakpoints.sm}px) {
-    top: 29%; /* adjust top for small screens */
-    right: 6%; /* adjust right for small screens */
-  }
+    top: 30%;
+    right: 4%;
 `;
 
 export default function Approach({ items }: IApproach) {
