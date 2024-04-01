@@ -10,6 +10,7 @@ import ArrowUpRight from "../../icons/arrowUpRight";
 import Link from "next/link";
 import { getRemSize } from "../../styles/globalCss";
 import useIsIntersecting from "../../hooks/useIsIntersecting";
+import useIsDesktop from "../../hooks/useIsDesktop";
 
 interface IApproach {
   items: Approach[];
@@ -178,10 +179,6 @@ const StyledCardPill = styled(motion.div)`
   scrollbar-width: none;
   overflow: hidden;
   box-sizing: border-box;
-
-  @media all and (max-width: ${breakpoints.md}px) {
-    display: none;
-  }
 `;
 
 const StyledPillWrapper = styled.span`
@@ -212,26 +209,23 @@ const SmallerIconButton = styled.div`
   }
 `;
 const StyledPillButton = styled(motion.div)`
-  display: none;
+  width: 47%;
+  max-width: 777px;
+  min-width: 237px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 24px;
+  background-color: ${colors.white};
+  color: ${colors.black};
+  font-weight: 521px;
+  border-radius: 26px;
+  padding: 4vw;
+  font-size: 25px;
+  letter-spacing: 2px;
+  display: flex;
+  align-items: center;
+  position: relative;
 
-  @media all and (max-width: ${breakpoints.md}px) {
-    width: 47%;
-    max-width: 777px;
-    min-width: 237px;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 24px;
-    background-color: ${colors.white};
-    color: ${colors.black};
-    font-weight: 521px;
-    border-radius: 26px;
-    padding: 4vw;
-    font-size: 25px;
-    letter-spacing: 2px;
-    display: flex;
-    align-items: center;
-    position: relative;
-  }
   @media all and (max-width: ${breakpoints.sm}px) {
     min-width: 237px;
     padding: 4vw;
@@ -266,6 +260,7 @@ export default function Approach({ items }: IApproach) {
   const boxRef = useRef(null);
   const borderLeftRef = useRef();
   const borderRightRef = useRef();
+  const isDesktop = useIsDesktop();
 
   const cardsRef = useRef([]);
 
@@ -305,25 +300,28 @@ export default function Approach({ items }: IApproach) {
               </StyledParagraphWrapper>
             </StyledCard>
           ))}
-          <StyledCardPill ref={(el) => (cardsRef.current[0] = el)}>
-            <StyledParagraphWrapper>
-              <StyledParagraphText>
-                Check out <br /> our work
-              </StyledParagraphText>
-            </StyledParagraphWrapper>
-            <SmallerIconButton>
+
+          {isDesktop ? (
+            <StyledCardPill ref={(el) => (cardsRef.current[0] = el)}>
+              <StyledParagraphWrapper>
+                <StyledParagraphText>
+                  Check out <br /> our work
+                </StyledParagraphText>
+              </StyledParagraphWrapper>
+              <SmallerIconButton>
+                <Link href="/projects">
+                  <IconButton />
+                </Link>
+              </SmallerIconButton>
+            </StyledCardPill>
+          ) : (
+            <StyledPillButton>
+              Check out more
               <Link href="/projects">
-                <IconButton />
+                <StyledIcon />
               </Link>
-            </SmallerIconButton>
-          </StyledCardPill>
-          <StyledPillButton>
-            {" "}
-            Check out more{" "}
-            <Link href="/projects">
-              <StyledIcon />
-            </Link>{" "}
-          </StyledPillButton>
+            </StyledPillButton>
+          )}
         </StyledBox>
         <StyledApproachBorderRight
           ref={borderRightRef}

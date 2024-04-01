@@ -40,12 +40,6 @@ export default function useIsIntersecting(
     if (listener.current) {
       watchScroll();
     }
-    return () => {
-      listener.current.removeEventListener(
-        "scroll",
-        checkIfElementsAreOverlapping
-      );
-    };
   }, []);
 
   return isOverlapping;
