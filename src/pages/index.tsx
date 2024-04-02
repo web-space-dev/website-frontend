@@ -10,6 +10,7 @@ import WhatWeDo from "../components/home/whatWeDo";
 import Showcase from "../components/home/showcase";
 import Skills from "../components/home/skills";
 import Approach from "../components/home/approach";
+import Navbar from "../components/navbar";
 
 interface IIndex {
   siteData: ISiteData;
@@ -22,6 +23,8 @@ export default function Index({ siteData, pageData, preview }: IIndex) {
 
   return (
     <Layout preview={preview} pageTitle={page.title} siteData={siteData}>
+      <Navbar dark={false} />
+
       {/* Hero section */}
       <Hero title={page.homeFields.heroTitle} />
 
