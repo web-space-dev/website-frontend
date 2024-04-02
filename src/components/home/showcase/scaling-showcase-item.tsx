@@ -5,10 +5,10 @@ import { colors, dimensions } from "../../../styles/variables";
 import { getRemSize } from "../../../styles/globalCss";
 import { IconButton } from "../../global/iconButton";
 import { CustomImage } from "../../global/image";
-import { motion } from "framer-motion";
+import { MotionValue, motion } from "framer-motion";
 import { useRef } from "react";
 
-const StyledShowcaseWrapper = styled.div`
+const StyledShowcaseWrapper = styled(motion.div)`
   grid-column: 1 / span 12;
   height: 890px;
   display: flex;
@@ -103,13 +103,17 @@ const StyledLink = styled(Link)`
   }
 `;
 
-interface ShowcaseItemProps {
+interface ScalingShowcaseItemProps {
   project: Project;
+  scale: MotionValue;
 }
 
-export function ShowcaseItem({ project }: ShowcaseItemProps) {
+export function ScalingShowcaseItem({
+  project,
+  scale,
+}: ScalingShowcaseItemProps) {
   return (
-    <StyledShowcaseWrapper>
+    <StyledShowcaseWrapper style={{ scale }}>
       <StyledShowcaseDetails>
         <StyledShowcaseImage>
           <CustomImage

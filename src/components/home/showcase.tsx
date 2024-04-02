@@ -1,35 +1,37 @@
-// import Link from "next/link";
-
 import styled from "@emotion/styled";
 import { getRemSize } from "../../styles/globalCss";
 import { breakpoints, colors, dimensions } from "../../styles/variables";
 import { GridContainer } from "../global/grid/gridContainer";
 import { Project, Projects } from "../../interfaces/project";
-import { IconButton } from "../global/iconButton";
-import { CustomImage } from "../global/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-import { Link, animateScroll as scroll, Events, scrollSpy } from "react-scroll";
-import { motion, useViewportScroll, useTransform } from "framer-motion";
+import { motion, useTransform, useScroll } from "framer-motion";
 import { ShowcaseItem } from "./showcase/showcase-item";
+import { ScalingShowcaseItem } from "./showcase/scaling-showcase-item";
 
-const StyledSpacer = styled.div`
-  /* height: 100vh; */
-`;
+const StyledSpacer = styled.div``;
 
 const StyledWrapper = styled(GridContainer)`
   margin: 40px auto;
-  position: relative;
+  position: sticky;
+  min-height: 100vh;
+  z-index: 20;
+  background-color: ${colors.black};
   top: 0;
 `;
 
-const StyledMotionWrapper = styled.div`
-  position: aboslute;
+const StyledMotionWrapper = styled(motion.div)`
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  top: 60px;
+  left: 0;
   width: 100%;
-  height: 100%;
 `;
 
 const StyledTitle = styled.h2<{ color: string }>`
+  transition: 0.3s ease-in-out;
   font-size: ${getRemSize(dimensions.headingSizes.display2.desktop)};
   text-align: center;
   grid-column: 1 / span 12;
@@ -47,42 +49,49 @@ interface IShowcase {
 
 export default function Showcase({ title, projects }: IShowcase) {
   const [isOpen, setIsOpen] = useState(false);
-  const { scrollYProgress } = useViewportScroll();
-  const scaleX = useTransform(
-    scrollYProgress,
-    [0, 0.2, 0.5, 1],
-    [0, 0.1, 0.4, 1]
+  const [canScale, setCanScale] = useState(false);
+  const ref = useRef(null);
+  const { scrollY } = useScroll();
+  const scale = useTransform(
+    scrollY,
+    [scrollY.get(), scrollY.get() + 800],
+    canScale ? [0.2, 1] : [0.2, 0.2]
   );
-  const scaleY = useTransform(scrollYProgress, [0, 0.5, 1], [1, 3, 1]);
-  const displayIndex = useTransform(
-    scrollYProgress,
-    [0, 1],
-    [0, projects.nodes.length - 1],
-    {
-      clamp: false,
-    }
-  );
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (ref.current) {
+        const { bottom } = ref.current.getBoundingClientRect();
+
+        setCanScale(bottom - window.innerHeight < 1);
+        console.log(scale.get());
+        if (scale.get() === 1) {
+          setIsOpen(true);
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   return (
     <>
-      <StyledWrapper>
+      <StyledWrapper ref={ref}>
         <StyledTitle color={isOpen ? colors.accent : colors.white}>
           {title}
         </StyledTitle>
         <StyledMotionWrapper>
-          {projects.nodes.map((project: Project, index: number) => {
-            if (Math.floor(displayIndex.get()) !== index) return null;
-            return (
-              <ShowcaseItem
-                style={{
-                  scale: scaleX,
-                  // scaleY: scaleY,
-                }}
-                key={index}
-                project={project}
-              />
-            );
-          })}
+          {!isOpen ? (
+            <ScalingShowcaseItem project={projects.nodes[0]} scale={scale} />
+          ) : (
+            projects.nodes.map((project: Project, index: number) => {
+              return <ShowcaseItem key={index} project={project} />;
+            })
+          )}
         </StyledMotionWrapper>
       </StyledWrapper>
       <StyledSpacer />

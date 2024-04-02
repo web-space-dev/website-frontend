@@ -8,7 +8,7 @@ export interface IProjectData {
 }
 
 export interface Projects {
-  nodes: ProjectList[];
+  nodes: Project[];
 }
 
 export interface ProjectList {
