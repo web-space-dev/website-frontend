@@ -5,24 +5,36 @@ import { colors, dimensions } from "../../../styles/variables";
 import { getRemSize } from "../../../styles/globalCss";
 import { IconButton } from "../../global/iconButton";
 import { CustomImage } from "../../global/image";
-import { motion } from "framer-motion";
+import { MotionValue, motion, useScroll } from "framer-motion";
 import { useRef } from "react";
 
-const StyledShowcaseWrapper = styled.div`
+// const StyledShowcaseWrapper = styled.div`
+// `
+
+interface IStyledShowcaseWrapper {
+  canScroll: boolean;
+}
+const StyledShowcaseWrapper = styled(motion.div)<IStyledShowcaseWrapper>`
   grid-column: 1 / span 12;
-  height: 890px;
+  height: 100vh;
   display: flex;
   align-items: center;
   width: 100%;
-  /* scale: 0.2; */
+  ${({ canScroll }) =>
+    canScroll &&
+    `
+    position: relative;
+     scroll-snap-align: center;
+  `}
   & div {
+    height: 900px;
     margin: 0 10px;
   }
 `;
 
 const StyledShowcaseDetails = styled.div`
   position: relative;
-  height: 100%;
+  /* height: 100%; */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -31,7 +43,7 @@ const StyledShowcaseDetails = styled.div`
 
 const StyledAllProjects = styled.div`
   width: 50%;
-  height: 100%;
+  /* height: 100%; */
   background-color: ${colors.blackLight};
   border: 2px solid ${colors.white};
   border-radius: 12px;
@@ -105,11 +117,15 @@ const StyledLink = styled(Link)`
 
 interface ShowcaseItemProps {
   project: Project;
+  scale?: MotionValue;
 }
 
-export function ShowcaseItem({ project }: ShowcaseItemProps) {
+export function ShowcaseItem({ project, scale }: ShowcaseItemProps) {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({ target: ref });
+
   return (
-    <StyledShowcaseWrapper>
+    <StyledShowcaseWrapper canScroll={!scale} style={scale ? { scale } : {}}>
       <StyledShowcaseDetails>
         <StyledShowcaseImage>
           <CustomImage
