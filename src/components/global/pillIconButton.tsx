@@ -18,13 +18,13 @@ const StyledIcon = styled(ArrowUpRight)`
     right: 6%;
   }
 
-  @media all and (max-width: 600px) {
+  @media all and (max-width: 680px) {
     top: 33%;
     right: 4%;
   }
 
   @media all and (max-width: ${breakpoints.sm}px) {
-    top: 30%;
+    top: 32%;
     right: 4%;
   }
 `;
