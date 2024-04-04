@@ -3,7 +3,7 @@ import { getRemSize } from "../../styles/globalCss";
 import { breakpoints, colors, dimensions } from "../../styles/variables";
 import { GridContainer } from "../global/grid/gridContainer";
 import { Project, Projects } from "../../interfaces/project";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import { motion, useTransform, useScroll, useSpring } from "framer-motion";
 import { ShowcaseItem } from "./showcase/showcase-item";
@@ -61,49 +61,42 @@ interface IShowcase {
 }
 
 export default function Showcase({ title, projects }: IShowcase) {
+  const ref = useRef(null);
+
   const [isOpen, setIsOpen] = useState(false);
   const [canScale, setCanScale] = useState(false);
   const [breakpoint, setBreakpoint] = useState(0);
-  const ref = useRef(null);
+  const [beginScalePos, setBeginScalePos] = useState(0);
+
   const { scrollY } = useScroll();
   const scale = useTransform(
     scrollY,
-    [scrollY.get(), scrollY.get() + 800],
+    [beginScalePos, beginScalePos + 800],
     canScale ? [0.2, 1] : [0.2, 0.2]
   );
-
-  // const { scrollYProgress } = useScroll();
-  // const scaleX = useSpring(scrollY, {
-  //   stiffness: 100,
-  //   damping: 30,
-  //   restDelta: 0.001
-  // });
 
   useEffect(() => {
     const handleScroll = () => {
       if (ref.current) {
         const { bottom } = ref.current.getBoundingClientRect();
 
-        // setCanScale(bottom - window.innerHeight < 1);
         if (bottom - window.innerHeight < 1) {
           setCanScale(true);
+          if (beginScalePos === 0) {
+            setBeginScalePos(scrollY.get());
+          }
         } else {
           setCanScale(false);
-          // setBreakpoint(0);
         }
 
-        console.log("scrollY", scrollY.get(), breakpoint, canScale);
         if (breakpoint !== 0 && scrollY.get() < breakpoint) {
-          console.log("reverse!", canScale);
           setCanScale(true);
           setIsOpen(false);
-          setBreakpoint(0);
         }
 
         if (scale.get() === 1) {
           setIsOpen(true);
-          setBreakpoint(scrollY.get() + 100);
-          console.log("breakpoint", scrollY.get() + 100);
+          setBreakpoint(scrollY.get());
         }
       }
     };
@@ -113,7 +106,7 @@ export default function Showcase({ title, projects }: IShowcase) {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [breakpoint, beginScalePos]);
 
   return (
     <>

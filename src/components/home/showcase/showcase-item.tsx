@@ -121,8 +121,8 @@ interface ShowcaseItemProps {
 }
 
 export function ShowcaseItem({ project, scale }: ShowcaseItemProps) {
-  const ref = useRef(null);
-  const { scrollYProgress } = useScroll({ target: ref });
+  // const ref = useRef(null);
+  // const { scrollYProgress } = useScroll({ target: ref });
 
   return (
     <StyledShowcaseWrapper canScroll={!scale} style={scale ? { scale } : {}}>
