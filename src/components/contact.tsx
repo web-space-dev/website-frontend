@@ -5,6 +5,7 @@ import { breakpoints, dimensions, colors } from "../styles/variables";
 import { getRemSize } from "../styles/globalCss";
 import { css } from "@emotion/react";
 import ArrowUpRight from "../icons/arrowUpRight";
+import Image from "next/image";
 
 const StyledWrapper = styled.div`
   position: fixed;
@@ -15,17 +16,32 @@ const StyledWrapper = styled.div`
   background: rgba(29, 29, 29, 0.2);
   backdrop-filter: blur(15px);
   z-index: 1000;
-  // display: flex; // Add this
-  // justify-content: center; // Add this
-  // align-items: center;
-  // flex-direction: column; // Add this
+`;
+const StyledImage = styled.div`
+  position: absolute;
+  top: -6px;
+  left: -11px;
+  z-index: 1001;
 `;
 
 const WrapperContent = styled.div`
   display: flex;
-  justify-content: center; // Add this
+  justify-content: center;
   align-items: center;
   flex-direction: column;
+  transform: scale(0.78);
+
+  @media (max-width: 600px) {
+    transform: scale(${0.78 * 0.85}); // 0.663
+  }
+
+  @media (max-width: 500px) {
+    transform: scale(${0.78 * 0.8}); // 0.624
+  }
+
+  @media (max-width: 375px) {
+    transform: scale(${0.78 * 0.75}); // 0.585
+  }
 `;
 
 const StyledBoxContentWrapper = styled.div`
@@ -35,15 +51,25 @@ const StyledBoxContentWrapper = styled.div`
 
 const StyledBox = styled.div`
   background: ${colors.white};
-  margin-top: 60px;
-  padding: 40px 40px;
+  margin-top: 24px;
+  padding: 40px;
   border-radius: 20px;
   max-width: 600px;
+  width: 100%;
   margin-left: auto;
   margin-right: auto;
   display: flex;
   justify-content: center;
   overflow: hidden;
+
+  @media all and (max-width: ${breakpoints.md}px) {
+    max-width: 100%;
+    padding: 30px;
+  }
+  @media all and (max-width: ${breakpoints.sm}px) {
+    max-width: 100%;
+    padding: 25px;
+  }
 `;
 
 const StyledHeading = styled.p`
@@ -65,7 +91,6 @@ const StyledForm = styled.form`
 const InputWrapper = styled.div`
   margin: 0px;
   position: relative;
-  margin-bottom: 1rem;
 `;
 
 const StyledInput = styled.input`
@@ -80,6 +105,10 @@ const StyledInput = styled.input`
 
   &:focus {
     outline: none;
+  }
+  @media all and (max-width: ${breakpoints.md}px) {
+    width: 100%;
+    padding: 10px;
   }
 `;
 
@@ -106,17 +135,18 @@ const StyledButton = styled.button`
   justify-content: center;
   background-color: white;
   padding: 20px;
+  margin-top: 16px;
   border-radius: 26px;
-  width: 281px;
+  width: 313px;
   margin-left: auto;
   margin-right: auto;
   height: 79px;
   color: rgba(29, 29, 29, 1);
-  font-weight: 180;
-  letter-spacing: 1px;
+  font-weight: 100;
+  letter-spacing: 2px;
   border: 2px solid ${colors.blackLight};
-  font-size: ${getRemSize(dimensions.headingSizes.cta.mobile)};
-  font-family: "Darker Grotesque", sans-serif;
+  font-size: ${getRemSize(dimensions.headingSizes.small.mobile)};
+  font-family: "Darker Grotesque", sans-serif !important;
   transition: 0.3s ease;
 
   &:hover {
@@ -127,6 +157,13 @@ const StyledButton = styled.button`
     path {
       fill: ${colors.white};
     }
+  }
+  &.my-button {
+    font-family: "Darker Grotesque", sans-serif !important;
+  }
+  @media all and (max-width: ${breakpoints.md}px) {
+    width: 100%;
+    padding: 10px;
   }
 `;
 
@@ -141,18 +178,47 @@ const StyledIcon = styled(ArrowUpRight)`
   }
 `;
 
-const StyledContact = styled.div`
-  background: white;
-  padding: 2rem;
+const StyledContactWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 596px;
+  background-color: rgba(57, 151, 156, 0.2);
+  padding: 10px;
   border-radius: 20px;
-  max-width: 500px;
-  max-height: 500px;
-  overflow: auto;
+  height: 70px;
+  margin-top: 20px;
   margin-left: auto;
   margin-right: auto;
+
+  @media all and (max-width: ${breakpoints.md}px) {
+    width: 100%;
+  }
 `;
 
-const StyledClose = styled.button``;
+const StyledSquare = styled.div<StyledSquareProps>`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  line-height: 1;
+  letter-spacing: 1.2px;
+  color: ${(props) => (props.dark ? colors.white : colors.black)};
+  font-size: 34px;
+  padding: 11px 12px 12px 13px;
+  border-radius: 14px;
+  transition: all 0.3s ease-in-out;
+  backfdrop-filter: blur(15px);
+  // background-color: ${colors.white};
+
+  &:hover {
+    background-color: rgba(57, 151, 156, 0.2);
+  }
+`;
+
+interface StyledSquareProps {
+  dark: boolean;
+}
 
 const InputField = ({ type, id, name, placeholder }) => {
   const [isActive, setIsActive] = useState(false);
@@ -183,13 +249,21 @@ const InputField = ({ type, id, name, placeholder }) => {
   );
 };
 
-export function Contact({ isOpen, onClose }) {
+export function Contact({ isOpen, onClose, dark }) {
   if (!isOpen) {
     return null;
   }
 
   return (
     <StyledWrapper>
+      <StyledImage>
+        <img
+          src="/favicon/Icon-logo-nobackground.png"
+          alt="Logo"
+          width={70}
+          height={70}
+        />
+      </StyledImage>
       <WrapperContent>
         <StyledBox>
           <StyledBoxContentWrapper>
@@ -211,18 +285,18 @@ export function Contact({ isOpen, onClose }) {
                 placeholder="Email"
               />
               <InputField
+                type="tel"
+                id="number"
+                name="number"
+                placeholder="Number"
+              />
+              <InputField
                 type="text"
                 id="message"
                 name="message"
                 placeholder="Message"
               />
-              <InputField
-                type="number"
-                id="number"
-                name="number"
-                placeholder="Number"
-              />
-              <StyledButton type="submit">
+              <StyledButton type="submit" className="my-button">
                 Submit
                 <StyledIcon />
               </StyledButton>
@@ -230,9 +304,17 @@ export function Contact({ isOpen, onClose }) {
           </StyledBoxContentWrapper>
         </StyledBox>
 
-        <StyledContact onClick={onClose}>
-          <StyledClose>X</StyledClose>
-        </StyledContact>
+        <StyledContactWrapper>
+          <StyledSquare dark={dark}> Contact </StyledSquare>
+          <StyledSquare dark={dark} onClick={onClose}>
+            <Image
+              src={"/svg/icon-close.svg"}
+              alt="close icon"
+              width={24}
+              height={24}
+            />
+          </StyledSquare>
+        </StyledContactWrapper>
       </WrapperContent>
     </StyledWrapper>
   );
