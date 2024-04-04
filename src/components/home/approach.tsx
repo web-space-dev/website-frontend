@@ -242,7 +242,7 @@ const StyledPillButton = styled(motion.div)`
   margin-top: 24px;
   background-color: ${colors.white};
   color: ${colors.black};
-  font-weight: 500px;
+  font-weight: 500;
   border-radius: 26px;
   padding: 4vw;
   font-size: 25px;
@@ -316,7 +316,7 @@ export default function Approach({ items }: IApproach) {
             <StyledCardPill ref={(el) => (cardsRef.current[0] = el)}>
               <StyledParagraphWrapper>
                 <StyledParagraphText>
-                  Check out <br /> our work
+                  Check out <br /> our work.
                 </StyledParagraphText>
               </StyledParagraphWrapper>
               <SmallerIconButton>
