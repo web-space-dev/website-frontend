@@ -308,7 +308,8 @@ export function Contact({ isOpen, onClose, dark }) {
           <StyledSquare dark={dark}> Contact </StyledSquare>
           <StyledSquare dark={dark} onClick={onClose}>
             <Image
-              src={"/svg/icon-close.svg"}
+              // src={"/svg/icon-close.svg"}
+              src={dark ? "/svg/icon-close.svg" : "/svg/icon-close-black.svg"}
               alt="close icon"
               width={24}
               height={24}
