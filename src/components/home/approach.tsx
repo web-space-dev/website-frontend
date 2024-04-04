@@ -82,6 +82,7 @@ const StyledBox = styled(motion.div)`
   scrollbar-width: none;
   position: relative;
   overflow-y: hidden;
+
   @media all and (max-width: ${breakpoints.md}px) {
     height: auto;
     flex-direction: column;
@@ -120,6 +121,7 @@ const StyledCard = styled.div<StyledCardProps>`
     margin-left: auto;
     margin-bottom: 10px;
   }
+
   @media all and (max-width: ${breakpoints.sm}px) {
     width: 100%;
     margin-right: auto;
@@ -133,7 +135,6 @@ const StyledParagraphWrapper = styled.p`
   position: relative;
   overflow: hidden;
   padding: 0;
-  // margin: auto;
   box-sizing: border-box;
 
   @media all and (max-width: ${breakpoints.md}px) {
