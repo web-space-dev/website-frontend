@@ -19,11 +19,13 @@ interface IApproach {
 const StyledWrapper = styled(GridContainer)`
   align-items: center;
   position: relative;
+  margin: auto 0;
+  grid-column: 1 / span 12;
 `;
 
 const StyledHeading2 = styled.h2`
-  font-weight: 521;
-  // margin-left: 1.4rem;
+  font-weight: 500;
+  margin-bottom: 40px;
   font-size: ${getRemSize(dimensions.headingSizes.medium.desktop)};
   grid-column: 1 / span 5;
   @media all and (max-width: ${breakpoints.md}px) {
@@ -94,9 +96,9 @@ const StyledBox = styled(motion.div)`
   }
 `;
 
-const StyledCard = styled.div`
-  margin-right: 200px;
-  margin-left: 20px;
+const StyledCard = styled.div<StyledCardProps>`
+  margin-right: 300px;
+  margin-left: ${(props) => props.marginLeft};
   margin-bottom: 10px;
   width: 100%;
   max-width: 714px;
@@ -150,7 +152,7 @@ const StyledParagraphWrapper = styled.p`
   }
 `;
 const StyledParagraphText = styled.span`
-  font-weight: 430;
+  font-weight: 400;
   line-height: 44px;
   font-size: ${getRemSize(dimensions.textSizes.large.desktop)};
   @media all and (max-width: ${breakpoints.md}px) {
@@ -163,7 +165,7 @@ const StyledParagraphText = styled.span`
   }
 `;
 const StyledCardPill = styled(motion.div)`
-  margin-right: 200px;
+  margin-right: 300px;
   margin-left: 20px;
   margin-bottom: 10px;
   width: 714px;
@@ -208,30 +210,7 @@ const SmallerIconButton = styled.div`
     transform: scale(0.7);
   }
 `;
-const StyledPillButton = styled(motion.div)`
-  width: 47%;
-  max-width: 777px;
-  min-width: 237px;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 24px;
-  background-color: ${colors.white};
-  color: ${colors.black};
-  font-weight: 521px;
-  border-radius: 26px;
-  padding: 4vw;
-  font-size: 25px;
-  letter-spacing: 2px;
-  display: flex;
-  align-items: center;
-  position: relative;
 
-  @media all and (max-width: ${breakpoints.sm}px) {
-    min-width: 237px;
-    padding: 4vw;
-    font-size: 25px;
-  }
-`;
 const StyledIcon = styled(ArrowUpRight)`
   width: 30px;
   height: 30px;
@@ -242,9 +221,6 @@ const StyledIcon = styled(ArrowUpRight)`
 
   transition: 0.3s ease;
 
-  &:hover {
-    transform: rotate(45deg);
-  }
 
   @media all and (max-width: ${breakpoints.md}px) {
     top: 38%;
@@ -255,6 +231,39 @@ const StyledIcon = styled(ArrowUpRight)`
     top: 30%;
     right: 4%;
 `;
+
+const StyledPillButton = styled(motion.div)`
+  width: 47%;
+  max-width: 777px;
+  min-width: 237px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 24px;
+  background-color: ${colors.white};
+  color: ${colors.black};
+  font-weight: 500px;
+  border-radius: 26px;
+  padding: 4vw;
+  font-size: 25px;
+  letter-spacing: 2px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  border: 2px solid rgba(29, 29, 29, 0.1);
+
+  &:hover .styled-icon {
+    transform: rotate(45deg);
+  }
+
+  @media all and (max-width: ${breakpoints.sm}px) {
+    min-width: 237px;
+    padding: 4vw;
+    font-size: 25px;
+  }
+`;
+interface StyledCardProps {
+  marginLeft?: string;
+}
 
 export default function Approach({ items }: IApproach) {
   const boxRef = useRef(null);
@@ -290,6 +299,7 @@ export default function Approach({ items }: IApproach) {
             <StyledCard
               key={index}
               ref={(el) => (cardsRef.current[index + 1] = el)}
+              marginLeft={index === 0 ? "0px" : "20px"}
             >
               <StyledParagraphWrapper>
                 <StyledTextSpacer>{item.title}</StyledTextSpacer>
@@ -318,7 +328,7 @@ export default function Approach({ items }: IApproach) {
             <StyledPillButton>
               Check out more
               <Link href="/projects">
-                <StyledIcon />
+                <StyledIcon className="styled-icon" />
               </Link>
             </StyledPillButton>
           )}
