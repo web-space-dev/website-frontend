@@ -3,7 +3,6 @@ import styled from "@emotion/styled";
 import React, { useState } from "react";
 import { breakpoints, dimensions, colors } from "../styles/variables";
 import { getRemSize } from "../styles/globalCss";
-import { css } from "@emotion/react";
 import ArrowUpRight from "../icons/arrowUpRight";
 import Image from "next/image";
 
@@ -17,11 +16,16 @@ const StyledWrapper = styled.div`
   backdrop-filter: blur(15px);
   z-index: 1000;
 `;
-const StyledImage = styled.div`
+const StyledImage = styled.div<{ dark: boolean }>`
   position: absolute;
-  top: -6px;
-  left: -11px;
+  top: 14px;
+  left: 8px;
   z-index: 1001;
+  color: ${(props) =>
+    props.dark ? "white" : "black"}; // Changes the color based on the dark prop
+  img {
+    fill: currentColor; // Makes the SVG inherit the color property
+  }
 `;
 
 const WrapperContent = styled.div`
@@ -29,18 +33,21 @@ const WrapperContent = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  transform: scale(0.78);
+  transform: scale(0.87);
 
   @media (max-width: 600px) {
-    transform: scale(${0.78 * 0.85}); // 0.663
+    transform: scale(0.9);
+    margin-top: 28px;
   }
 
   @media (max-width: 500px) {
-    transform: scale(${0.78 * 0.8}); // 0.624
+    transform: scale(0.93);
+    margin-top: 28px;
   }
 
   @media (max-width: 375px) {
-    transform: scale(${0.78 * 0.75}); // 0.585
+    transform: scale(0.95);
+    margin-top: 28px;
   }
 `;
 
@@ -193,6 +200,18 @@ const StyledContactWrapper = styled.div`
 
   @media all and (max-width: ${breakpoints.md}px) {
     width: 100%;
+    margin-top: 18px;
+  }
+  @media (max-width: 600px) {
+    margin-top: 18px;
+  }
+
+  @media (max-width: 500px) {
+    margin-top: 15px;
+  }
+
+  @media (max-width: 375px) {
+    margin-top: 10px;
   }
 `;
 
@@ -209,7 +228,7 @@ const StyledSquare = styled.div<StyledSquareProps>`
   border-radius: 14px;
   transition: all 0.3s ease-in-out;
   backfdrop-filter: blur(15px);
-  // background-color: ${colors.white};
+  cursor: pointer;
 
   &:hover {
     background-color: rgba(57, 151, 156, 0.2);
@@ -256,13 +275,8 @@ export function Contact({ isOpen, onClose, dark }) {
 
   return (
     <StyledWrapper>
-      <StyledImage>
-        <img
-          src="/favicon/Icon-logo-nobackground.png"
-          alt="Logo"
-          width={70}
-          height={70}
-        />
+      <StyledImage dark={dark}>
+        <img src="/logo-icon-white.svg" alt="Logo" width={40} height={40} />
       </StyledImage>
       <WrapperContent>
         <StyledBox>
@@ -308,7 +322,6 @@ export function Contact({ isOpen, onClose, dark }) {
           <StyledSquare dark={dark}> Contact </StyledSquare>
           <StyledSquare dark={dark} onClick={onClose}>
             <Image
-              // src={"/svg/icon-close.svg"}
               src={dark ? "/svg/icon-close.svg" : "/svg/icon-close-black.svg"}
               alt="close icon"
               width={24}
