@@ -5,17 +5,14 @@ import Pill from "../global/pill";
 import { breakpoints, colors, dimensions } from "../../styles/variables";
 import { IconButton } from "../global/iconButton";
 import chatIcon from "../../../public/svg/icon-chat.svg";
+import webspaceFrame from "../../../public/svg/webspace-frame.svg";
+import ChatIcon from "../../icons/chatIcon";
 import Link from "next/link";
 import Image from "next/image";
 import { getRemSize } from "../../styles/globalCss";
-import eoanPicture from "../../../public/eoan-picture.png"; // replace with actual path to Eoan's picture
-
-const StyledFooter = styled.footer`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 1rem;
-`;
+import eoanPicture from "../../../public/eoan-picture.png";
+import { useRef } from "react";
+import { motion, useMotionValue, useTransform, useAnimationFrame } from 'framer-motion';
 
 const StyledWrapper = styled(GridContainer)`
   margin: 140px 0;
@@ -34,11 +31,10 @@ const StyledSpan = styled.span`
   align-items: center;
 `;
 
-const StyledParagraphWrapper = styled.p`
+const StyledParagraphWrapper = styled.div`
   position: relative;
   overflow: hidden;
   padding: 0;
-  // margin: auto;
   box-sizing: border-box;
   @media all and (max-width: ${breakpoints.md}px) {
     padding: 0;
@@ -70,29 +66,92 @@ const StyledParagraphText = styled.span`
 `;
 
 const StyledImage = styled(Image)`
-  width: 30px;
-  height: 30px;
-  margin: 0 0.5em;
+  width: 44px;
+  height: 44px;
+  margin: 0 1rem;
 `;
+
+const StyledIconButton = styled.button`
+  /* width: 58px;
+  height: 70px;
+  padding: 20px 14px; */
+  width: 44px;
+  height: 44px;
+  margin: 0 1rem;
+  padding: 0;
+  border: 2px solid ${colors.blackLight};
+  transition: 0.3s ease;
+  border-radius: 0.75rem;
+
+  &:hover {
+    background-color: ${colors.accent};
+    border-color: ${colors.accent};
+  }
+`;
+
+const StyledFrameImage = styled(motion.div)`
+  white-space: nowrap;
+`;
+
+interface ParallaxProps {
+  children: React.ReactNode;
+  baseVelocity: number;
+}
+
+function wrap(min: number, max: number, value: number) {
+  const rangeSize = max - min;
+  return ((((value - min) % rangeSize) + rangeSize) % rangeSize) + min;
+}
+
+function ParallaxText({ children, baseVelocity = 100 }: ParallaxProps) {
+  const baseX = useMotionValue(0);
+  const directionFactor = useRef<number>(1);
+
+  useAnimationFrame((t, delta) => {
+    let moveBy = directionFactor.current * baseVelocity * (delta / 1000);
+    let newValue = baseX.get() + moveBy;
+
+    // Wrap the new value
+    newValue = wrap(-100, 0, newValue);
+
+    baseX.set(newValue);
+  });
+
+  const x = useTransform(baseX, (v) => `${v}%`);
+
+  return (
+    <StyledFrameImage style={{ x }}>
+      <span>{children} </span>
+      <span>{children} </span>
+      <span>{children} </span>
+      <span>{children} </span>
+    </StyledFrameImage>
+  );
+}
 
 export default function Footer() {
   return (
-    <StyledFooter>
+    <footer>
       <StyledWrapper>
         <StyledContent>
           <StyledParagraphWrapper>
             <StyledParagraphText>
               <Pill pillText={"Interested?"} />
-              Get in contact, have a <br />chat with Eoan
-              <StyledImage src={eoanPicture} alt="Eoan" style={{width: getRemSize(dimensions.textSizes.large.desktop), height: getRemSize(dimensions.textSizes.large.desktop)}} />
+              Get in contact, have a chat with Eoan
+              <StyledImage src={eoanPicture} alt="Eoan" />
               or chat
-              <StyledImage src={chatIcon} alt={"chatIcon"} /> <br />
+              <StyledIconButton>
+                <Image src={chatIcon} alt="Chat" />
+              </StyledIconButton>
               with us
             </StyledParagraphText>
           </StyledParagraphWrapper>
         </StyledContent>
       </StyledWrapper>
-    </StyledFooter>
+      <ParallaxText baseVelocity={-12}>
+        <Image src={webspaceFrame} alt="Frame" className="webspace-frame"/>
+      </ParallaxText>
+    </footer>
   );
 }
 
