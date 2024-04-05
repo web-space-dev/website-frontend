@@ -15,7 +15,7 @@ import { getRemSize } from "../styles/globalCss";
 const StyledNav = styled.nav`
   display: flex;
   position: fixed;
-  padding: 0 0.2rem;
+  padding: 0px 0px 0px 3px;
   border-radius: 0.75rem;
   background-color: rgba(57, 151, 156, 0.2);
   width: max-content;
@@ -46,7 +46,7 @@ const StyledDiv = styled.div`
   }
 
   & a:last-child {
-    margin: 0.3rem 0.2rem 0.3rem 0.4rem;
+    margin: 0.3rem 0.1rem 0.3rem 0.4rem;
   }
 
   & a:not(:first-child):not(:last-child) {
