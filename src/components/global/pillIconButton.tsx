@@ -31,7 +31,7 @@ const StyledIcon = styled(ArrowUpRight)`
 
 const StyledPillButton = styled(motion.div)`
   width: 47%;
-  max-width: 777px;
+  max-width: 300px;
   min-width: 237px;
   margin-left: auto;
   margin-right: auto;
