@@ -61,6 +61,7 @@ export type WebSpaceBreakPointKey = keyof typeof breakpoints;
 export type WebSpaceBreakPointVal = (typeof breakpoints)[WebSpaceBreakPointKey];
 
 export const widths = {
+  sm: 500,
   md: 720,
   lg: 960,
   xl: 1140,

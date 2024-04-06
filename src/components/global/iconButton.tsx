@@ -22,6 +22,10 @@ const StyledIconButton = styled.button`
       fill: ${colors.white};
     }
   }
+
+  &:hover .styled-icon {
+    transform: rotate(45deg);
+  }
 `;
 
 const StyledIcon = styled(ArrowUpRight)`
@@ -30,10 +34,6 @@ const StyledIcon = styled(ArrowUpRight)`
   margin-left: -2px; */
 
   transition: 0.3s ease;
-
-  &:hover {
-    transform: rotate(45deg);
-  }
 `;
 
 interface IconButtonProps {
@@ -43,7 +43,7 @@ interface IconButtonProps {
 export function IconButton() {
   return (
     <StyledIconButton>
-      <StyledIcon />
+      <StyledIcon className="styled-icon" />
     </StyledIconButton>
   );
 }
