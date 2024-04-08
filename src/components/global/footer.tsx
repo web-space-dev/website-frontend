@@ -19,7 +19,7 @@ const StyledWrapper = styled(GridContainer)`
 `;
 
 const StyledContent = styled.div`
-  grid-column: 3 / span 10;
+  grid-column: 3 / span 8;
   padding: 0;
   margin: 0;
 `;
