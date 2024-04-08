@@ -115,7 +115,7 @@ const StyledInput = styled.input`
   }
   @media all and (max-width: ${breakpoints.md}px) {
     width: 100%;
-    padding: 10px;
+    // padding: 20px;
   }
 `;
 
