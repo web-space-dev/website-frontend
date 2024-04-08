@@ -11,8 +11,23 @@ import Link from "next/link";
 import Image from "next/image";
 import { getRemSize } from "../../styles/globalCss";
 import eoanPicture from "../../../public/eoan-picture.png";
+import {
+  StyledParagraphWrapper,
+  StyledParagraphText,
+  StyledPillWrapper,
+  StyledTextSpacer
+} from "../../components/home/approach";
 import { useRef } from "react";
-import { motion, useMotionValue, useTransform, useAnimationFrame } from 'framer-motion';
+import {
+  motion,
+  useScroll,
+  useSpring,
+  useTransform,
+  useMotionValue,
+  useVelocity,
+  useAnimationFrame
+} from 'framer-motion';
+// import { wrap } from "@motionone/utils";
 
 const StyledWrapper = styled(GridContainer)`
   margin: 140px 0;
@@ -24,64 +39,22 @@ const StyledContent = styled.div`
   margin: 0;
 `;
 
-const StyledSpan = styled.span`
-  font-size: ${getRemSize(dimensions.headingSizes.large.desktop)};
-  margin: 0;
-  display: flex;
-  align-items: center;
-`;
-
-const StyledParagraphWrapper = styled.div`
-  position: relative;
-  overflow: hidden;
-  padding: 0;
-  box-sizing: border-box;
-  @media all and (max-width: ${breakpoints.md}px) {
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    box-sizing: border-box;
-  }
-  @media all and (max-width: ${breakpoints.sm}px) {
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    box-sizing: border-box;
-  }
-`;
-const StyledParagraphText = styled.span`
-  font-weight: 430;
-  line-height: 44px;
-  font-size: ${getRemSize(dimensions.textSizes.large.desktop)};
-  @media all and (max-width: ${breakpoints.md}px) {
-    font-size: ${getRemSize(dimensions.textSizes.large.mobile)};
-    margin-top: 1rem;
-  }
-  @media all and (max-width: ${breakpoints.sm}px) {
-    font-size: ${getRemSize(dimensions.textSizes.normal.desktop)};
-    line-height: 34px;
-  }
-`;
-
 const StyledImage = styled(Image)`
   width: 44px;
   height: 44px;
-  margin: 0 1rem;
+  margin: 0 1.25rem;
+  vertical-align: middle;
 `;
 
 const StyledIconButton = styled.button`
-  /* width: 58px;
-  height: 70px;
-  padding: 20px 14px; */
   width: 44px;
   height: 44px;
-  margin: 0 1rem;
+  margin: 0 1.25rem;
   padding: 0;
   border: 2px solid ${colors.blackLight};
   transition: 0.3s ease;
   border-radius: 0.75rem;
+  vertical-align: middle;
 
   &:hover {
     background-color: ${colors.accent};
@@ -89,12 +62,31 @@ const StyledIconButton = styled.button`
   }
 `;
 
-const StyledFrameImage = styled(motion.div)`
+const StyledBottomFrameContainer = styled.div`
+  overflow: hidden;
+  letter-spacing: -2px;
+  margin: 0;
   white-space: nowrap;
+  flex-wrap: nowrap;
+`;
+
+const StyledBottomFrame = styled(motion.div)`
+  font-weight: 682;
+  font-size: 344px;
+  white-space: nowrap;
+  line-height: 155px;
+  flex-wrap: nowrap;
+  letter-spacing: 0.06em;
+  text-align: center;
+`;
+
+const ScrollingText = styled.span`
+  display: inline-block;
+  margin-right: 40px;
 `;
 
 interface ParallaxProps {
-  children: React.ReactNode;
+  children: string;
   baseVelocity: number;
 }
 
@@ -105,27 +97,50 @@ function wrap(min: number, max: number, value: number) {
 
 function ParallaxText({ children, baseVelocity = 100 }: ParallaxProps) {
   const baseX = useMotionValue(0);
-  const directionFactor = useRef<number>(1);
-
-  useAnimationFrame((t, delta) => {
-    let moveBy = directionFactor.current * baseVelocity * (delta / 1000);
-    let newValue = baseX.get() + moveBy;
-
-    // Wrap the new value
-    newValue = wrap(-100, 0, newValue);
-
-    baseX.set(newValue);
+  const { scrollY } = useScroll();
+  const scrollVelocity = useVelocity(scrollY);
+  const smoothVelocity = useSpring(scrollVelocity, {
+    damping: 50,
+    stiffness: 400
+  });
+  const velocityFactor = useTransform(smoothVelocity, [-30, 60], [0, 5], {
+    clamp: false
   });
 
-  const x = useTransform(baseX, (v) => `${v}%`);
+  /**
+   * This is a magic wrapping for the length of the text - you
+   * have to replace for wrapping that works for you or dynamically
+   * calculate
+   */
+  const x = useTransform(baseX, (v) => `${wrap(-100, 10, v)}%`);
+
+  const directionFactor = useRef<number>(1);
+  useAnimationFrame((t, delta) => {
+    let moveBy = directionFactor.current * baseVelocity * (delta / 1000);
+
+    /**
+     * This is what changes the direction of the scroll once we
+     * switch scrolling directions.
+     */
+    if (velocityFactor.get() < 0) {
+      directionFactor.current = -1;
+    } else if (velocityFactor.get() > 0) {
+      directionFactor.current = 1;
+    }
+
+    moveBy += directionFactor.current * moveBy * velocityFactor.get();
+
+    baseX.set(baseX.get() + moveBy);
+  });
 
   return (
-    <StyledFrameImage style={{ x }}>
-      <span>{children} </span>
-      <span>{children} </span>
-      <span>{children} </span>
-      <span>{children} </span>
-    </StyledFrameImage>
+    <StyledBottomFrameContainer>
+      <StyledBottomFrame style={{ x }}>
+        {Array(4).fill(null).map((_, i) => (
+          <ScrollingText key={i}>{children}</ScrollingText>
+        ))}
+      </StyledBottomFrame>
+    </StyledBottomFrameContainer>
   );
 }
 
@@ -135,8 +150,11 @@ export default function Footer() {
       <StyledWrapper>
         <StyledContent>
           <StyledParagraphWrapper>
-            <StyledParagraphText>
+            <StyledTextSpacer>{"Interested?"}</StyledTextSpacer>
+            <StyledPillWrapper>
               <Pill pillText={"Interested?"} />
+            </StyledPillWrapper>
+            <StyledParagraphText>
               Get in contact, have a chat with Eoan
               <StyledImage src={eoanPicture} alt="Eoan" />
               or chat
@@ -148,9 +166,7 @@ export default function Footer() {
           </StyledParagraphWrapper>
         </StyledContent>
       </StyledWrapper>
-      <ParallaxText baseVelocity={-12}>
-        <Image src={webspaceFrame} alt="Frame" className="webspace-frame"/>
-      </ParallaxText>
+      <ParallaxText baseVelocity={-12}>WEBSPACE</ParallaxText>
     </footer>
   );
 }

@@ -131,7 +131,7 @@ const StyledCard = styled.div<StyledCardProps>`
   }
 `;
 
-const StyledParagraphWrapper = styled.p`
+export const StyledParagraphWrapper = styled.p`
   position: relative;
   overflow: hidden;
   padding: 0;
@@ -152,7 +152,7 @@ const StyledParagraphWrapper = styled.p`
     box-sizing: border-box;
   }
 `;
-const StyledParagraphText = styled.span`
+export const StyledParagraphText = styled.span`
   font-weight: 400;
   line-height: 44px;
   font-size: ${getRemSize(dimensions.textSizes.large.desktop)};
@@ -184,7 +184,7 @@ const StyledCardPill = styled(motion.div)`
   box-sizing: border-box;
 `;
 
-const StyledPillWrapper = styled.span`
+export const StyledPillWrapper = styled.span`
   @media all and (min-width: ${breakpoints.md}px) {
     position: absolute;
     top: 0px;
@@ -193,7 +193,7 @@ const StyledPillWrapper = styled.span`
   }
 `;
 
-const StyledTextSpacer = styled.span`
+export const StyledTextSpacer = styled.span`
   padding: 0 53px;
   visibility: hidden;
   @media all and (max-width: ${breakpoints.md}px) {
