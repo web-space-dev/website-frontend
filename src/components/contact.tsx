@@ -1,10 +1,11 @@
 "use client";
 import styled from "@emotion/styled";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { breakpoints, dimensions, colors } from "../styles/variables";
 import { getRemSize } from "../styles/globalCss";
 import ArrowUpRight from "../icons/arrowUpRight";
 import Image from "next/image";
+import { useAnimate, stagger, motion } from "framer-motion";
 
 const StyledWrapper = styled.div`
   position: fixed;
@@ -36,12 +37,12 @@ const WrapperContent = styled.div`
   transform: scale(0.87);
 
   @media (max-width: 600px) {
-    transform: scale(0.9);
+    transform: scale(0.95);
     margin-top: 28px;
   }
 
   @media (max-width: 500px) {
-    transform: scale(0.93);
+    transform: scale(0.96);
     margin-top: 28px;
   }
 
@@ -76,6 +77,12 @@ const StyledBox = styled.div`
   @media all and (max-width: ${breakpoints.sm}px) {
     max-width: 100%;
     padding: 25px;
+  }
+  @media (max-width: 375px) {
+    margin-top: 8px;
+    overflow: auto;
+    max-height: 80vh;
+    margin-top: 30px;
   }
 `;
 
@@ -115,7 +122,6 @@ const StyledInput = styled.input`
   }
   @media all and (max-width: ${breakpoints.md}px) {
     width: 100%;
-    // padding: 20px;
   }
 `;
 
@@ -136,6 +142,13 @@ const Label = styled.label`
   }
 `;
 
+const StyledIcon = styled(ArrowUpRight)`
+  height: 30px;
+  margin-left: 28px; */
+
+  transition: 0.3s ease;
+
+`;
 const StyledButton = styled.button`
   display: flex;
   align-items: center;
@@ -164,24 +177,19 @@ const StyledButton = styled.button`
     path {
       fill: ${colors.white};
     }
+
+    .styled-icon {
+      transform: rotate(45deg);
+    }
   }
+
   &.my-button {
     font-family: "Darker Grotesque", sans-serif !important;
   }
+
   @media all and (max-width: ${breakpoints.md}px) {
     width: 100%;
     padding: 10px;
-  }
-`;
-
-const StyledIcon = styled(ArrowUpRight)`
-  height: 30px;
-  margin-left: 28px; */
-
-  transition: 0.3s ease;
-
-  &:hover {
-    transform: rotate(45deg);
   }
 `;
 
@@ -200,18 +208,18 @@ const StyledContactWrapper = styled.div`
 
   @media all and (max-width: ${breakpoints.md}px) {
     width: 100%;
-    margin-top: 18px;
+    margin-top: 15px;
   }
   @media (max-width: 600px) {
-    margin-top: 18px;
-  }
-
-  @media (max-width: 500px) {
     margin-top: 15px;
   }
 
+  @media (max-width: 500px) {
+    margin-top: 8px;
+  }
+
   @media (max-width: 375px) {
-    margin-top: 10px;
+    margin-top: 8px;
   }
 `;
 
@@ -272,6 +280,34 @@ export function Contact({ isOpen, onClose, dark }) {
   if (!isOpen) {
     return null;
   }
+  const [open, setOpen] = useState(false);
+  const [scope, animate] = useAnimate();
+  // const items = ["Item 1", "Item 2", "Item 3", "Item 4"];
+  const items = [
+    <InputField type="text" id="name" name="name" placeholder="Name" />,
+    <InputField type="email" id="email" name="email" placeholder="Email" />,
+    <InputField type="tel" id="number" name="number" placeholder="Number" />,
+    <InputField
+      type="text"
+      id="message"
+      name="message"
+      placeholder="Message"
+    />,
+    <StyledButton type="submit" className="my-button">
+      Submit
+      <StyledIcon className="styled-icon" />
+    </StyledButton>,
+  ];
+
+  <motion.ul layout>
+    <StyledBox />
+    <StyledContactWrapper />
+    {items.map((item, index) => (
+      <motion.li key={index} layout>
+        {item}
+      </motion.li>
+    ))}
+  </motion.ul>;
 
   return (
     <StyledWrapper>
@@ -312,7 +348,7 @@ export function Contact({ isOpen, onClose, dark }) {
               />
               <StyledButton type="submit" className="my-button">
                 Submit
-                <StyledIcon />
+                <StyledIcon className="styled-icon" />
               </StyledButton>
             </StyledForm>
           </StyledBoxContentWrapper>
