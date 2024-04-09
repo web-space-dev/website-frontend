@@ -34,7 +34,13 @@ const WrapperContent = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  transform: scale(0.87);
+  transform: scale(0.93);
+  // margin-top: 232px;
+  margin-top: 35px;
+
+  @media all and (max-width: ${breakpoints.md}px) {
+    margin-top: 28px;
+  }
 
   @media (max-width: 600px) {
     transform: scale(0.95);
