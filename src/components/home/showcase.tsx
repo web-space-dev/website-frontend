@@ -8,6 +8,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, useTransform, useScroll, useSpring } from "framer-motion";
 import { ShowcaseItem } from "./showcase/showcase-item";
 import { set } from "date-fns";
+import { ShowcaseScale } from "./showcase/showcase-scale";
 
 const StyledSpacer = styled.div`
   height: 100vh;
@@ -17,7 +18,8 @@ interface IStyledWrapper {
   isOpen: boolean;
 }
 const StyledWrapper = styled(GridContainer)<IStyledWrapper>`
-  margin: 40px auto;
+  /* margin: 40px auto; */
+  /* position: "fixed"; */
   position: ${({ isOpen }) => (isOpen ? "fixed" : "sticky")};
   /* height: ${({ isOpen }) => (isOpen ? "3000px" : "100vh")}; */
   min-height: 100vh;
@@ -86,7 +88,7 @@ export default function Showcase({ title, projects }: IShowcase) {
             setBeginScalePos(scrollY.get());
           }
         } else {
-          setCanScale(false);
+          // setCanScale(false);
         }
 
         if (breakpoint !== 0 && scrollY.get() < breakpoint) {
@@ -116,13 +118,30 @@ export default function Showcase({ title, projects }: IShowcase) {
           {title}
         </StyledTitle>
         <StyledMotionWrapper>
-          {!isOpen ? (
-            <ShowcaseItem project={projects.nodes[0]} scale={scale} />
-          ) : (
-            projects.nodes.map((project: Project, index: number) => {
-              return <ShowcaseItem key={index} project={project} />;
-            })
-          )}
+          <ShowcaseItem
+            project={projects.nodes[0]}
+            scale={scale}
+            isOpen={isOpen}
+          />
+
+          {projects.nodes.map((project: Project, index: number) => {
+            if (index === 0) return;
+            return (
+              <ShowcaseItem
+                key={index}
+                project={project}
+                isOpen={isOpen}
+                showAllProjects={false}
+              />
+            );
+          })}
+
+          {/* <ShowcaseItem key={index} project={project}  />; */}
+          {/* ) : ( */}
+          {/* projects.nodes.map((project: Project, index: number) => { */}
+          {/* return <ShowcaseItem key={index} project={project} />; */}
+          {/* }) */}
+          {/* )} */}
         </StyledMotionWrapper>
       </StyledWrapper>
       <StyledSpacer />
