@@ -12,6 +12,8 @@ import { ISiteData } from "../../interfaces/site";
 import { IProjectData } from "../../interfaces/project";
 import { Hero } from "../../components/project/hero";
 import ProjectBody from "../../components/project/content";
+import { GridContainer } from "../../components/global/grid/gridContainer";
+import styled from "@emotion/styled";
 
 interface IProject extends IProjectData {
   siteData: ISiteData;
@@ -36,24 +38,26 @@ export default function Project({
         <h2>Loading</h2>
       ) : (
         <>
-          <Hero project={project} />
-          {/* <Content */}
-          <ProjectBody content={project.projectFields.content} />
+          <GridContainer>
+            <Hero project={project} />
+            {/* <Content */}
+            {/* <ProjectBody content={project.projectFields.content} /> */}
 
-          {/* Other Projects */}
-          <h2>Other projects</h2>
-          {projects.nodes.map((project, index) => (
-            <div key={index}>
-              <Image
-                width={500}
-                height={200}
-                alt={`Cover Image for ${project.title}`}
-                loader={() => project.featuredImage?.node.sourceUrl}
-                src={project?.featuredImage?.node.sourceUrl}
-              />
-              <h3>{project.title}</h3>
-            </div>
-          ))}
+            {/* Other Projects */}
+            {/* <h2>Other projects</h2> */}
+            {/* {projects.nodes.map((project, index) => ( */}
+            {/* <div key={index}> */}
+            {/* <Image */}
+            {/* width={500} */}
+            {/* height={200} */}
+            {/* alt={`Cover Image for ${project.title}`} */}
+            {/* loader={() => project.featuredImage?.node.sourceUrl} */}
+            {/* src={project?.featuredImage?.node.sourceUrl} */}
+            {/* /> */}
+            {/* <h3>{project.title}</h3> */}
+            {/* </div> */}
+            {/* ))} */}
+          </GridContainer>
         </>
       )}
     </Layout>
