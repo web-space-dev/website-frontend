@@ -2,7 +2,7 @@ import { Content } from "../../interfaces/project";
 import { ContentParagraph } from "./sections/content-paragraph";
 import Gallery1 from "./sections/gallery-1";
 import Gallery2 from "./sections/gallery-2";
-import LargeTextArea from "./sections/large-text-area";
+import LargeTextArea from "./sections/largeTextArea";
 import DynamicTextAndImages from "./sections/the-challenge";
 
 interface IProps {
