@@ -31,44 +31,19 @@ const StyledSkillsWrapper = styled.div`
 `;
 
 const SkillsMobile = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 13px;
   img {
     height: auto;
-    margin: 13px;
-  }
-
-  @media all and (max-width: ${breakpoints.md}px) {
-    img {
-      width: 180px;
-    }
-  }
-
-  @media (max-width: 700px) {
-    img {
-      width: 136px;
-    }
-  }
-
-  @media (max-width: 555px) {
-    img {
-      width: 105px;
-    }
-  }
-
-  @media (max-width: 440px) {
-    img {
-      width: 77px;
-    }
+    width: 100%;
   }
 `;
 
 const StyledText = styled.p`
   font-size: ${getRemSize(dimensions.headingSizes.cta.mobile)};
   text-align: center;
+  margin-top: 37px;
 `;
 
 interface ISkills {
@@ -90,13 +65,11 @@ export default function Skills({ title, categories, skills }: ISkills) {
             <SkillsMobile>
               {skills.nodes.map((skill, index) => {
                 return (
-                  // <Skill>
                   <img
                     key={index}
                     src={skill.featuredImage.node.sourceUrl}
                     alt={skill.title + "Logo"}
                   />
-                  // </Skill>
                 );
               })}
             </SkillsMobile>
