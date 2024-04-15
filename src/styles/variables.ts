@@ -117,6 +117,7 @@ export const dimensions = {
   lineHeight: {
     regular: 1.45,
     heading: 1.2,
+    text: 1.91,
   },
   gridContainerPadding: 20,
   gridContainerMobileTabletPadding: 25,

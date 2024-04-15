@@ -23,7 +23,9 @@ const StyledImage = styled.div<{ dark: boolean }>`
   left: 8px;
   z-index: 1001;
   color: ${(props) =>
-    props.dark ? "white" : "black"}; // Changes the color based on the dark prop
+    props.dark
+      ? colors.white
+      : colors.black}; // Changes the color based on the dark prop
   img {
     fill: currentColor; // Makes the SVG inherit the color property
   }
@@ -34,7 +36,13 @@ const WrapperContent = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  transform: scale(0.87);
+  transform: scale(0.93);
+  // margin-top: 232px;
+  margin-top: 35px;
+
+  @media all and (max-width: ${breakpoints.md}px) {
+    margin-top: 28px;
+  }
 
   @media (max-width: 600px) {
     transform: scale(0.95);
@@ -58,7 +66,7 @@ const StyledBoxContentWrapper = styled.div`
 `;
 
 const StyledBox = styled.div`
-  background: ${colors.white};
+  background: rgba(255, 255, 255, 1);
   margin-top: 24px;
   padding: 40px;
   border-radius: 20px;
@@ -88,7 +96,7 @@ const StyledBox = styled.div`
 
 const StyledHeading = styled.p`
   font-size: 36px;
-  font-weight: 430;
+  font-weight: 400;
   line-height: 42px;
   color: ${colors.black};
   letter-spacing: 1px;
@@ -114,7 +122,7 @@ const StyledInput = styled.input`
   width: 515px;
   border-radius: 12px;
   padding: 20px;
-  background-color: rgba(255, 255, 255, 1);
+  background-color: ${colors.white};
   color: ${colors.black};
 
   &:focus {
@@ -153,7 +161,7 @@ const StyledButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: white;
+  background-color: ${colors.white};
   padding: 20px;
   margin-top: 16px;
   border-radius: 26px;
@@ -162,11 +170,10 @@ const StyledButton = styled.button`
   margin-right: auto;
   height: 79px;
   color: rgba(29, 29, 29, 1);
-  font-weight: 100;
+  font-weight: 500;
   letter-spacing: 2px;
   border: 2px solid ${colors.blackLight};
-  font-size: ${getRemSize(dimensions.headingSizes.small.mobile)};
-  font-family: "Darker Grotesque", sans-serif !important;
+  font-size: 24px;
   transition: 0.3s ease;
 
   &:hover {
@@ -181,10 +188,6 @@ const StyledButton = styled.button`
     .styled-icon {
       transform: rotate(45deg);
     }
-  }
-
-  &.my-button {
-    font-family: "Darker Grotesque", sans-serif !important;
   }
 
   @media all and (max-width: ${breakpoints.md}px) {
@@ -280,34 +283,34 @@ export function Contact({ isOpen, onClose, dark }) {
   if (!isOpen) {
     return null;
   }
-  const [open, setOpen] = useState(false);
-  const [scope, animate] = useAnimate();
+  // const [open, setOpen] = useState(false);
+  // const [scope, animate] = useAnimate();
   // const items = ["Item 1", "Item 2", "Item 3", "Item 4"];
-  const items = [
-    <InputField type="text" id="name" name="name" placeholder="Name" />,
-    <InputField type="email" id="email" name="email" placeholder="Email" />,
-    <InputField type="tel" id="number" name="number" placeholder="Number" />,
-    <InputField
-      type="text"
-      id="message"
-      name="message"
-      placeholder="Message"
-    />,
-    <StyledButton type="submit" className="my-button">
-      Submit
-      <StyledIcon className="styled-icon" />
-    </StyledButton>,
-  ];
+  // const items = [
+  //   <InputField type="text" id="name" name="name" placeholder="Name" />,
+  //   <InputField type="email" id="email" name="email" placeholder="Email" />,
+  //   <InputField type="tel" id="number" name="number" placeholder="Number" />,
+  //   <InputField
+  //     type="text"
+  //     id="message"
+  //     name="message"
+  //     placeholder="Message"
+  //   />,
+  //   <StyledButton type="submit" className="my-button">
+  //     Submit
+  //     <StyledIcon className="styled-icon" />
+  //   </StyledButton>,
+  // ];
 
-  <motion.ul layout>
-    <StyledBox />
-    <StyledContactWrapper />
-    {items.map((item, index) => (
-      <motion.li key={index} layout>
-        {item}
-      </motion.li>
-    ))}
-  </motion.ul>;
+  // <motion.ul layout>
+  //   <StyledBox />
+  //   <StyledContactWrapper />
+  //   {items.map((item, index) => (
+  //     <motion.li key={index} layout>
+  //       {item}
+  //     </motion.li>
+  //   ))}
+  // </motion.ul>;
 
   return (
     <StyledWrapper>
@@ -346,7 +349,7 @@ export function Contact({ isOpen, onClose, dark }) {
                 name="message"
                 placeholder="Message"
               />
-              <StyledButton type="submit" className="my-button">
+              <StyledButton>
                 Submit
                 <StyledIcon className="styled-icon" />
               </StyledButton>
