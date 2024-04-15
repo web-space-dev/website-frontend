@@ -9,6 +9,7 @@ import styled from "@emotion/styled";
 import { IconButton } from "../../components/global/iconButton";
 import React, { useEffect, useState } from "react";
 import ArrowDown from "../../icons/arrowDown";
+import Navbar from "../../components/navbar";
 
 interface IIndex {
   siteData: ISiteData;
@@ -156,6 +157,7 @@ export default function Index({ siteData, pageData, preview }: IIndex) {
 
   return (
     <Layout preview={preview} pageTitle={"Projects"} siteData={siteData}>
+      <Navbar dark={true} />
       <StyledHeader isDesktop={isDesktop}>
         <H1>
           Take a look at our Projects <StyledArrow />

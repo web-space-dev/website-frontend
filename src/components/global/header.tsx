@@ -5,7 +5,7 @@ export default function Header() {
   return (
     <>
       <h2>Header will go here</h2>
-      <Navbar />
+      <Navbar dark={undefined} />
     </>
   );
 }

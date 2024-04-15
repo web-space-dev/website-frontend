@@ -129,6 +129,18 @@ export async function getHomeData(preview: boolean): Promise<IHomePage> {
           }
         }
       }
+      skills(first: 6) {
+        nodes {
+          title
+          featuredImage {
+            node {
+              altText
+              sourceUrl
+              placeholderDataURI
+            }
+          }
+        }
+      }
     }
   `,
     {
@@ -297,7 +309,7 @@ export async function getProjectAndMoreProjects(slug): Promise<IProjectData> {
           }
         }
       }
-    
+
   `,
     {
       variables: {
