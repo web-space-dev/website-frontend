@@ -33,7 +33,6 @@ export default function Project({
 
   return (
     <Layout preview={preview} pageTitle={project.title} siteData={siteData}>
-      <Header />
       {router.isFallback ? (
         <h2>Loading</h2>
       ) : (
