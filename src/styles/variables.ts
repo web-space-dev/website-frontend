@@ -120,7 +120,7 @@ export const dimensions = {
     text: 1.91,
   },
   gridContainerPadding: 20,
-  gridContainerMobileTabletPadding: 25,
+  gridContainerMobileTabletPadding: 16,
 };
 
 export const heights = {

@@ -12,6 +12,8 @@ import { useEffect, useState } from "react";
 import { Link, animateScroll as scroll, Events, scrollSpy } from "react-scroll";
 import { motion, useViewportScroll, useTransform } from "framer-motion";
 import { ShowcaseItem } from "./showcase/showcase-item";
+import { Row } from "../global/grid/Row";
+import { Col } from "../global/grid/Col";
 
 const StyledSpacer = styled.div`
   /* height: 100vh; */
@@ -37,6 +39,7 @@ const StyledTitle = styled.h2<{ color: string }>`
   color: ${({ color }) => color};
   @media all and (max-width: ${breakpoints.md}px) {
     font-size: ${getRemSize(dimensions.headingSizes.display2.mobile)};
+    line-height: 1;
   }
 `;
 
@@ -66,24 +69,28 @@ export default function Showcase({ title, projects }: IShowcase) {
   return (
     <>
       <StyledWrapper>
-        <StyledTitle color={isOpen ? colors.accent : colors.white}>
-          {title}
-        </StyledTitle>
-        <StyledMotionWrapper>
-          {projects.nodes.map((project: Project, index: number) => {
-            if (Math.floor(displayIndex.get()) !== index) return null;
-            return (
-              <ShowcaseItem
-                style={{
-                  scale: scaleX,
-                  // scaleY: scaleY,
-                }}
-                key={index}
-                project={project}
-              />
-            );
-          })}
-        </StyledMotionWrapper>
+        <Row>
+          <Col span={12}>
+            <StyledTitle color={isOpen ? colors.accent : colors.white}>
+              {title}
+            </StyledTitle>
+            <StyledMotionWrapper>
+              {projects.nodes.map((project: Project, index: number) => {
+                if (Math.floor(displayIndex.get()) !== index) return null;
+                return (
+                  <ShowcaseItem
+                    style={{
+                      scale: scaleX,
+                      // scaleY: scaleY,
+                    }}
+                    key={index}
+                    project={project}
+                  />
+                );
+              })}
+            </StyledMotionWrapper>
+          </Col>
+        </Row>
       </StyledWrapper>
       <StyledSpacer />
     </>

@@ -6,9 +6,9 @@ interface Props {
 }
 
 export const GridContainer = styled.section<Props>`
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: 20px; // adjust gap as needed
+  // display: grid;
+  // grid-template-columns: repeat(12, 1fr);
+  // gap: 20px;
   margin-left: auto;
   margin-right: auto;
   max-width: ${breakpoints.lg}px;

@@ -7,6 +7,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { getRemSize } from "../../styles/globalCss";
 import SkillsDesktop from "./skills/skillsDesktop";
 import useIsDesktop from "../../hooks/useIsDesktop";
+import { Row } from "../global/grid/Row";
+import { Col } from "../global/grid/Col";
 
 const StyledWrapper = styled(GridContainer)`
   margin: 140px auto;
@@ -56,27 +58,35 @@ export default function Skills({ title, categories, skills }: ISkills) {
   const isDesktop = useIsDesktop();
   return (
     <StyledWrapper>
-      <StyledHeading>{title}</StyledHeading>
-      <StyledSkillsWrapper>
-        {isDesktop ? (
-          <SkillsDesktop categories={categories} />
-        ) : (
-          <>
-            <SkillsMobile>
-              {skills.nodes.map((skill, index) => {
-                return (
-                  <img
-                    key={index}
-                    src={skill.featuredImage.node.sourceUrl}
-                    alt={skill.title + "Logo"}
-                  />
-                );
-              })}
-            </SkillsMobile>
-            <StyledText>10+ frame works & systems</StyledText>
-          </>
-        )}
-      </StyledSkillsWrapper>
+      <Row>
+        <Col start={3} span={8}>
+          <StyledHeading>{title}</StyledHeading>
+        </Col>
+      </Row>
+      <Row>
+        <Col start={3} span={8}>
+          <StyledSkillsWrapper>
+            {isDesktop ? (
+              <SkillsDesktop categories={categories} />
+            ) : (
+              <>
+                <SkillsMobile>
+                  {skills.nodes.map((skill, index) => {
+                    return (
+                      <img
+                        key={index}
+                        src={skill.featuredImage.node.sourceUrl}
+                        alt={skill.title + "Logo"}
+                      />
+                    );
+                  })}
+                </SkillsMobile>
+                <StyledText>10+ frame works & systems</StyledText>
+              </>
+            )}
+          </StyledSkillsWrapper>
+        </Col>
+      </Row>
     </StyledWrapper>
   );
 }

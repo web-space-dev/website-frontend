@@ -1,8 +1,9 @@
 import styled from "@emotion/styled";
-import { colors, breakpoints, dimensions } from "../../styles/variables";
+import { colors, breakpoints } from "../../styles/variables";
 import { GridContainer } from "../global/grid/gridContainer";
 import Image from "next/image";
-import useIsDesktop from "../../hooks/useIsDesktop";
+import { Row } from "../global/grid/Row";
+import { Col } from "../global/grid/Col";
 
 const StyledWrapper = styled(GridContainer)`
   height: 100vh;
@@ -15,8 +16,12 @@ const Background = styled.span`
   height: 100vh;
 `;
 
+const StyledRow = styled(Row)`
+  height: 100vh;
+  align-items: center;
+`;
+
 const StyledHeading = styled.h1`
-  grid-column: 2 / span 10;
   color: ${colors.black};
   font-weight: 600;
 
@@ -31,22 +36,24 @@ const StyledImage = styled(Image)`
 `;
 
 export default function Hero({ title }) {
-  const isDesktop = useIsDesktop();
+  // const isDesktop = useIsDesktop();
 
   return (
     <Background>
       <StyledWrapper>
-        <StyledHeading>
-          {isDesktop && (
-            <StyledImage
-              src={"/logo-icon.png"}
-              alt="WebSpace Icon"
-              width="33"
-              height="40"
-            />
-          )}
-          {title}
-        </StyledHeading>
+        <StyledRow>
+          <Col start={2} span={10}>
+            <StyledHeading>
+              <StyledImage
+                src={"/logo-icon.png"}
+                alt="WebSpace Icon"
+                width="33"
+                height="40"
+              />
+              {title}
+            </StyledHeading>
+          </Col>
+        </StyledRow>
       </StyledWrapper>
     </Background>
   );

@@ -127,8 +127,8 @@ export default function Navbar({ dark }) {
                 href={`/${link.path}`}
                 dark={dark}
                 onClick={(event) => {
-                  event.preventDefault();
                   if (link.onClick) {
+                    event.preventDefault();
                     link.onClick();
                   }
                 }}
