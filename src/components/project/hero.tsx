@@ -1,12 +1,10 @@
-import Image from "next/image";
-import { IProjectData, Project } from "../../interfaces/project";
+import { Project } from "../../interfaces/project";
 import { colors, dimensions, breakpoints } from "../../styles/variables";
-import styled from "@emotion/styled";
+// import styled from "@emotion/styled";
 import { getRemSize } from "../../styles/globalCss";
 import { Row } from "../global/grid/Row";
 import { Col } from "../global/grid/Col";
 import ArrowUpRight from "../../icons/arrowUpRight";
-import useIsDesktop from "../../hooks/useIsDesktop";
 
 interface IStyledDivImage {
   imageSrc: string;
@@ -21,9 +19,6 @@ const StyledLogoImage = styled.div<{ dark: boolean }>`
   img {
     fill: currentColor;
   }
-  // @media (max-width: ${breakpoints.md}px) {
-  //   display: none;
-  // }
 `;
 
 const StyledDivImage = styled.div<IStyledDivImage>`
@@ -80,7 +75,7 @@ const StyledHeading2 = styled.h2`
     font-size: ${getRemSize(dimensions.headingSizes.cta.desktop)};
     letter-spacing: 2px;
     line-height: 0;
-    margin: 0;
+    margin: -20 px 0 0 0;
   }
 `;
 
@@ -267,19 +262,15 @@ export function Hero({ project }: Props) {
       </StyledLogoImage>
       <StyledDivImage imageSrc={project.featuredImage?.node.sourceUrl} />
       <StyledTitleRow>
-        <Col start={3} span={7}>
+        <Col start={2} span={7}>
           <StyledHeading1>{project.title}</StyledHeading1>
         </Col>
         <Col span={3}>
           <StyledHeading2>
-            {project.projectCategories.nodes.map((item, index) => (
-              <span key={index}>{item.name}</span>
-            ))}
+            <span>{project.projectCategories.nodes[0].name}</span>
           </StyledHeading2>
         </Col>
       </StyledTitleRow>
-      {/* </Row> */}
-      {/* <Row> */}
       <Col span={12}>
         <StyledProjectFieldsDiv>
           <StyledProjectField>
@@ -308,7 +299,6 @@ export function Hero({ project }: Props) {
           </StyledProjectField>
         </StyledProjectFieldsDiv>
       </Col>
-      {/* </Row> */}
       <Col span={12}>
         <StyledTagsWrapper>
           {project.tags.nodes.map((tag, index) => (
