@@ -1,6 +1,6 @@
 import { Project } from "../../interfaces/project";
 import { colors, dimensions, breakpoints } from "../../styles/variables";
-// import styled from "@emotion/styled";
+import styled from "@emotion/styled";
 import { getRemSize } from "../../styles/globalCss";
 import { Row } from "../global/grid/Row";
 import { Col } from "../global/grid/Col";

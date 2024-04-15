@@ -13,7 +13,6 @@ import { IProjectData } from "../../interfaces/project";
 import { Hero } from "../../components/project/hero";
 import ProjectBody from "../../components/project/content";
 import { GridContainer } from "../../components/global/grid/gridContainer";
-import styled from "@emotion/styled";
 
 interface IProject extends IProjectData {
   siteData: ISiteData;
