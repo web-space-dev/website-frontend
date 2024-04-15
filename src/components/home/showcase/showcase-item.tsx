@@ -40,7 +40,7 @@ const StyledAllProjects = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: ${getRemSize(dimensions.headingSizes.h2)};
+  /* @TODO add font size */
 `;
 
 const StyledShowcaseImage = styled.div`
@@ -70,12 +70,12 @@ const StyledShowcaseContent = styled(Link)`
 `;
 
 const StyledShowcaseTitle = styled.h3`
-  font-size: ${getRemSize(dimensions.headingSizes.h2)};
+  /* @TODO add font size */
   font-weight: 400;
 `;
 
 const StyledShowcaseCategory = styled.p`
-  font-size: ${getRemSize(dimensions.headingSizes.h4)};
+  /* @TODO add font size */
   font-weight: 400;
 `;
 

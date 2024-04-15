@@ -1,7 +1,6 @@
 import { useRouter } from "next/router";
 import ErrorPage from "next/error";
 import { GetStaticPaths, GetStaticProps } from "next";
-import Header from "../../components/global/header";
 import Layout from "../../components/layout";
 import {
   getAllProjectsWithSlug,
