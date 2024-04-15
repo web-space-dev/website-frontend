@@ -7,6 +7,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { getRemSize } from "../../styles/globalCss";
 import SkillsDesktop from "./skills/skillsDesktop";
 import useIsDesktop from "../../hooks/useIsDesktop";
+import { Row } from "../global/grid/Row";
+import { Col } from "../global/grid/Col";
 
 const StyledWrapper = styled(GridContainer)`
   margin: 140px auto;
@@ -39,14 +41,22 @@ export default function Skills({ title, categories }: ISkills) {
   const isDesktop = useIsDesktop();
   return (
     <StyledWrapper>
-      <StyledHeading>{title}</StyledHeading>
-      <StyledSkillsWrapper>
-        {isDesktop ? (
-          <SkillsDesktop categories={categories} />
-        ) : (
-          <p>Mobile view</p>
-        )}
-      </StyledSkillsWrapper>
+      <Row>
+        <Col start={3} span={8}>
+          <StyledHeading>{title}</StyledHeading>
+        </Col>
+      </Row>
+      <Row>
+        <Col start={3} span={8}>
+          <StyledSkillsWrapper>
+            {isDesktop ? (
+              <SkillsDesktop categories={categories} />
+            ) : (
+              <p>Mobile view</p>
+            )}
+          </StyledSkillsWrapper>
+        </Col>
+      </Row>
     </StyledWrapper>
   );
 }
