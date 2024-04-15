@@ -54,10 +54,6 @@ const StyledDiv = styled.div`
   }
 `;
 
-// div
-//  --> link <-----
-//  --> span (box-shadow)
-
 const StyledLink = styled.a<NavbarProps>`
   padding: 0px 16px 2px 16px;
   margin: 16px;

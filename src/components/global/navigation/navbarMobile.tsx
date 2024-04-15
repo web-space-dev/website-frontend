@@ -6,13 +6,15 @@ import { colors, dimensions } from "../../../styles/variables";
 import { getRemSize } from "../../../styles/globalCss";
 import { Contact } from "../../../components/contact";
 
-const StyledImage = styled.div<{ dark: boolean }>`
+const StyledImageWrapper = styled.div<{ dark: boolean }>`
   position: fixed;
   top: 14px;
   left: 8px;
   z-index: 999;
   color: ${(props) =>
-    props.dark ? "white" : "black"}; // Changes the color based on the dark prop
+    props.dark
+      ? colors.white
+      : colors.black}; // Changes the color based on the dark prop
 
   img {
     fill: currentColor; // Makes the SVG inherit the color property
@@ -57,7 +59,6 @@ const StyledBtnMobile = styled.button<{ isOpen: boolean }>`
     props.isOpen &&
     `
   background-color: ${colors.blackLight};
-
   &:hover {
     background-color: ${colors.blackLight};
   }
@@ -189,9 +190,9 @@ export function NavbarMobile({ dark, links }: NavbarMobileProps) {
 
   return (
     <>
-      <StyledImage dark={dark}>
+      <StyledImageWrapper dark={dark}>
         <img src="/logo-icon-black.svg" alt="Logo" width={40} height={40} />
-      </StyledImage>
+      </StyledImageWrapper>
       <StyledNavMobile isMenuOpen={isMenuOpen} dark={dark}>
         <StyledBtnMobile
           onClick={() => setIsMenuOpen(!isMenuOpen)}

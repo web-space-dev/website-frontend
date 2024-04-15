@@ -184,7 +184,7 @@ export const theme = css`
     font-weight: 682;
     padding: 19px 24px 19px 40px;
     border: 0;
-    font-family: "Darker Grotesque", sans-serif;
+    font-family: inherit;
   }
   button:hover {
     text-decoration: none;
