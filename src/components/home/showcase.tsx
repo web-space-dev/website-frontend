@@ -35,7 +35,7 @@ const StyledWrapper = styled(GridContainer)<IStyledWrapper>`
   `}
 `;
 
-const StyledMotionWrapper = styled(motion.div)`
+const StyledMotionWrapper = styled(motion.div)<IStyledWrapper>`
   position: absolute;
   display: flex;
   flex-direction: column;
@@ -43,6 +43,13 @@ const StyledMotionWrapper = styled(motion.div)`
   top: 0;
   left: 0;
   width: 100%;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  ${({ isOpen }) =>
+    isOpen &&
+    `
+    height: 100vh;
+    `}
 `;
 
 const StyledTitle = styled.h2<{ color: string }>`
@@ -117,21 +124,15 @@ export default function Showcase({ title, projects }: IShowcase) {
         <StyledTitle color={isOpen ? colors.accent : colors.white}>
           {title}
         </StyledTitle>
-        <StyledMotionWrapper>
-          <ShowcaseItem
-            project={projects.nodes[0]}
-            scale={scale}
-            isOpen={isOpen}
-          />
-
+        <StyledMotionWrapper isOpen={isOpen}>
           {projects.nodes.map((project: Project, index: number) => {
-            if (index === 0) return;
             return (
               <ShowcaseItem
                 key={index}
                 project={project}
+                scale={index === 0 ? scale : undefined}
                 isOpen={isOpen}
-                showAllProjects={false}
+                showAllProjects={index === projects.nodes.length - 1}
               />
             );
           })}

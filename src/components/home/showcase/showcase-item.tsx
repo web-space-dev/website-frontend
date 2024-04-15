@@ -9,11 +9,12 @@ import { MotionValue, motion, useScroll } from "framer-motion";
 import { useRef } from "react";
 
 // const StyledShowcaseWrapper = styled.div`
+
 // `
 
 interface IStyledShowcaseWrapper {
-  canScroll: boolean;
   isOpen: boolean;
+  showAllProjects: boolean;
 }
 const StyledShowcaseWrapper = styled(motion.div)<IStyledShowcaseWrapper>`
   grid-column: 1 / span 12;
@@ -22,16 +23,19 @@ const StyledShowcaseWrapper = styled(motion.div)<IStyledShowcaseWrapper>`
   align-items: center;
   width: 100%;
   justify-content: center;
+  position: relative;
+  scroll-snap-align: center;
+  perspective: 500px;
 
-  ${({ canScroll }) =>
-    canScroll &&
+  ${({ showAllProjects }) =>
+    showAllProjects &&
     `
-    position: relative;
-     scroll-snap-align: center;
+    // width: 50%;
   `}
+
   & div {
     height: 900px;
-    margin: 0 10px;
+    margin: 40px 10px;
   }
 `;
 
@@ -62,9 +66,7 @@ const StyledAllProjects = styled(motion.div)<IStyledAllProjectsProps>`
   font-size: ${getRemSize(dimensions.headingSizes.medium.desktop)};
   transition: 0.3s ease;
   /* display: none; */
-  & a {
-    visibility: hidden;
-  }
+
   ${({ isOpen }) => isOpen && `width: 50%;opacity: 1; `}
 `;
 
@@ -141,7 +143,6 @@ export function ShowcaseItem({
   project,
   scale,
   isOpen,
-
   showAllProjects,
 }: ShowcaseItemProps) {
   // const ref = useRef(null);
@@ -151,8 +152,8 @@ export function ShowcaseItem({
     <StyledShowcaseWrapper
       layout
       transition={{ duration: 1 }}
-      canScroll={!scale}
-      isOpen={showAllProjects}
+      isOpen={isOpen}
+      showAllProjects={showAllProjects}
       style={scale ? { scale } : {}}
     >
       <StyledShowcaseDetails layout>
