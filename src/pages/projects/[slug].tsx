@@ -31,7 +31,7 @@ export default function Project({
   }
 
   return (
-    <Layout preview={preview} pageTitle={project.title} siteData={siteData}>
+    <Layout preview={preview} pageTitle={project?.title} siteData={siteData}>
       {router.isFallback ? (
         <h2>Loading</h2>
       ) : (
