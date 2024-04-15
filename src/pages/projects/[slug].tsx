@@ -1,7 +1,6 @@
 import { useRouter } from "next/router";
 import ErrorPage from "next/error";
 import { GetStaticPaths, GetStaticProps } from "next";
-import Header from "../../components/global/header";
 import Layout from "../../components/layout";
 import {
   getAllProjectsWithSlug,
@@ -32,8 +31,7 @@ export default function Project({
   }
 
   return (
-    <Layout preview={preview} pageTitle={project.title} siteData={siteData}>
-      <Header />
+    <Layout preview={preview} pageTitle={project?.title} siteData={siteData}>
       {router.isFallback ? (
         <h2>Loading</h2>
       ) : (
