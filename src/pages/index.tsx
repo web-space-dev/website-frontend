@@ -18,7 +18,7 @@ interface IIndex {
 }
 
 export default function Index({ siteData, pageData, preview }: IIndex) {
-  const { page, projects, skillCategories } = pageData;
+  const { page, projects, skillCategories, skills } = pageData;
 
   return (
     <Layout preview={preview} pageTitle={page.title} siteData={siteData}>
@@ -34,6 +34,7 @@ export default function Index({ siteData, pageData, preview }: IIndex) {
       <Skills
         title={page.homeFields.skillsTitle}
         categories={skillCategories}
+        skills={skills}
       />
 
       {/* Approach */}
