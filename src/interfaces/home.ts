@@ -4,6 +4,7 @@ export interface IHomePage {
   page: Page;
   projects: Projects;
   skillCategories: SkillCategories;
+  skills: Skills;
 }
 
 export interface Page {
