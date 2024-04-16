@@ -14,6 +14,7 @@ import { Hero } from "../../components/project/hero";
 import ProjectBody from "../../components/project/content";
 import { GridContainer } from "../../components/global/grid/gridContainer";
 import styled from "@emotion/styled";
+import Navbar from "../../components/navbar";
 
 interface IProject extends IProjectData {
   siteData: ISiteData;
@@ -33,7 +34,9 @@ export default function Project({
   }
 
   return (
-    <Layout preview={preview} pageTitle={project.title} siteData={siteData}>
+    <Layout preview={preview} pageTitle={project?.title} siteData={siteData}>
+      <Navbar dark={true} />
+
       {router.isFallback ? (
         <h2>Loading</h2>
       ) : (

@@ -140,17 +140,29 @@ export const theme = css`
     }
   }
   input,
-  textarea {
-    font-size: ${getRemSize(dimensions.textSizes.normal.desktop)};
-    background: transparent;
-    border: 2px solid ${colors.white};
-    color: ${colors.white};
+  textarea,
+  button,
+  input [type="submit"] {
+    font-size: ${getRemSize(dimensions.textSizes.normal.mobile)};
+    font-family: "Darker Grotesque", sans-serif;
+    background-color: ${colors.white};
+    border: 1px solid ${colors.blackLight};
+    color: ${colors.black};
     padding: 0.4rem 0.5rem;
     margin-bottom: 1rem;
     width: 100%;
+
+    &::placeholder,
+    &::-webkit-input-placeholder,
+    &::-moz-placeholder,
+    &:-ms-input-placeholder,
+    &:-moz-placeholder {
+      font-family: "Darker Grotesque", sans-serif;
+    }
   }
   input:focus,
   textarea:focus {
+    font-family: "Darker Grotesque", sans-serif;
     outline: none;
     transition: border 0.5s, background 0.5s;
     background: ${colors.accentLight}32;
@@ -172,9 +184,10 @@ export const theme = css`
     font-weight: 682;
     padding: 19px 24px 19px 40px;
     border: 0;
+    font-family: inherit;
   }
   button:hover {
-    text-decoration: underline;
+    text-decoration: none;
     cursor: pointer;
   }
   label {

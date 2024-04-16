@@ -20,7 +20,7 @@ const StyledTitleRow = styled(Row)`
   }
 `;
 
-const StyledHeading = styled.h1`
+const StyledHeading = styled.h2`
   text-indent: 100px;
   line-height: 1.2;
   align-items: center;
@@ -40,7 +40,7 @@ const StyledHeading = styled.h1`
 export default function LargeTextArea({ text }: IProps) {
   return (
     <StyledTitleRow>
-      <Col start={2} span={11}>
+      <Col start={2} span={10}>
         <StyledHeading>{text}</StyledHeading>
       </Col>
     </StyledTitleRow>
