@@ -8,13 +8,10 @@ import { CustomImage } from "../../global/image";
 import { MotionValue, motion, useScroll } from "framer-motion";
 import { useRef } from "react";
 
-// const StyledShowcaseWrapper = styled.div`
-
-// `
-
 interface IStyledShowcaseWrapper {
   isOpen: boolean;
   showAllProjects: boolean;
+  canSnapScroll: boolean;
 }
 const StyledShowcaseWrapper = styled(motion.div)<IStyledShowcaseWrapper>`
   grid-column: 1 / span 12;
@@ -24,8 +21,11 @@ const StyledShowcaseWrapper = styled(motion.div)<IStyledShowcaseWrapper>`
   width: 100%;
   justify-content: center;
   position: relative;
-  scroll-snap-align: center;
+  /* scroll-snap-align: center; */
   perspective: 500px;
+
+  ${({ isOpen }) =>
+    isOpen ? `scroll-snap-align: start;` : `scroll-snap-align: none;`}
 
   ${({ showAllProjects }) =>
     showAllProjects &&
@@ -39,18 +39,17 @@ const StyledShowcaseWrapper = styled(motion.div)<IStyledShowcaseWrapper>`
   }
 `;
 
-const StyledShowcaseDetails = styled(motion.div)<any>`
+const StyledShowcaseDetails = styled(motion.div)`
   position: relative;
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 12px;
-  ${({ isOpen }) => isOpen && `width: 50%;`}
 `;
 
 interface IStyledAllProjectsProps {
-  isOpen: boolean;
+  showAllProjects: boolean;
 }
 
 const StyledAllProjects = styled(motion.div)<IStyledAllProjectsProps>`
@@ -67,7 +66,7 @@ const StyledAllProjects = styled(motion.div)<IStyledAllProjectsProps>`
   transition: 0.3s ease;
   /* display: none; */
 
-  ${({ isOpen }) => isOpen && `width: 50%;opacity: 1; `}
+  ${({ showAllProjects }) => showAllProjects && `width: 50%;opacity: 1; `}
 `;
 
 const StyledShowcaseImage = styled(motion.div)`
@@ -135,7 +134,7 @@ interface ShowcaseItemProps {
   project: Project;
   scale?: MotionValue;
   isOpen: boolean;
-
+  canSnapScroll?: boolean;
   showAllProjects?: boolean;
 }
 
@@ -143,6 +142,7 @@ export function ShowcaseItem({
   project,
   scale,
   isOpen,
+  canSnapScroll,
   showAllProjects,
 }: ShowcaseItemProps) {
   // const ref = useRef(null);
@@ -153,11 +153,12 @@ export function ShowcaseItem({
       layout
       transition={{ duration: 1 }}
       isOpen={isOpen}
+      canSnapScroll={canSnapScroll}
       showAllProjects={showAllProjects}
       style={scale ? { scale } : {}}
     >
-      <StyledShowcaseDetails layout>
-        <StyledShowcaseImage layout>
+      <StyledShowcaseDetails>
+        <StyledShowcaseImage>
           <CustomImage
             alt={project.featuredImage.node.altText}
             width={1448}
@@ -177,7 +178,7 @@ export function ShowcaseItem({
         {/* <Link href={`/projects/${project.slug}`}>View project</Link> */}
       </StyledShowcaseDetails>
 
-      <StyledAllProjects layout isOpen={showAllProjects}>
+      <StyledAllProjects showAllProjects={showAllProjects}>
         <StyledLink href="/projects">
           <StyledShowcaseTitle>View all projects</StyledShowcaseTitle>
           <IconButton />

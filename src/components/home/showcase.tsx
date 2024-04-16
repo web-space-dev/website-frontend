@@ -8,7 +8,9 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, useTransform, useScroll, useSpring } from "framer-motion";
 import { ShowcaseItem } from "./showcase/showcase-item";
 import { set } from "date-fns";
-import { ShowcaseScale } from "./showcase/showcase-scale";
+
+import useFps from "../../hooks/useFps";
+import useDebugPanel from "../../hooks/useDebugPanel";
 
 const StyledSpacer = styled.div`
   height: 100vh;
@@ -17,22 +19,14 @@ const StyledSpacer = styled.div`
 interface IStyledWrapper {
   isOpen: boolean;
 }
+
 const StyledWrapper = styled(GridContainer)<IStyledWrapper>`
-  /* margin: 40px auto; */
-  /* position: "fixed"; */
   position: ${({ isOpen }) => (isOpen ? "fixed" : "sticky")};
-  /* height: ${({ isOpen }) => (isOpen ? "3000px" : "100vh")}; */
+  overflow-y: ${({ isOpen }) => (isOpen ? "scroll" : "hidden")};
   min-height: 100vh;
   z-index: 20;
   background-color: ${colors.black};
   top: 0;
-  ${({ isOpen }) =>
-    isOpen &&
-    `
-    // height: 3000px;
-    // background-color: red;
-    overflow-y: scroll;
-  `}
 `;
 
 const StyledMotionWrapper = styled(motion.div)<IStyledWrapper>`
@@ -49,6 +43,7 @@ const StyledMotionWrapper = styled(motion.div)<IStyledWrapper>`
     isOpen &&
     `
     height: 100vh;
+    // padding-top: 1500px;
     `}
 `;
 
@@ -74,22 +69,26 @@ export default function Showcase({ title, projects }: IShowcase) {
 
   const [isOpen, setIsOpen] = useState(false);
   const [canScale, setCanScale] = useState(false);
+  const [canSnapScroll, setCanSnapScroll] = useState(false);
   const [breakpoint, setBreakpoint] = useState(0);
   const [beginScalePos, setBeginScalePos] = useState(0);
+  const fps = useFps();
 
   const { scrollY } = useScroll();
   const scale = useTransform(
     scrollY,
-    [beginScalePos, beginScalePos + 800],
-    canScale ? [0.2, 1] : [0.2, 0.2]
+    [beginScalePos, beginScalePos + 1200],
+    canScale ? [0.2, 1] : canSnapScroll ? [1, 1] : [0.2, 0.2]
   );
 
   useEffect(() => {
     const handleScroll = () => {
       if (ref.current) {
         const { bottom } = ref.current.getBoundingClientRect();
+        const threshold = 200;
 
-        if (bottom - window.innerHeight < 1) {
+        if (bottom - window.innerHeight < 1 && !breakpoint) {
+          console.log("bottom", bottom - window.innerHeight);
           setCanScale(true);
           if (beginScalePos === 0) {
             setBeginScalePos(scrollY.get());
@@ -99,14 +98,22 @@ export default function Showcase({ title, projects }: IShowcase) {
         }
 
         if (breakpoint !== 0 && scrollY.get() < breakpoint) {
-          setCanScale(true);
-          setIsOpen(false);
+          // setCanScale(true);
+          // setIsOpen(false);
+          // setCanSnapScroll(false);
+          // setBreakpoint(0);
         }
 
-        if (scale.get() === 1) {
+        if (scale.get() === 1 && breakpoint === 0) {
           setIsOpen(true);
+          setCanSnapScroll(true);
           setBreakpoint(scrollY.get());
+          setCanScale(false);
+          console.log("breakpoint", scrollY.get());
         }
+        // if (isOpen && scrollY.get() > breakpoint + threshold) {
+        //   setCanSnapScroll(true);
+        // }
       }
     };
 
@@ -117,13 +124,39 @@ export default function Showcase({ title, projects }: IShowcase) {
     };
   }, [breakpoint, beginScalePos]);
 
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+  }, [isOpen]);
+
+  const reverseScale = () => {
+    // setCanScale(true);
+    setIsOpen(false);
+    setCanSnapScroll(false);
+    setBreakpoint(0);
+  };
+
+  const debugPanel = useDebugPanel({
+    isOpen,
+    canScale,
+    canSnapScroll,
+    breakpoint,
+    beginScalePos,
+    fps,
+    scrollY: scrollY.get(),
+  });
+
   return (
     <>
-      {isOpen && <StyledSpacer />}
+      {debugPanel}
       <StyledWrapper ref={ref} isOpen={isOpen}>
         <StyledTitle color={isOpen ? colors.accent : colors.white}>
           {title}
         </StyledTitle>
+
         <StyledMotionWrapper isOpen={isOpen}>
           {projects.nodes.map((project: Project, index: number) => {
             return (
@@ -132,17 +165,11 @@ export default function Showcase({ title, projects }: IShowcase) {
                 project={project}
                 scale={index === 0 ? scale : undefined}
                 isOpen={isOpen}
+                canSnapScroll={canSnapScroll}
                 showAllProjects={index === projects.nodes.length - 1}
               />
             );
           })}
-
-          {/* <ShowcaseItem key={index} project={project}  />; */}
-          {/* ) : ( */}
-          {/* projects.nodes.map((project: Project, index: number) => { */}
-          {/* return <ShowcaseItem key={index} project={project} />; */}
-          {/* }) */}
-          {/* )} */}
         </StyledMotionWrapper>
       </StyledWrapper>
       <StyledSpacer />
