@@ -11,9 +11,15 @@ interface IWrapper {
 }
 
 export default function Wrapper({ pageTitle, siteData }: IWrapper) {
-  const renderTitle = pageTitle
-    ? `${pageTitle} | ${siteData.generalSettings.title}`
-    : siteData.generalSettings.title;
+  const renderTitle = siteData
+    ? pageTitle
+      ? `${pageTitle} | ${siteData.generalSettings.title}`
+      : siteData.generalSettings.title
+    : "";
+
+  const renderDescription = siteData
+    ? siteData.generalSettings.description
+    : "";
 
   return (
     <Head>
@@ -46,7 +52,7 @@ export default function Wrapper({ pageTitle, siteData }: IWrapper) {
       <meta name="msapplication-config" content="/favicon/browserconfig.xml" />
       <meta name="theme-color" content="#000" />
       <link rel="alternate" type="application/rss+xml" href="/feed.xml" />
-      <meta name="description" content={siteData.generalSettings.description} />
+      <meta name="description" content={renderDescription} />
       <meta property="og:image" content={HOME_OG_IMAGE_URL} />
     </Head>
   );

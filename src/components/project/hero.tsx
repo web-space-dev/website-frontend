@@ -267,7 +267,7 @@ export function Hero({ project }: Props) {
         </Col>
         <Col span={3}>
           <StyledHeading2>
-            <span>{project.projectCategories.nodes[0].name}</span>
+            <span>{project?.projectCategories?.nodes[0]?.name}</span>
           </StyledHeading2>
         </Col>
       </StyledTitleRow>
