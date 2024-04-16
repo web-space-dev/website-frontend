@@ -1,22 +1,31 @@
 import { EXAMPLE_PATH } from "../../lib/constants";
 import styled from "@emotion/styled";
 import { GridContainer } from "../global/grid/gridContainer";
+import { PillIconButton as OriginalPillIconButton } from "../global/pillIconButton";
 import Pill from "../global/pill";
-import { breakpoints, colors } from "../../styles/variables";
+import { breakpoints, colors, dimensions } from "../../styles/variables";
+import ChatIcon from "../../icons/chatIcon";
 import chatIcon from "../../../public/svg/icon-chat.svg";
 import Image from "next/image";
 import Link from "next/link";
 import { getRemSize } from "../../styles/globalCss";
 import eoanPicture from "../../../public/eoan-picture.png";
 import {
-  StyledParagraphWrapper,
+  StyledParagraphWrapper as OriginalStyledParagraphWrapper,
   StyledParagraphText,
   StyledPillWrapper,
-  StyledTextSpacer
+  StyledTextSpacer,
 } from "../../components/home/approach";
+import useIsDesktop from "../../hooks/useIsDesktop";
 
 const StyledWrapper = styled(GridContainer)`
-  margin: 140px 0;
+  margin: 300px 0 260px 0;
+`;
+
+const PillIconButton = styled(OriginalPillIconButton)`
+  && {
+  margin: 24px 0;
+  }
 `;
 
 const StyledContent = styled.div`
@@ -30,6 +39,25 @@ const StyledContent = styled.div`
 
   @media all and (max-width: ${breakpoints.sm}px) {
     grid-column: 1 / span 12;
+  }
+`;
+
+// Imported from approach.tsx, but with additional styles
+const StyledParagraphWrapper = styled(OriginalStyledParagraphWrapper)`
+  @media all and (max-width: ${breakpoints.md}px) {
+    padding: initial;
+    margin: initial;
+    display: initial;
+    flex-direction: initial;
+    box-sizing: initial;
+  }
+
+  @media all and (max-width: ${breakpoints.sm}px) {
+    padding: initial;
+    margin: initial;
+    display: initial;
+    flex-direction: initial;
+    box-sizing: initial;
   }
 `;
 
@@ -47,7 +75,7 @@ const StyledImage = styled(Image)`
 const StyledIconButton = styled.button`
   width: 44px;
   height: 44px;
-  margin: 0.7rem;
+  margin: 0 0 0 0.7rem;
   padding: 0;
   border: 2px solid ${colors.blackLight};
   transition: 0.3s ease;
@@ -66,7 +94,7 @@ const StyledLinkWrapper = styled.div`
   color: #F8F8F8;
   font-weight: 400;
   opacity: 0.5;
-  margin-bottom: 1.5rem;
+  margin-bottom: 17px;
   justify-content: end;
 
   & > a {
@@ -79,6 +107,7 @@ const StyledLinkWrapper = styled.div`
 
   @media all and (max-width: ${breakpoints.sm}px) {
     justify-content: center;
+    font-size: 0.8rem;
   }
 `;
 
@@ -89,13 +118,14 @@ const StyledSlider = styled.div`
   display: grid;
   place-items: center;
   overflow: hidden;
+  padding-top: 38px;
 
   @media all and (max-width: ${breakpoints.md}px) {
-    height: 120px;
+    height: 103px;
   }
 
   @media all and (max-width: ${breakpoints.sm}px) {
-    height: 70px;
+    height: 74px;
   }
 `;
 
@@ -114,7 +144,7 @@ const StyledSlideTrack = styled.div`
   }
 
   @media all and (max-width: ${breakpoints.md}px) {
-    width: calc(1200px * 4);
+    width: calc(1000px * 4);
     animation: scroll 6s linear infinite;
 
     @keyframes scroll {
@@ -122,13 +152,13 @@ const StyledSlideTrack = styled.div`
         transform: translateX(0);
       }
       100% {
-        transform: translateX(-1200px);
+        transform: translateX(-1000px);
       }
     }
   }
 
   @media all and (max-width: ${breakpoints.sm}px) {
-    width: calc(800px * 4);
+    width: calc(600px * 4);
     animation: scroll 4s linear infinite;
 
     @keyframes scroll {
@@ -145,7 +175,7 @@ const StyledSlideTrack = styled.div`
 const StyledSlide = styled.div`
   width: 1725px;
   display: flex;
-  align-items: start;
+  align-items: center;
 
   @media all and (max-width: ${breakpoints.md}px) {
     width: 1000px;
@@ -162,7 +192,7 @@ const StyledSlideText = styled.span`
   letter-spacing: 0.6rem;
   width: 100%;
   line-height: 72px;
-  text-shadow: 9px 0px #39979C;
+  text-shadow: 9px 0px ${colors.accent};
 
   @media all and (max-width: ${breakpoints.md}px) {
     font-size: 185px;
@@ -177,26 +207,36 @@ const StyledSlideText = styled.span`
 `;
 
 export default function Footer() {
+  const isDesktop = useIsDesktop();
   return (
     <footer>
       <StyledWrapper>
-        <StyledContent>
-          <StyledParagraphWrapper>
-            <StyledTextSpacer>{"Interested?"}</StyledTextSpacer>
-            <StyledPillWrapper>
-              <Pill pillText={"Interested?"} />
-            </StyledPillWrapper>
-            <StyledParagraphText>
-              Get in contact, have a chat with Eoan{<StyledImage src={eoanPicture} alt="Eoan" />} or chat
-              {<Link href="/contact">
+      <StyledContent>
+        <StyledParagraphWrapper>
+          <StyledTextSpacer>{"Interested?"}</StyledTextSpacer>
+          <StyledPillWrapper>
+            <Pill pillText={"Interested?"} />
+          </StyledPillWrapper>
+          <StyledParagraphText>
+            Get in contact, have a chat with Eoan{<StyledImage src={eoanPicture} alt="Eoan" />} or chat
+            {isDesktop && (
+              <Link href="/contact">
                 <StyledIconButton>
                   <Image src={chatIcon} alt="Chat" />
                 </StyledIconButton>
-              </Link>}
-              with us
-            </StyledParagraphText>
-          </StyledParagraphWrapper>
-        </StyledContent>
+              </Link>
+            )}
+            {" "}with us
+          </StyledParagraphText>
+        </StyledParagraphWrapper>
+        {!isDesktop &&
+          <Link href="#">
+            <PillIconButton text="Check out more">
+              <ChatIcon />
+            </PillIconButton>
+          </Link>
+        }
+      </StyledContent>
       </StyledWrapper>
       <StyledLinkWrapper>
         <Link href="#">Legal Information</Link>

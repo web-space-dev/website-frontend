@@ -11,6 +11,7 @@ import Link from "next/link";
 import { getRemSize } from "../../styles/globalCss";
 import useIsIntersecting from "../../hooks/useIsIntersecting";
 import useIsDesktop from "../../hooks/useIsDesktop";
+import ArrowUpRight from "../../icons/arrowUpRight";
 
 interface IApproach {
   items: Approach[];
@@ -326,7 +327,9 @@ export default function Approach({ items }: IApproach) {
               </SmallerIconButton>
             </StyledCardPill>
           ) : (
-            <PillIconButton text="Check out more" />
+            <PillIconButton text="Check out more">
+              <ArrowUpRight />
+            </PillIconButton>
           )}
         </StyledBox>
         <StyledApproachBorderRight
