@@ -10,14 +10,17 @@ interface IProps {
 }
 
 const StyledImagesWrapper = styled.div`
-position:relative
+  position:relative
   display: flex;
+  // justify-content: center;
+  // align-items: center;
   width: 100%;
   height: 768px;
   overflow: hidden;
 `;
 const StyledImage = styled(motion.div)`
   position: absolute;
+  flex: 1;
   top: 902px;
   left: 0;
   width: 100%;
@@ -28,7 +31,7 @@ const StyledImage = styled(motion.div)`
 const variants = {
   enter: (direction: number) => {
     return {
-      x: direction > 0 ? 1440 : -1440,
+      x: direction > 0 ? 1000 : -1000,
       opacity: 0,
     };
   },
@@ -40,7 +43,7 @@ const variants = {
   exit: (direction: number) => {
     return {
       zIndex: 0,
-      x: direction < 0 ? 1440 : -1440,
+      x: direction < 0 ? 1000 : -1000,
       opacity: 0,
     };
   },
@@ -89,7 +92,6 @@ export default function Gallery1({ images }: IProps) {
           >
             <Image
               layout="fill"
-              objectFit="cover"
               alt={`Gallery Image ${page}`}
               loader={() => images.nodes[imageIndex].sourceUrl}
               src={images.nodes[imageIndex].sourceUrl}
