@@ -7,14 +7,14 @@ import { wrap } from "popmotion";
 import { Row } from "../../global/grid/Row";
 import { Col } from "../../global/grid/Col";
 import { colors } from "../../../styles/variables";
-import ArrowRight from "../../../../public/icons/arrow-right.svg";
+import ArrowRight from "../../../icons/arrowRight";
 
 interface IProps {
   images: Gallery;
 }
 
 const StyledImagesWrapper = styled.div`
-  position: relative
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -33,6 +33,7 @@ const StyledImage = styled(motion.div)`
   img {
     height: 100%;
     width: auto;
+    // margin: auto;
   }
 `;
 
@@ -96,43 +97,41 @@ export default function Gallery1({ images }: IProps) {
   };
 
   return (
-    <>
+    <Col start={1} span={12}>
       <StyledImagesWrapper>
-        <AnimatePresence initial={false} custom={direction} mode="wait">
-          <Col start={1} span={12}>
-            <StyledImage
-              key={page}
-              custom={direction}
-              variants={variants}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              transition={{
-                x: { type: "spring", stiffness: 300, damping: 30 },
-                opacity: { duration: 0 },
-              }}
-              drag="x"
-              dragConstraints={{ left: 0, right: 0 }}
-              dragElastic={1}
-              onDragEnd={(e, { offset, velocity }) => {
-                const swipe = swipePower(offset.x, velocity.x);
+        <AnimatePresence initial={false} custom={direction}>
+          <StyledImage
+            key={page}
+            custom={direction}
+            variants={variants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{
+              x: { type: "spring", stiffness: 300, damping: 30 },
+              opacity: { duration: 0.2 },
+            }}
+            drag="x"
+            dragConstraints={{ left: 0, right: 0 }}
+            dragElastic={1}
+            onDragEnd={(e, { offset, velocity }) => {
+              const swipe = swipePower(offset.x, velocity.x);
 
-                if (swipe < -swipeConfidenceThreshold) {
-                  paginate(1);
-                } else if (swipe > swipeConfidenceThreshold) {
-                  paginate(-1);
-                }
-              }}
-            >
-              <Image
-                width={1440}
-                height={768}
-                alt={`Gallery Image ${page}`}
-                loader={() => images.nodes[imageIndex].sourceUrl}
-                src={images.nodes[imageIndex].sourceUrl}
-              />
-            </StyledImage>
-          </Col>
+              if (swipe < -swipeConfidenceThreshold) {
+                paginate(1);
+              } else if (swipe > swipeConfidenceThreshold) {
+                paginate(-1);
+              }
+            }}
+          >
+            <Image
+              width={1440}
+              height={768}
+              alt={`Gallery Image ${page}`}
+              loader={() => images.nodes[imageIndex].sourceUrl}
+              src={images.nodes[imageIndex].sourceUrl}
+            />
+          </StyledImage>
         </AnimatePresence>
       </StyledImagesWrapper>
       <StyledButtonsWrapper>
@@ -153,6 +152,6 @@ export default function Gallery1({ images }: IProps) {
           <StyledArrowRight />
         </StyledArrowButton>
       </StyledButtonsWrapper>
-    </>
+    </Col>
   );
 }
