@@ -4,29 +4,62 @@ import { Gallery } from "../../../interfaces/project";
 import styled from "@emotion/styled";
 import { motion, AnimatePresence } from "framer-motion";
 import { wrap } from "popmotion";
+import { Row } from "../../global/grid/Row";
+import { Col } from "../../global/grid/Col";
+import { colors } from "../../../styles/variables";
+import ArrowRight from "../../../../public/icons/arrow-right.svg";
 
 interface IProps {
   images: Gallery;
 }
 
 const StyledImagesWrapper = styled.div`
-  position:relative
+  position: relative
   display: flex;
-  // justify-content: center;
-  // align-items: center;
+  justify-content: center;
+  align-items: center;
   width: 100%;
   height: 768px;
   overflow: hidden;
 `;
 const StyledImage = styled(motion.div)`
-  position: absolute;
+  // position: relative;
   flex: 1;
   top: 902px;
   left: 0;
-  width: 100%;
-  height: 100%;
+  // width: 100%;
+  height: 768px;
   border-radius: 20px;
+  img {
+    height: 100%;
+    width: auto;
+  }
 `;
+
+const StyledButtonsWrapper = styled.div`
+  display: flex;
+  position: absolute;
+  bottom: -662px;
+  left: 941px;
+`;
+
+const StyledArrowButton = styled.div`
+  width: 70px;
+  height: 70px;
+  border-radius: 26%;
+  background: transparent;
+  border: 2px solid ${colors.white};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 8px;
+`;
+
+const StyledArrowLeft = styled(ArrowRight)`
+  transform: rotate(180deg);
+`;
+
+const StyledArrowRight = styled(ArrowRight)``;
 
 const variants = {
   enter: (direction: number) => {
@@ -65,58 +98,61 @@ export default function Gallery1({ images }: IProps) {
   return (
     <>
       <StyledImagesWrapper>
-        <AnimatePresence initial={false} custom={direction}>
-          <StyledImage
-            key={page}
-            custom={direction}
-            variants={variants}
-            initial="enter"
-            animate="center"
-            exit="exit"
-            transition={{
-              x: { type: "spring", stiffness: 300, damping: 30 },
-              opacity: { duration: 0.2 },
-            }}
-            drag="x"
-            dragConstraints={{ left: 0, right: 0 }}
-            dragElastic={1}
-            onDragEnd={(e, { offset, velocity }) => {
-              const swipe = swipePower(offset.x, velocity.x);
+        <AnimatePresence initial={false} custom={direction} mode="wait">
+          <Col start={1} span={12}>
+            <StyledImage
+              key={page}
+              custom={direction}
+              variants={variants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{
+                x: { type: "spring", stiffness: 300, damping: 30 },
+                opacity: { duration: 0 },
+              }}
+              drag="x"
+              dragConstraints={{ left: 0, right: 0 }}
+              dragElastic={1}
+              onDragEnd={(e, { offset, velocity }) => {
+                const swipe = swipePower(offset.x, velocity.x);
 
-              if (swipe < -swipeConfidenceThreshold) {
-                paginate(1);
-              } else if (swipe > swipeConfidenceThreshold) {
-                paginate(-1);
-              }
-            }}
-          >
-            <Image
-              layout="fill"
-              alt={`Gallery Image ${page}`}
-              loader={() => images.nodes[imageIndex].sourceUrl}
-              src={images.nodes[imageIndex].sourceUrl}
-            />
-          </StyledImage>
+                if (swipe < -swipeConfidenceThreshold) {
+                  paginate(1);
+                } else if (swipe > swipeConfidenceThreshold) {
+                  paginate(-1);
+                }
+              }}
+            >
+              <Image
+                width={1440}
+                height={768}
+                alt={`Gallery Image ${page}`}
+                loader={() => images.nodes[imageIndex].sourceUrl}
+                src={images.nodes[imageIndex].sourceUrl}
+              />
+            </StyledImage>
+          </Col>
         </AnimatePresence>
       </StyledImagesWrapper>
-      <>
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            paginate(1);
-          }}
-        >
-          Next Image
-        </button>
-        <button
+      <StyledButtonsWrapper>
+        <StyledArrowButton
           onClick={(e) => {
             e.preventDefault();
             paginate(-1);
           }}
         >
-          Previous Image
-        </button>
-      </>
+          <StyledArrowLeft />
+        </StyledArrowButton>
+        <StyledArrowButton
+          onClick={(e) => {
+            e.preventDefault();
+            paginate(1);
+          }}
+        >
+          <StyledArrowRight />
+        </StyledArrowButton>
+      </StyledButtonsWrapper>
     </>
   );
 }
