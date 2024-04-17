@@ -6,7 +6,7 @@ import { getRemSize } from "../../../styles/globalCss";
 import { IconButton } from "../../global/iconButton";
 import { CustomImage } from "../../global/image";
 import { MotionValue, motion, useScroll } from "framer-motion";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 
 interface IStyledShowcaseWrapper {
   isOpen: boolean;
@@ -134,8 +134,9 @@ interface ShowcaseItemProps {
   project: Project;
   scale?: MotionValue;
   isOpen: boolean;
-  canSnapScroll?: boolean;
-  showAllProjects?: boolean;
+  canSnapScroll: boolean;
+  showAllProjects: boolean;
+  reverseScale: () => void;
 }
 
 export function ShowcaseItem({
@@ -144,15 +145,71 @@ export function ShowcaseItem({
   isOpen,
   canSnapScroll,
   showAllProjects,
+  reverseScale,
 }: ShowcaseItemProps) {
-  // const ref = useRef(null);
-  // const { scrollYProgress } = useScroll({ target: ref });
+  const ref = useRef(null);
+  const scrollRef = useRef(
+    typeof window !== "undefined"
+      ? { y: window.pageYOffset, direction: null }
+      : { y: 0, direction: null }
+  );
+
+  useEffect(() => {
+    /**
+     * Checking if the user is trying to scroll up, if so,
+     * let them scroll a tiny bit (`wiggleRoom`) and then we start
+     * to reverse the scale
+     * @param e WheelEvent
+     */
+    const handleScroll = (e: WheelEvent) => {
+      const wiggleRoom = 200;
+      if (e.deltaY < 0) {
+        scrollRef.current.y -= e.deltaY;
+        if (scrollRef.current.y > wiggleRoom) {
+          reverseScale();
+          scrollRef.current.y = 0; // Reset the counter
+        }
+      } else {
+        scrollRef.current.y = 0; // Reset the counter if the user scrolls down
+      }
+    };
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        /**
+         * Checking if it's the first element AND if it's in view
+         * (we know that because scale will be defined)
+         */
+        if (entry.isIntersecting && typeof scale !== "undefined") {
+          // Oh also we check if the window is defined because of SSR
+          if (typeof window !== "undefined") {
+            window.addEventListener("wheel", handleScroll);
+          }
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => {
+      if (ref.current) {
+        observer.unobserve(ref.current);
+      }
+      if (typeof window !== "undefined") {
+        window.removeEventListener("wheel", handleScroll);
+      }
+    };
+  }, []);
 
   return (
     <StyledShowcaseWrapper
       layout
       transition={{ duration: 1 }}
       isOpen={isOpen}
+      ref={ref}
       canSnapScroll={canSnapScroll}
       showAllProjects={showAllProjects}
       style={scale ? { scale } : {}}

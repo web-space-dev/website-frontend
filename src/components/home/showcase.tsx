@@ -17,13 +17,13 @@ const StyledSpacer = styled.div`
 `;
 
 interface IStyledWrapper {
-  isOpen: boolean;
+  open: boolean;
 }
 
 const StyledWrapper = styled(GridContainer)<IStyledWrapper>`
-  position: ${({ isOpen }) => (isOpen ? "fixed" : "sticky")};
-  overflow-y: ${({ isOpen }) => (isOpen ? "scroll" : "hidden")};
-  min-height: 100vh;
+  position: ${({ open }) => (open ? "fixed" : "sticky")};
+  /* overflow-y: ${({ open }) => (open ? "scroll" : "hidden")}; */
+  height: 100vh;
   z-index: 20;
   background-color: ${colors.black};
   top: 0;
@@ -31,19 +31,15 @@ const StyledWrapper = styled(GridContainer)<IStyledWrapper>`
 
 const StyledMotionWrapper = styled(motion.div)<IStyledWrapper>`
   position: absolute;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
   top: 0;
   left: 0;
   width: 100%;
   overflow-y: scroll;
   scroll-snap-type: y mandatory;
-  ${({ isOpen }) =>
-    isOpen &&
+  ${({ open }) =>
+    open &&
     `
     height: 100vh;
-    // padding-top: 1500px;
     `}
 `;
 
@@ -85,7 +81,6 @@ export default function Showcase({ title, projects }: IShowcase) {
     const handleScroll = () => {
       if (ref.current) {
         const { bottom } = ref.current.getBoundingClientRect();
-        const threshold = 200;
 
         if (bottom - window.innerHeight < 1 && !breakpoint) {
           console.log("bottom", bottom - window.innerHeight);
@@ -93,15 +88,6 @@ export default function Showcase({ title, projects }: IShowcase) {
           if (beginScalePos === 0) {
             setBeginScalePos(scrollY.get());
           }
-        } else {
-          // setCanScale(false);
-        }
-
-        if (breakpoint !== 0 && scrollY.get() < breakpoint) {
-          // setCanScale(true);
-          // setIsOpen(false);
-          // setCanSnapScroll(false);
-          // setBreakpoint(0);
         }
 
         if (scale.get() === 1 && breakpoint === 0) {
@@ -111,9 +97,6 @@ export default function Showcase({ title, projects }: IShowcase) {
           setCanScale(false);
           console.log("breakpoint", scrollY.get());
         }
-        // if (isOpen && scrollY.get() > breakpoint + threshold) {
-        //   setCanSnapScroll(true);
-        // }
       }
     };
 
@@ -133,7 +116,7 @@ export default function Showcase({ title, projects }: IShowcase) {
   }, [isOpen]);
 
   const reverseScale = () => {
-    // setCanScale(true);
+    setCanScale(true);
     setIsOpen(false);
     setCanSnapScroll(false);
     setBreakpoint(0);
@@ -152,12 +135,12 @@ export default function Showcase({ title, projects }: IShowcase) {
   return (
     <>
       {debugPanel}
-      <StyledWrapper ref={ref} isOpen={isOpen}>
+      <StyledWrapper ref={ref} open={isOpen}>
         <StyledTitle color={isOpen ? colors.accent : colors.white}>
           {title}
         </StyledTitle>
 
-        <StyledMotionWrapper isOpen={isOpen}>
+        <StyledMotionWrapper open={isOpen}>
           {projects.nodes.map((project: Project, index: number) => {
             return (
               <ShowcaseItem
@@ -167,6 +150,7 @@ export default function Showcase({ title, projects }: IShowcase) {
                 isOpen={isOpen}
                 canSnapScroll={canSnapScroll}
                 showAllProjects={index === projects.nodes.length - 1}
+                reverseScale={reverseScale}
               />
             );
           })}
