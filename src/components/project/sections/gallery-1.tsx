@@ -8,6 +8,7 @@ import { Row } from "../../global/grid/Row";
 import { Col } from "../../global/grid/Col";
 import { colors } from "../../../styles/variables";
 import ArrowRight from "../../../icons/arrowRight";
+import ArrowLeft from "../../../icons/arrowLeft";
 
 interface IProps {
   images: Gallery;
@@ -20,21 +21,11 @@ const StyledImagesWrapper = styled.div`
   align-items: center;
   width: 100%;
   height: 768px;
-  overflow: hidden;
 `;
 const StyledImage = styled(motion.div)`
-  // position: relative;
-  flex: 1;
-  top: 902px;
-  left: 0;
-  // width: 100%;
-  height: 768px;
+  position: absolute;
+  max-width: 100vw;
   border-radius: 20px;
-  img {
-    height: 100%;
-    width: auto;
-    // margin: auto;
-  }
 `;
 
 const StyledButtonsWrapper = styled.div`
@@ -56,9 +47,7 @@ const StyledArrowButton = styled.div`
   margin: 8px;
 `;
 
-const StyledArrowLeft = styled(ArrowRight)`
-  transform: rotate(180deg);
-`;
+const StyledArrowLeft = styled(ArrowLeft)``;
 
 const StyledArrowRight = styled(ArrowRight)``;
 
@@ -141,7 +130,7 @@ export default function Gallery1({ images }: IProps) {
             paginate(-1);
           }}
         >
-          <StyledArrowLeft />
+          <StyledArrowLeft fill={colors.white} />
         </StyledArrowButton>
         <StyledArrowButton
           onClick={(e) => {
@@ -149,7 +138,7 @@ export default function Gallery1({ images }: IProps) {
             paginate(1);
           }}
         >
-          <StyledArrowRight />
+          <StyledArrowRight fill={colors.white} />
         </StyledArrowButton>
       </StyledButtonsWrapper>
     </Col>
