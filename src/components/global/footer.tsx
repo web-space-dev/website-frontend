@@ -17,6 +17,9 @@ import {
   StyledTextSpacer as OriginalStyledTextSpacer,
 } from "../../components/home/approach";
 import useIsDesktop from "../../hooks/useIsDesktop";
+import { Row } from "./grid/Row";
+import { Col } from "./grid/Col";
+import { get } from "http";
 
 const StyledWrapper = styled(GridContainer)`
   margin: 300px 0 260px 0;
@@ -62,6 +65,8 @@ const StyledParagraphWrapper = styled(OriginalStyledParagraphWrapper)`
 `;
 
 const StyledParagraphText = styled(OriginalStyledParagraphText)`
+  line-height: 1;
+  font-size: ${getRemSize(dimensions.headingSizes.large.desktop)};
   @media all and (max-width: ${breakpoints.md}px) {
     font-size: ${getRemSize(dimensions.headingSizes.medium.desktop)};
     line-height: 72px;
@@ -78,14 +83,18 @@ const StyledParagraphText = styled(OriginalStyledParagraphText)`
 `;
 
 const StyledPillWrapper = styled(OriginalStyledPillWrapper)`
+  top: -20px !important;
   @media all and (max-width: ${breakpoints.md}px) {
-    margin-top: 15px;
     position: absolute;
     left: 0;
   }
 `;
 
-const StyledTextSpacer = styled(OriginalStyledTextSpacer)`
+const StyledTextSpacer = styled.span`
+  position: relative;
+  padding: 0 53px;
+
+  color: transparent;
   @media all and (max-width: ${breakpoints.md}px) {
     display: initial;
   }
@@ -120,14 +129,14 @@ const StyledIconButton = styled.button`
 
 const PillIconButton = styled(OriginalPillIconButton)`
   && {
-  margin: 60px 0;
+    margin: 60px 0;
   }
 `;
 
 const StyledLinkWrapper = styled.div`
   display: flex;
   height: 9px;
-  color: #F8F8F8;
+  color: #f8f8f8;
   font-weight: 400;
   opacity: 0.5;
   margin-bottom: 17px;
@@ -247,32 +256,39 @@ export default function Footer() {
   return (
     <footer>
       <StyledWrapper>
-        <StyledContent>
-          <StyledParagraphWrapper>
-            <StyledTextSpacer>{"Interested?"}</StyledTextSpacer>
-            <StyledPillWrapper>
-              <Pill pillText={"Interested?"} />
-            </StyledPillWrapper>
-            <StyledParagraphText>
-              Get in contact, have a chat with Eoan{<StyledImage src={eoanPicture} alt="Eoan" />} or chat
-              {isDesktop && (
-                <Link href="/contact">
-                  <StyledIconButton>
-                    <Image src={chatIcon} alt="Chat" />
-                  </StyledIconButton>
+        <Row>
+          <Col start={2} span={10}>
+            <StyledContent>
+              <StyledParagraphWrapper>
+                <StyledTextSpacer>
+                  {"Interested?"}
+                  <StyledPillWrapper>
+                    <Pill pillText={"Interested?"} />
+                  </StyledPillWrapper>
+                </StyledTextSpacer>
+                <StyledParagraphText>
+                  Get in contact, have a chat with Eoan
+                  {<StyledImage src={eoanPicture} alt="Eoan" />} or chat
+                  {isDesktop && (
+                    <Link href="/contact">
+                      <StyledIconButton>
+                        <Image src={chatIcon} alt="Chat" />
+                      </StyledIconButton>
+                    </Link>
+                  )}{" "}
+                  with us
+                </StyledParagraphText>
+              </StyledParagraphWrapper>
+              {!isDesktop && (
+                <Link href="#">
+                  <PillIconButton text="Check out more">
+                    <ChatIcon />
+                  </PillIconButton>
                 </Link>
               )}
-              {" "}with us
-            </StyledParagraphText>
-          </StyledParagraphWrapper>
-          {!isDesktop &&
-            <Link href="#">
-              <PillIconButton text="Check out more">
-                <ChatIcon />
-              </PillIconButton>
-            </Link>
-          }
-        </StyledContent>
+            </StyledContent>
+          </Col>
+        </Row>
       </StyledWrapper>
       <StyledLinkWrapper>
         <Link href="#">Legal Information</Link>

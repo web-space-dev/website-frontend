@@ -64,6 +64,10 @@ const StyledPillButton = styled(motion.div)`
     transform: rotate(45deg);
   }
 
+  @media all and (max-width: ${breakpoints.md}px) {
+    padding: 2vw;
+  }
+
   @media all and (max-width: ${breakpoints.sm}px) {
     min-width: 237px;
     padding: 4vw;
@@ -76,15 +80,25 @@ interface StyledPillButtonProps {
   className?: string;
 }
 
-const StyledPillIconButton: React.FC<StyledPillButtonProps> = ({ className = '', text, children }) => (
+const StyledPillIconButton: React.FC<StyledPillButtonProps> = ({
+  className = "",
+  text,
+  children,
+}) => (
   <StyledPillButton className={`styled-pill-button ${className}`}>
     <span>{text}</span>
-    <StyledIcon className="styled-icon">
-      {children}
-    </StyledIcon>
+    <StyledIcon className="styled-icon">{children}</StyledIcon>
   </StyledPillButton>
 );
 
-export function PillIconButton({ text, className = '', children }: StyledPillButtonProps) {
-  return <StyledPillIconButton text={text} className={className}>{children}</StyledPillIconButton>;
+export function PillIconButton({
+  text,
+  className = "",
+  children,
+}: StyledPillButtonProps) {
+  return (
+    <StyledPillIconButton text={text} className={className}>
+      {children}
+    </StyledPillIconButton>
+  );
 }
