@@ -5,12 +5,11 @@ import { GridContainer } from "../global/grid/gridContainer";
 import { Project, Projects } from "../../interfaces/project";
 import { useEffect, useMemo, useRef, useState } from "react";
 
-import { motion, useTransform, useScroll, useSpring } from "framer-motion";
-import { ShowcaseItem } from "./showcase/showcase-item";
-import { set } from "date-fns";
+import { motion, useTransform, useScroll } from "framer-motion";
+import ShowcaseItemDesktop from "./showcase/showcase-item-desktop";
 
-import useFps from "../../hooks/useFps";
-import useDebugPanel from "../../hooks/useDebugPanel";
+import useIsDesktop from "../../hooks/useIsDesktop";
+import ShowcaseItemMobile from "./showcase/shocase-item-mobile";
 
 const StyledSpacer = styled.div`
   height: 100vh;
@@ -22,25 +21,27 @@ interface IStyledWrapper {
 
 const StyledWrapper = styled(GridContainer)<IStyledWrapper>`
   position: ${({ open }) => (open ? "fixed" : "sticky")};
-  /* overflow-y: ${({ open }) => (open ? "scroll" : "hidden")}; */
   height: 100vh;
   z-index: 20;
   background-color: ${colors.black};
   top: 0;
+  left: 0;
+  right: 0;
 `;
 
 const StyledMotionWrapper = styled(motion.div)<IStyledWrapper>`
   position: absolute;
   top: 0;
+  bottom: 0;
   left: 0;
   width: 100%;
   overflow-y: scroll;
   scroll-snap-type: y mandatory;
-  ${({ open }) =>
-    open &&
-    `
-    height: 100vh;
-    `}
+  ${({ open }) => (open ? `height: 100vh;` : `overflow: hidden;`)}
+  @media all and (max-width: ${breakpoints.md}px) {
+    display: flex;
+    align-items: center;
+  }
 `;
 
 const StyledTitle = styled.h2<{ color: string }>`
@@ -50,8 +51,12 @@ const StyledTitle = styled.h2<{ color: string }>`
   grid-column: 1 / span 12;
   line-height: 225px;
   color: ${({ color }) => color};
+  @media all and (max-width: 1164px) {
+    font-size: ${getRemSize(dimensions.headingSizes.display2.desktop - 50)};
+  }
   @media all and (max-width: ${breakpoints.md}px) {
     font-size: ${getRemSize(dimensions.headingSizes.display2.mobile)};
+    line-height: 72px;
   }
 `;
 
@@ -61,15 +66,14 @@ interface IShowcase {
 }
 
 export default function Showcase({ title, projects }: IShowcase) {
-  const ref = useRef(null);
-
   const [isOpen, setIsOpen] = useState(false);
   const [canScale, setCanScale] = useState(false);
   const [canSnapScroll, setCanSnapScroll] = useState(false);
   const [breakpoint, setBreakpoint] = useState(0);
   const [beginScalePos, setBeginScalePos] = useState(0);
-  const fps = useFps();
 
+  const ref = useRef(null);
+  const isDesktop = useIsDesktop();
   const { scrollY } = useScroll();
   const scale = useTransform(
     scrollY,
@@ -83,7 +87,6 @@ export default function Showcase({ title, projects }: IShowcase) {
         const { bottom } = ref.current.getBoundingClientRect();
 
         if (bottom - window.innerHeight < 1 && !breakpoint) {
-          console.log("bottom", bottom - window.innerHeight);
           setCanScale(true);
           if (beginScalePos === 0) {
             setBeginScalePos(scrollY.get());
@@ -95,7 +98,6 @@ export default function Showcase({ title, projects }: IShowcase) {
           setCanSnapScroll(true);
           setBreakpoint(scrollY.get());
           setCanScale(false);
-          console.log("breakpoint", scrollY.get());
         }
       }
     };
@@ -122,35 +124,46 @@ export default function Showcase({ title, projects }: IShowcase) {
     setBreakpoint(0);
   };
 
-  const debugPanel = useDebugPanel({
-    isOpen,
-    canScale,
-    canSnapScroll,
-    breakpoint,
-    beginScalePos,
-    fps,
-    scrollY: scrollY.get(),
-  });
+  // const debugPanel = useDebugPanel({
+  //   isOpen,
+  //   canScale,
+  //   canSnapScroll,
+  //   breakpoint,
+  //   beginScalePos,
+  //   fps,
+  //   scrollY: scrollY.get(),
+  // });
 
   return (
     <>
-      {debugPanel}
+      {/* {debugPanel} */}
       <StyledWrapper ref={ref} open={isOpen}>
         <StyledTitle color={isOpen ? colors.accent : colors.white}>
           {title}
         </StyledTitle>
-
         <StyledMotionWrapper open={isOpen}>
           {projects.nodes.map((project: Project, index: number) => {
+            if (isDesktop) {
+              return (
+                <ShowcaseItemDesktop
+                  key={index}
+                  project={project}
+                  scale={index === 0 ? scale : undefined}
+                  isOpen={isOpen}
+                  showAllProjects={index === projects.nodes.length - 1}
+                  reverseScale={reverseScale}
+                />
+              );
+            }
+
             return (
-              <ShowcaseItem
+              <ShowcaseItemMobile
                 key={index}
                 project={project}
-                scale={index === 0 ? scale : undefined}
-                isOpen={isOpen}
-                canSnapScroll={canSnapScroll}
-                showAllProjects={index === projects.nodes.length - 1}
-                reverseScale={reverseScale}
+                // isOpen={isOpen}
+                // canSnapScroll={canSnapScroll}
+                // showAllProjects={index === projects.nodes.length - 1}
+                // reverseScale={reverseScale}
               />
             );
           })}

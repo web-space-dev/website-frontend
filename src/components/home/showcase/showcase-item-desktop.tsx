@@ -11,62 +11,36 @@ import { useEffect, useRef } from "react";
 interface IStyledShowcaseWrapper {
   isOpen: boolean;
   showAllProjects: boolean;
-  canSnapScroll: boolean;
 }
 const StyledShowcaseWrapper = styled(motion.div)<IStyledShowcaseWrapper>`
-  grid-column: 1 / span 12;
   height: 100vh;
   display: flex;
   align-items: center;
-  width: 100%;
-  justify-content: center;
-  position: relative;
-  /* scroll-snap-align: center; */
   perspective: 500px;
-
-  ${({ isOpen }) =>
-    isOpen ? `scroll-snap-align: start;` : `scroll-snap-align: none;`}
-
-  ${({ showAllProjects }) =>
-    showAllProjects &&
-    `
-    // width: 50%;
-  `}
-
-  & div {
-    height: 900px;
-    margin: 40px 10px;
-  }
+  scroll-snap-align: ${({ isOpen }) => (isOpen ? "start" : "none")};
 `;
 
 const StyledShowcaseDetails = styled(motion.div)`
   position: relative;
-  width: 100%;
   display: flex;
+  flex: 1;
   justify-content: center;
   align-items: center;
   border-radius: 12px;
+  height: -webkit-fill-available;
+  margin: 40px 10px;
 `;
 
-interface IStyledAllProjectsProps {
-  showAllProjects: boolean;
-}
-
-const StyledAllProjects = styled(motion.div)<IStyledAllProjectsProps>`
-  opacity: 0;
-  width: 0%;
-  /* height: 100%; */
+const StyledAllProjects = styled.div`
+  display: flex;
+  flex: 1;
   background-color: ${colors.blackLight};
   border: 2px solid ${colors.white};
   border-radius: 12px;
   backdrop-filter: blur(10px);
-  justify-content: center;
-  align-items: center;
   font-size: ${getRemSize(dimensions.headingSizes.medium.desktop)};
-  transition: 0.3s ease;
-  /* display: none; */
-
-  ${({ showAllProjects }) => showAllProjects && `width: 50%;opacity: 1; `}
+  height: -webkit-fill-available;
+  margin: 40px 10px;
 `;
 
 const StyledShowcaseImage = styled(motion.div)`
@@ -134,16 +108,14 @@ interface ShowcaseItemProps {
   project: Project;
   scale?: MotionValue;
   isOpen: boolean;
-  canSnapScroll: boolean;
   showAllProjects: boolean;
   reverseScale: () => void;
 }
 
-export function ShowcaseItem({
+export default function ShowcaseItemDesktop({
   project,
   scale,
   isOpen,
-  canSnapScroll,
   showAllProjects,
   reverseScale,
 }: ShowcaseItemProps) {
@@ -210,7 +182,6 @@ export function ShowcaseItem({
       transition={{ duration: 1 }}
       isOpen={isOpen}
       ref={ref}
-      canSnapScroll={canSnapScroll}
       showAllProjects={showAllProjects}
       style={scale ? { scale } : {}}
     >
@@ -231,16 +202,16 @@ export function ShowcaseItem({
             {project.projectCategories?.nodes[0]?.name}
           </StyledShowcaseCategory>
         </StyledShowcaseContent>
-
-        {/* <Link href={`/projects/${project.slug}`}>View project</Link> */}
       </StyledShowcaseDetails>
 
-      <StyledAllProjects showAllProjects={showAllProjects}>
-        <StyledLink href="/projects">
-          <StyledShowcaseTitle>View all projects</StyledShowcaseTitle>
-          <IconButton />
-        </StyledLink>
-      </StyledAllProjects>
+      {showAllProjects && (
+        <StyledAllProjects>
+          <StyledLink href="/projects">
+            <StyledShowcaseTitle>View all projects</StyledShowcaseTitle>
+            <IconButton />
+          </StyledLink>
+        </StyledAllProjects>
+      )}
     </StyledShowcaseWrapper>
   );
 }
