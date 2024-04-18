@@ -1,11 +1,13 @@
 import styled from "@emotion/styled";
-import { Pill as IPill, WhatWeDo } from "../../interfaces/home";
+import { Pill as IPill, WhatWeDo as IWhatWeDo } from "../../interfaces/home";
 import { breakpoints, colors, dimensions } from "../../styles/variables";
 import { getRemSize } from "../../styles/globalCss";
 import { GridContainer } from "../global/grid/gridContainer";
 import Pill from "../global/pill";
 import { useState } from "react";
 import { css } from "@emotion/react";
+import { Row } from "../global/grid/Row";
+import { Col } from "../global/grid/Col";
 
 const StyledWrapper = styled(GridContainer)`
   margin: 140px 0;
@@ -14,14 +16,12 @@ const StyledWrapper = styled(GridContainer)`
 const StyledTitle = styled.h2`
   font-size: ${getRemSize(dimensions.headingSizes.small.desktop)};
   font-weight: 400;
-  grid-column: 1 / span 2;
   @media all and (max-width: ${breakpoints.md}px) {
     grid-column: 1 / span 12;
   }
 `;
 
 const StyledProcessList = styled.ul`
-  grid-column: 3 / span 10;
   list-style: none;
   padding: 0;
   margin: 0;
@@ -117,30 +117,36 @@ const ProcessItem = ({
   );
 };
 
-interface IWhatWeDo {
-  items: WhatWeDo[];
+interface WhatWeDoProps {
+  items: IWhatWeDo[];
 }
 
-export default function WhatWeDo({ items }: IWhatWeDo) {
+export default function WhatWeDo({ items }: WhatWeDoProps) {
   const [hoverItems, setHoverItems] = useState(
     new Array(items.length).fill(false)
   );
 
   return (
     <StyledWrapper>
-      <StyledTitle>What we do.</StyledTitle>
-      <StyledProcessList>
-        {items.map((item, index) => (
-          <ProcessItem
-            key={index}
-            title={item.title}
-            pills={item.pills}
-            index={index}
-            hoverItems={hoverItems}
-            setHoverItems={setHoverItems}
-          />
-        ))}
-      </StyledProcessList>
+      <Row>
+        <Col start={1} span={2}>
+          <StyledTitle>What we do.</StyledTitle>
+        </Col>
+        <Col start={3} span={10}>
+          <StyledProcessList>
+            {items.map((item, index) => (
+              <ProcessItem
+                key={index}
+                title={item.title}
+                pills={item.pills}
+                index={index}
+                hoverItems={hoverItems}
+                setHoverItems={setHoverItems}
+              />
+            ))}
+          </StyledProcessList>
+        </Col>
+      </Row>
     </StyledWrapper>
   );
 }

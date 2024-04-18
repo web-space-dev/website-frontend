@@ -1,5 +1,254 @@
-import Image from "next/image";
-import { IProjectData, Project } from "../../interfaces/project";
+import { Project } from "../../interfaces/project";
+import { colors, dimensions, breakpoints } from "../../styles/variables";
+import styled from "@emotion/styled";
+import { getRemSize } from "../../styles/globalCss";
+import { Row } from "../global/grid/Row";
+import { Col } from "../global/grid/Col";
+import ArrowUpRight from "../../icons/arrowUpRight";
+
+interface IStyledDivImage {
+  imageSrc: string;
+}
+
+const StyledLogoImage = styled.div<{ dark: boolean }>`
+  position: absolute;
+  top: 14px;
+  left: 8px;
+  z-index: 1001;
+  color: ${(props) => (props.dark ? colors.white : colors.black)};
+  img {
+    fill: currentColor;
+  }
+`;
+
+const StyledDivImage = styled.div<IStyledDivImage>`
+  overflow: hidden;
+  position: absolute;
+  background-image: url(${(props) => props.imageSrc});
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+  height: 585px;
+  left: 0;
+  top: 0;
+  z-index: -1;
+  border-radius: 0px 0px 20px 20px;
+
+  @media (max-width: ${breakpoints.md}px) {
+    height: 650px;
+  }
+`;
+
+const StyledHeading1 = styled.h1`
+  font-size: ${getRemSize(dimensions.headingSizes.display2.mobile)};
+  font-weight: 400;
+  letter-spacing: 6px;
+  color: ${colors.white};
+
+  @media all and (max-width: 1100px) {
+    font-size: ${getRemSize(dimensions.headingSizes.medium.desktop)};
+  }
+  @media (max-width: ${breakpoints.md}px) {
+    font-size: ${getRemSize(dimensions.headingSizes.display2.mobile)};
+    font-weight: 500;
+    letter-spacing: 2px;
+    line-height: 1;
+    margin: 0;
+  }
+`;
+
+const StyledHeading2 = styled.h2`
+  font-size: ${getRemSize(dimensions.headingSizes.cta.mobile)};
+  font-weight: 400;
+  letter-spacing: 6px;
+  color: ${colors.white};
+
+  @media all and (max-width: 1100px) {
+    font-size: ${getRemSize(dimensions.headingSizes.cta.mobile)};
+    letter-spacing: 3px;
+  }
+  @media all and (max-width: 1001px) {
+    font-size: ${getRemSize(dimensions.headingSizes.cta.mobile)};
+    letter-spacing: 1px;
+  }
+  @media (max-width: ${breakpoints.md}px) {
+    font-size: ${getRemSize(dimensions.headingSizes.cta.desktop)};
+    letter-spacing: 2px;
+    line-height: 0;
+    margin: -20 px 0 0 0;
+  }
+`;
+
+const StyledTitleRow = styled(Row)`
+  margin: 239px 0 112px 0;
+
+  @media (max-width: 1100px) {
+    margin: 313px 0 112px 0;
+  }
+  @media (max-width: ${breakpoints.md}px) {
+    margin: 251px 0 82px 0;
+  }
+`;
+
+const StyledProjectFieldsDiv = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+
+  @media (max-width: ${breakpoints.md}px) {
+    flex-direction: column;
+    wiqth: 100%;
+  }
+`;
+const StyledProjectField = styled.div`
+  min-width: 347px;
+  min-height: 127px;
+  display: flex;
+  flex-direction: column;
+  padding: 30px 40px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  margin: 10px;
+  backdrop-filter: blur(15px);
+
+  @media (max-width: 1100px) {
+    min-width: 260px;
+    min-height: 92px;
+  }
+
+  @media (max-width: ${breakpoints.md}px) {
+    flex-direction: row;
+    width: 100%;
+    min-height: 78px;
+    padding: 20px 26px;
+    align-items: center;
+    justify-content: space-between;
+    margin: 4px;
+  }
+`;
+const StyledProjectFieldName = styled.p`
+  font-weight: 500;
+  letter-spacing: 4px;
+  font-size: ${getRemSize(dimensions.textSizes.normal.desktop)};
+  opacity: 80%;
+  margin: 0px;
+  padding: 0px;
+
+  @media (max-width: 1100px) {
+    font-size: ${getRemSize(dimensions.textSizes.normal.mobile)};
+  }
+
+  @media (max-width: ${breakpoints.md}px) {
+    font-size: ${getRemSize(dimensions.textSizes.normal.mobile)};
+    letter-spacing: 1px;
+  }
+
+  @media (max-width: ${breakpoints.sm}px) {
+    font-size: ${getRemSize(dimensions.textSizes.small.mobile)};
+    letter-spacing: 1px;
+  }
+`;
+
+const StyledProjectFieldValue = styled.p`
+  font-weight: 500;
+  letter-spacing: 4px;
+  font-size: ${getRemSize(dimensions.textSizes.large.desktop)};
+  margin: 0px;
+  padding: 0px 0px 6px 0px;
+  line-height: 0.67;
+
+  @media (max-width: 1100px) {
+    font-size: ${getRemSize(dimensions.headingSizes.large.mobile)};
+  }
+
+  @media (max-width: ${breakpoints.md}px) {
+    letter-spacing: 1px;
+`;
+
+const StyledTagsWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  @media (max-width: ${breakpoints.md}px) {
+    margin-top: 24px;
+    justify-content: left;
+    flex-wrap: wrap;
+  }
+`;
+const StyledTag = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 11px 35px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  margin: 10px;
+  backdrop-filter: blur(15px);
+  gap: 16px;
+  letter-spacing: 1px;
+  font-size: ${getRemSize(dimensions.textSizes.normal.desktop)};
+  font-weight: 400;
+
+  @media (max-width: 1100px) {
+    font-size: ${getRemSize(dimensions.textSizes.normal.mobile)};
+  }
+
+  @media (max-width: ${breakpoints.md}px) {
+    font-size: ${getRemSize(dimensions.textSizes.normal.mobile)};
+    margin: 4px;
+    padding: 4px 24px 6px 24px;
+  }
+`;
+
+const StyledArrowUpRight = styled(ArrowUpRight)`
+  margin-left: 21px;
+  @media (max-width: 1100px) {
+    margin-left: 12px;
+  }
+`;
+
+const StyledOutlineArrowButton = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 16px;
+  backgorund-color: ${colors.black};
+  border: 2px solid ${colors.white};
+  border-radius: 20px;
+  color: ${colors.white};
+  cursor: pointer;
+  font-size: ${getRemSize(dimensions.headingSizes.cta.mobile)};
+  font-weight: 400;
+  transition: 0.3s ease;
+  letter-spacing: 2px;
+  path {
+    fill: ${colors.white};
+  }
+
+  &:hover {
+    border: 2px solid ${colors.accent};
+    color: ${colors.accent};
+    path {
+      fill: ${colors.accent};
+    }
+  }
+  &:hover .styled-icon {
+    transform: rotate(45deg);
+  }
+
+  @media (max-width: 1100px) {
+    font-size: ${getRemSize(dimensions.textSizes.normal.mobile)};
+    padding: 9px 18px 10px 18px;
+  }
+
+  @media (max-width: ${breakpoints.md}px) {
+    width: 100%;
+    margin-top: 20px;
+    justify-content: center;
+    padding: 18px 16px 20px 16px;
+  }
+`;
 
 interface Props {
   project: Project;
@@ -8,33 +257,61 @@ interface Props {
 export function Hero({ project }: Props) {
   return (
     <>
-      <h1>{project.title}</h1>
-      <p>
-        {project.tags.nodes.map((tag, index) => (
-          <span key={index}>{tag.name}</span>
-        ))}
-      </p>
-      <p>
-        {project.projectCategories.nodes.map((item, index) => (
-          <span key={index}>{item.name}</span>
-        ))}
-      </p>
-      <Image
-        width={1000}
-        height={500}
-        alt={`Cover Image for ${project.title}`}
-        loader={() => project.featuredImage.node.sourceUrl}
-        src={project.featuredImage.node.sourceUrl}
-      />
-      <p>
-        {project.projectFields.stat1.field}: {project.projectFields.stat1.value}
-      </p>
-      <p>
-        {project.projectFields.stat2.field}: {project.projectFields.stat2.value}
-      </p>
-      <p>
-        {project.projectFields.stat3.field}: {project.projectFields.stat3.value}
-      </p>
+      <StyledLogoImage dark={false}>
+        <img src="/svg/logo-icon-white.svg" alt="Logo" width={40} height={40} />
+      </StyledLogoImage>
+      <StyledDivImage imageSrc={project.featuredImage?.node.sourceUrl} />
+      <StyledTitleRow>
+        <Col start={2} span={7}>
+          <StyledHeading1>{project.title}</StyledHeading1>
+        </Col>
+        <Col span={3}>
+          <StyledHeading2>
+            <span>{project?.projectCategories?.nodes[0]?.name}</span>
+          </StyledHeading2>
+        </Col>
+      </StyledTitleRow>
+      <Col span={12}>
+        <StyledProjectFieldsDiv>
+          <StyledProjectField>
+            <StyledProjectFieldName>
+              {project.projectFields.stat1.field}
+            </StyledProjectFieldName>
+            <StyledProjectFieldValue>
+              {project.projectFields.stat1.value}
+            </StyledProjectFieldValue>
+          </StyledProjectField>
+          <StyledProjectField>
+            <StyledProjectFieldName>
+              {project.projectFields.stat2.field}
+            </StyledProjectFieldName>
+            <StyledProjectFieldValue>
+              {project.projectFields.stat2.value}
+            </StyledProjectFieldValue>
+          </StyledProjectField>
+          <StyledProjectField>
+            <StyledProjectFieldName>
+              {project.projectFields.stat3.field}
+            </StyledProjectFieldName>
+            <StyledProjectFieldValue>
+              {project.projectFields.stat3.value}
+            </StyledProjectFieldValue>
+          </StyledProjectField>
+        </StyledProjectFieldsDiv>
+      </Col>
+      <Col span={12}>
+        <StyledTagsWrapper>
+          {project.tags.nodes.map((tag, index) => (
+            <StyledTag>
+              <span key={index}>{tag.name}</span>
+            </StyledTag>
+          ))}
+          <StyledOutlineArrowButton>
+            Website
+            <StyledArrowUpRight className="styled-icon" />
+          </StyledOutlineArrowButton>
+        </StyledTagsWrapper>
+      </Col>
     </>
   );
 }

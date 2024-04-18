@@ -1,7 +1,6 @@
 import { useRouter } from "next/router";
 import ErrorPage from "next/error";
 import { GetStaticPaths, GetStaticProps } from "next";
-import Header from "../../components/global/header";
 import Layout from "../../components/layout";
 import {
   getAllProjectsWithSlug,
@@ -13,6 +12,9 @@ import { ISiteData } from "../../interfaces/site";
 import { IProjectData } from "../../interfaces/project";
 import { Hero } from "../../components/project/hero";
 import ProjectBody from "../../components/project/content";
+import { GridContainer } from "../../components/global/grid/gridContainer";
+import styled from "@emotion/styled";
+import Navbar from "../../components/navbar";
 
 interface IProject extends IProjectData {
   siteData: ISiteData;
@@ -32,30 +34,33 @@ export default function Project({
   }
 
   return (
-    <Layout preview={preview} pageTitle={project.title} siteData={siteData}>
-      <Header />
+    <Layout preview={preview} pageTitle={project?.title} siteData={siteData}>
+      <Navbar dark={true} />
+
       {router.isFallback ? (
         <h2>Loading</h2>
       ) : (
         <>
-          <Hero project={project} />
-          {/* <Content */}
-          <ProjectBody content={project.projectFields.content} />
+          <GridContainer>
+            <Hero project={project} />
+            {/* <Content */}
+            <ProjectBody content={project.projectFields.content} />
 
-          {/* Other Projects */}
-          <h2>Other projects</h2>
-          {projects.nodes.map((project, index) => (
-            <div key={index}>
-              <Image
-                width={500}
-                height={200}
-                alt={`Cover Image for ${project.title}`}
-                loader={() => project.featuredImage?.node.sourceUrl}
-                src={project?.featuredImage?.node.sourceUrl}
-              />
-              <h3>{project.title}</h3>
-            </div>
-          ))}
+            {/* Other Projects */}
+            <h2>Other projects</h2>
+            {projects.nodes.map((project, index) => (
+              <div key={index}>
+                <Image
+                  width={500}
+                  height={200}
+                  alt={`Cover Image for ${project.title}`}
+                  loader={() => project.featuredImage?.node.sourceUrl}
+                  src={project?.featuredImage?.node.sourceUrl}
+                />
+                <h3>{project.title}</h3>
+              </div>
+            ))}
+          </GridContainer>
         </>
       )}
     </Layout>

@@ -61,6 +61,7 @@ export type WebSpaceBreakPointKey = keyof typeof breakpoints;
 export type WebSpaceBreakPointVal = (typeof breakpoints)[WebSpaceBreakPointKey];
 
 export const widths = {
+  sm: 500,
   md: 720,
   lg: 960,
   xl: 1140,
@@ -116,9 +117,10 @@ export const dimensions = {
   lineHeight: {
     regular: 1.45,
     heading: 1.2,
+    text: 1.91,
   },
   gridContainerPadding: 20,
-  gridContainerMobileTabletPadding: 25,
+  gridContainerMobileTabletPadding: 16,
 };
 
 export const heights = {
