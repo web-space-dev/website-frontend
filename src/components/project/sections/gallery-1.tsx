@@ -6,13 +6,18 @@ import { motion, AnimatePresence } from "framer-motion";
 import { wrap } from "popmotion";
 import { Row } from "../../global/grid/Row";
 import { Col } from "../../global/grid/Col";
-import { colors } from "../../../styles/variables";
+import { breakpoints, colors } from "../../../styles/variables";
 import ArrowRight from "../../../icons/arrowRight";
 import ArrowLeft from "../../../icons/arrowLeft";
 
 interface IProps {
   images: Gallery;
 }
+
+const StyledGalleryWrapper = styled.div`
+  position: relative;
+  border-radius: 20px;
+`;
 
 const StyledImagesWrapper = styled.div`
   position: relative;
@@ -21,18 +26,53 @@ const StyledImagesWrapper = styled.div`
   align-items: center;
   width: 100%;
   height: 768px;
+  overflow: hidden;
+  border-radius: 20px;
+  user-select: none;
+  cursor: pointer;
+
+  & img {
+    object-fit: cover;
+    border-radius: 20px;
+  }
 `;
 const StyledImage = styled(motion.div)`
   position: absolute;
-  max-width: 100vw;
+  width: 100%;
+  max-width: 1440px;
   border-radius: 20px;
 `;
 
 const StyledButtonsWrapper = styled.div`
-  display: flex;
   position: absolute;
-  bottom: -662px;
-  left: 941px;
+  display: flex;
+  bottom: 13px;
+  right: 74px;
+  z-index: 2;
+
+  @media (max-width: 1600px) {
+    bottom: 17px;
+    right: 79px;
+  }
+
+  @media (max-width: 1519px) {
+    bottom: 17px;
+    right: 36px;
+  }
+
+  @media (max-width: 1503px) {
+    bottom: 17px;
+    right: 29px;
+  }
+
+  @media (max-width: 1473px) {
+    bottom: 17px;
+    right: 17px;
+  }
+
+  @media all and (max-width: ${breakpoints.md}px) {
+    display: none;
+  }
 `;
 
 const StyledArrowButton = styled.div`
@@ -45,6 +85,7 @@ const StyledArrowButton = styled.div`
   justify-content: center;
   align-items: center;
   margin: 8px;
+  z-index: 2;
 `;
 
 const StyledArrowLeft = styled(ArrowLeft)``;
@@ -59,7 +100,7 @@ const variants = {
     };
   },
   center: {
-    zIndex: -1,
+    zIndex: 1,
     x: 0,
     opacity: 1,
   },
@@ -72,7 +113,7 @@ const variants = {
   },
 };
 
-const swipeConfidenceThreshold = 10000;
+const swipeConfidenceThreshold = 1000;
 const swipePower = (offset: number, velocity: number) => {
   return Math.abs(offset) * velocity;
 };
@@ -87,60 +128,64 @@ export default function Gallery1({ images }: IProps) {
 
   return (
     <Col start={1} span={12}>
-      <StyledImagesWrapper>
-        <AnimatePresence initial={false} custom={direction}>
-          <StyledImage
-            key={page}
-            custom={direction}
-            variants={variants}
-            initial="enter"
-            animate="center"
-            exit="exit"
-            transition={{
-              x: { type: "spring", stiffness: 300, damping: 30 },
-              opacity: { duration: 0.2 },
-            }}
-            drag="x"
-            dragConstraints={{ left: 0, right: 0 }}
-            dragElastic={1}
-            onDragEnd={(e, { offset, velocity }) => {
-              const swipe = swipePower(offset.x, velocity.x);
+      <StyledGalleryWrapper>
+        <StyledImagesWrapper>
+          <AnimatePresence initial={false} custom={direction}>
+            <StyledImage
+              key={page}
+              custom={direction}
+              variants={variants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{
+                x: { type: "spring", stiffness: 300, damping: 30 },
+                opacity: { duration: 0.2 },
+              }}
+              drag="x"
+              dragConstraints={{ left: 0, right: 0 }}
+              dragElastic={1}
+              onDragEnd={(e, { offset, velocity }) => {
+                console.log("hello");
+                const swipe = swipePower(offset.x, velocity.x);
 
-              if (swipe < -swipeConfidenceThreshold) {
-                paginate(1);
-              } else if (swipe > swipeConfidenceThreshold) {
-                paginate(-1);
-              }
+                if (swipe < -swipeConfidenceThreshold) {
+                  paginate(1);
+                } else if (swipe > swipeConfidenceThreshold) {
+                  paginate(-1);
+                }
+              }}
+            >
+              <Image
+                // layout="responsive"
+                width={1440}
+                height={768}
+                alt={`Gallery Image ${page}`}
+                loader={() => images.nodes[imageIndex].sourceUrl}
+                src={images.nodes[imageIndex].sourceUrl}
+              />
+            </StyledImage>
+          </AnimatePresence>
+        </StyledImagesWrapper>
+        <StyledButtonsWrapper>
+          <StyledArrowButton
+            onClick={(e) => {
+              e.preventDefault();
+              paginate(-1);
             }}
           >
-            <Image
-              width={1440}
-              height={768}
-              alt={`Gallery Image ${page}`}
-              loader={() => images.nodes[imageIndex].sourceUrl}
-              src={images.nodes[imageIndex].sourceUrl}
-            />
-          </StyledImage>
-        </AnimatePresence>
-      </StyledImagesWrapper>
-      <StyledButtonsWrapper>
-        <StyledArrowButton
-          onClick={(e) => {
-            e.preventDefault();
-            paginate(-1);
-          }}
-        >
-          <StyledArrowLeft fill={colors.white} />
-        </StyledArrowButton>
-        <StyledArrowButton
-          onClick={(e) => {
-            e.preventDefault();
-            paginate(1);
-          }}
-        >
-          <StyledArrowRight fill={colors.white} />
-        </StyledArrowButton>
-      </StyledButtonsWrapper>
+            <StyledArrowLeft fill={colors.white} />
+          </StyledArrowButton>
+          <StyledArrowButton
+            onClick={(e) => {
+              e.preventDefault();
+              paginate(1);
+            }}
+          >
+            <StyledArrowRight fill={colors.white} />
+          </StyledArrowButton>
+        </StyledButtonsWrapper>
+      </StyledGalleryWrapper>
     </Col>
   );
 }
