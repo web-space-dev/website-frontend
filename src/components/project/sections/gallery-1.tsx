@@ -47,7 +47,6 @@ const StyledImage = styled(motion.div)`
   overflow: hidden;
   flex: 0 0 100vw;
   width: 100%;
-  // left: ${(props) => props.index * 100}vw;
   // margin-left: -45px;
   overflow: hidden;
   display: flex;
