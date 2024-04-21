@@ -7,8 +7,8 @@ interface IProps extends SVGProps<SVGSVGElement> {
 
 const ArrowLeft = (props: IProps) => (
   <svg
-    width="14"
-    height="16"
+    width="19.27"
+    height="17.5"
     viewBox="0 0 14 16"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"

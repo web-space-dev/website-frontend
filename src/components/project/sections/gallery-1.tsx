@@ -1,11 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { Gallery } from "../../../interfaces/project";
 import styled from "@emotion/styled";
 import { motion, AnimatePresence } from "framer-motion";
 import { wrap } from "popmotion";
-import { Row } from "../../global/grid/Row";
-import { Col } from "../../global/grid/Col";
 import { breakpoints, colors } from "../../../styles/variables";
 import ArrowRight from "../../../icons/arrowRight";
 import ArrowLeft from "../../../icons/arrowLeft";
@@ -16,59 +14,61 @@ interface IProps {
 
 const StyledGalleryWrapper = styled.div`
   position: relative;
-  border-radius: 20px;
+  overflow-x: hidden;
 `;
 
 const StyledImagesWrapper = styled.div`
   position: relative;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  scrollbar-width: none;
+  overflow-y: hidden;
   width: 100%;
-  height: 768px;
-  overflow: hidden;
   border-radius: 20px;
-  user-select: none;
-  cursor: pointer;
 
   & img {
     object-fit: cover;
+    width: 100%;
+    height: 100%;
     border-radius: 20px;
+  }
+
+  @media (min-width: 900px) {
+    justify-content: center; // Center images on larger screens
+    overflow: hidden; // Disable scrolling
+    width: 100%;
+    padding-left: 0;
   }
 `;
 const StyledImage = styled(motion.div)`
   position: absolute;
+  overflow: hidden;
+  flex: 0 0 100vw;
   width: 100%;
-  max-width: 1440px;
-  border-radius: 20px;
+  // left: ${(props) => props.index * 100}vw;
+  // margin-left: -45px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  justify-content: flex-start;
+
+  @media (min-width: 900px) {
+    max-width: 1440px;
+    width: 100%;
+    right: 0;
+    position: absolute;
+  }
 `;
 
 const StyledButtonsWrapper = styled.div`
   position: absolute;
   display: flex;
   bottom: 13px;
-  right: 74px;
+  right: 13px;
   z-index: 2;
-
-  @media (max-width: 1600px) {
-    bottom: 17px;
-    right: 79px;
-  }
-
-  @media (max-width: 1519px) {
-    bottom: 17px;
-    right: 36px;
-  }
-
-  @media (max-width: 1503px) {
-    bottom: 17px;
-    right: 29px;
-  }
-
-  @media (max-width: 1473px) {
-    bottom: 17px;
-    right: 17px;
-  }
 
   @media all and (max-width: ${breakpoints.md}px) {
     display: none;
@@ -78,7 +78,7 @@ const StyledButtonsWrapper = styled.div`
 const StyledArrowButton = styled.div`
   width: 70px;
   height: 70px;
-  border-radius: 26%;
+  border-radius: 26px;
   background: transparent;
   border: 2px solid ${colors.white};
   display: flex;
@@ -86,6 +86,7 @@ const StyledArrowButton = styled.div`
   align-items: center;
   margin: 8px;
   z-index: 2;
+  cursor: pointer;
 `;
 
 const StyledArrowLeft = styled(ArrowLeft)``;
@@ -121,71 +122,82 @@ const swipePower = (offset: number, velocity: number) => {
 export default function Gallery1({ images }: IProps) {
   const [[page, direction], setPage] = useState([0, 0]);
   const imageIndex = wrap(0, images.nodes.length, page);
+  const wrapperRef = useRef(null);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const img = wrapperRef.current.querySelector("img");
+      if (img) {
+        wrapperRef.current.style.height = `${img.offsetHeight}px`;
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const paginate = (newDirection: number) => {
     setPage([page + newDirection, newDirection]);
   };
 
   return (
-    <Col start={1} span={12}>
-      <StyledGalleryWrapper>
-        <StyledImagesWrapper>
-          <AnimatePresence initial={false} custom={direction}>
-            <StyledImage
-              key={page}
-              custom={direction}
-              variants={variants}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              transition={{
-                x: { type: "spring", stiffness: 300, damping: 30 },
-                opacity: { duration: 0.2 },
-              }}
-              drag="x"
-              dragConstraints={{ left: 0, right: 0 }}
-              dragElastic={1}
-              onDragEnd={(e, { offset, velocity }) => {
-                console.log("hello");
-                const swipe = swipePower(offset.x, velocity.x);
+    <StyledGalleryWrapper>
+      <StyledImagesWrapper ref={wrapperRef}>
+        <AnimatePresence initial={false} custom={direction}>
+          <StyledImage
+            key={page}
+            custom={direction}
+            variants={variants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{
+              x: { type: "spring", stiffness: 300, damping: 30 },
+              opacity: { duration: 0.2 },
+            }}
+            drag="x"
+            dragConstraints={{ left: 0, right: 0 }}
+            dragElastic={1}
+            onDragEnd={(e, { offset, velocity }) => {
+              const swipe = swipePower(offset.x, velocity.x);
 
-                if (swipe < -swipeConfidenceThreshold) {
-                  paginate(1);
-                } else if (swipe > swipeConfidenceThreshold) {
-                  paginate(-1);
-                }
-              }}
-            >
-              <Image
-                // layout="responsive"
-                width={1440}
-                height={768}
-                alt={`Gallery Image ${page}`}
-                loader={() => images.nodes[imageIndex].sourceUrl}
-                src={images.nodes[imageIndex].sourceUrl}
-              />
-            </StyledImage>
-          </AnimatePresence>
-        </StyledImagesWrapper>
-        <StyledButtonsWrapper>
-          <StyledArrowButton
-            onClick={(e) => {
-              e.preventDefault();
-              paginate(-1);
+              if (swipe < -swipeConfidenceThreshold) {
+                paginate(1);
+              } else if (swipe > swipeConfidenceThreshold) {
+                paginate(-1);
+              }
             }}
           >
-            <StyledArrowLeft fill={colors.white} />
-          </StyledArrowButton>
-          <StyledArrowButton
-            onClick={(e) => {
-              e.preventDefault();
-              paginate(1);
-            }}
-          >
-            <StyledArrowRight fill={colors.white} />
-          </StyledArrowButton>
-        </StyledButtonsWrapper>
-      </StyledGalleryWrapper>
-    </Col>
+            <Image
+              layout="responsive"
+              width={1440}
+              height={768}
+              alt={`Gallery Image ${page}`}
+              loader={() => images.nodes[imageIndex].sourceUrl}
+              src={images.nodes[imageIndex].sourceUrl}
+            />
+          </StyledImage>
+        </AnimatePresence>
+      </StyledImagesWrapper>
+      <StyledButtonsWrapper>
+        <StyledArrowButton
+          onClick={(e) => {
+            e.preventDefault();
+            paginate(-1);
+          }}
+        >
+          <StyledArrowLeft fill={colors.white} />
+        </StyledArrowButton>
+        <StyledArrowButton
+          onClick={(e) => {
+            e.preventDefault();
+            paginate(1);
+          }}
+        >
+          <StyledArrowRight fill={colors.white} />
+        </StyledArrowButton>
+      </StyledButtonsWrapper>
+    </StyledGalleryWrapper>
   );
 }
