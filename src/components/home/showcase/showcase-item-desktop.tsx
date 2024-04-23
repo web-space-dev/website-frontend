@@ -6,18 +6,17 @@ import { getRemSize } from "../../../styles/globalCss";
 import { IconButton } from "../../global/iconButton";
 import { CustomImage } from "../../global/image";
 import { MotionValue, motion, useScroll } from "framer-motion";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface IStyledShowcaseWrapper {
-  isOpen: boolean;
-  showAllProjects: boolean;
+  open: boolean;
 }
 const StyledShowcaseWrapper = styled(motion.div)<IStyledShowcaseWrapper>`
   height: 100vh;
   display: flex;
   align-items: center;
   perspective: 500px;
-  scroll-snap-align: ${({ isOpen }) => (isOpen ? "start" : "none")};
+  scroll-snap-align: ${({ open }) => (open ? "start" : "none")};
 `;
 
 const StyledShowcaseDetails = styled(motion.div)`
@@ -28,7 +27,8 @@ const StyledShowcaseDetails = styled(motion.div)`
   align-items: center;
   border-radius: 12px;
   height: -webkit-fill-available;
-  margin: 40px 10px;
+  margin: 40px auto;
+  max-width: 1448px;
 `;
 
 const StyledAllProjects = styled.div`
@@ -40,11 +40,13 @@ const StyledAllProjects = styled.div`
   backdrop-filter: blur(10px);
   font-size: ${getRemSize(dimensions.headingSizes.medium.desktop)};
   height: -webkit-fill-available;
-  margin: 40px 10px;
+  margin: auto 10px;
 `;
 
 const StyledShowcaseImage = styled(motion.div)`
   height: 100%;
+  flex: 1;
+  margin: auto 10px;
 
   & img {
     object-fit: cover;
@@ -59,7 +61,6 @@ const StyledShowcaseContent = styled(Link)`
   bottom: 50%;
   display: flex;
   justify-content: space-between;
-  width: 95%;
   align-items: center;
   margin: 0 15px;
 
@@ -109,7 +110,10 @@ interface ShowcaseItemProps {
   scale?: MotionValue;
   isOpen: boolean;
   showAllProjects: boolean;
+  isFirst: boolean;
+  isLast: boolean;
   reverseScale: () => void;
+  forwardScale: (param: boolean) => void;
 }
 
 export default function ShowcaseItemDesktop({
@@ -117,7 +121,10 @@ export default function ShowcaseItemDesktop({
   scale,
   isOpen,
   showAllProjects,
+  isFirst,
+  isLast,
   reverseScale,
+  forwardScale,
 }: ShowcaseItemProps) {
   const ref = useRef(null);
   const scrollRef = useRef(
@@ -125,6 +132,7 @@ export default function ShowcaseItemDesktop({
       ? { y: window.pageYOffset, direction: null }
       : { y: 0, direction: null }
   );
+  const [listening, setListening] = useState(false);
 
   useEffect(() => {
     /**
@@ -133,8 +141,8 @@ export default function ShowcaseItemDesktop({
      * to reverse the scale
      * @param e WheelEvent
      */
-    const handleScroll = (e: WheelEvent) => {
-      const wiggleRoom = 200;
+    const wiggleRoom = 200;
+    const handleScrollUp = (e: WheelEvent) => {
       if (e.deltaY < 0) {
         scrollRef.current.y -= e.deltaY;
         if (scrollRef.current.y > wiggleRoom) {
@@ -145,21 +153,49 @@ export default function ShowcaseItemDesktop({
         scrollRef.current.y = 0; // Reset the counter if the user scrolls down
       }
     };
+    const handleScrollDown = (e: WheelEvent) => {
+      // User is scrolling down
+      scrollRef.current.y += e.deltaY;
+      if (scrollRef.current.y > wiggleRoom) {
+        forwardScale(false);
+        scrollRef.current.y = 0; // Reset the counter
+      }
+    };
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        /**
-         * Checking if it's the first element AND if it's in view
-         * (we know that because scale will be defined)
-         */
-        if (entry.isIntersecting && typeof scale !== "undefined") {
-          // Oh also we check if the window is defined because of SSR
-          if (typeof window !== "undefined") {
-            window.addEventListener("wheel", handleScroll);
+        if (isFirst || isLast) {
+          /**
+           * Checking if it's the first element AND if it's in view
+           * (we know that because scale will be defined)
+           */
+          if (entry.isIntersecting && !listening) {
+            // Oh also we check if the window is defined because of SSR
+            if (typeof window !== "undefined") {
+              setListening(true);
+
+              window.addEventListener(
+                "wheel",
+                isFirst ? handleScrollUp : handleScrollDown
+              );
+            }
+          } else {
+            // Element is not in view, remove the event listener
+            if (typeof window !== "undefined") {
+              window.removeEventListener(
+                "wheel",
+                isFirst ? handleScrollUp : handleScrollDown
+              );
+
+              setListening(false);
+            }
+          }
+          if (isLast && entry.isIntersecting && !isOpen) {
+            forwardScale(true);
           }
         }
       },
-      { threshold: 0.1 }
+      { threshold: 1.0 }
     );
 
     if (ref.current) {
@@ -171,7 +207,11 @@ export default function ShowcaseItemDesktop({
         observer.unobserve(ref.current);
       }
       if (typeof window !== "undefined") {
-        window.removeEventListener("wheel", handleScroll);
+        // window.removeEventListener("wheel", handleScroll);
+        window.removeEventListener(
+          "wheel",
+          isFirst ? handleScrollUp : handleScrollDown
+        );
       }
     };
   }, []);
@@ -180,9 +220,8 @@ export default function ShowcaseItemDesktop({
     <StyledShowcaseWrapper
       layout
       transition={{ duration: 1 }}
-      isOpen={isOpen}
+      open={isOpen}
       ref={ref}
-      showAllProjects={showAllProjects}
       style={scale ? { scale } : {}}
     >
       <StyledShowcaseDetails>
@@ -194,24 +233,23 @@ export default function ShowcaseItemDesktop({
             src={project.featuredImage.node.sourceUrl}
             blurDataURL={project.featuredImage.node.placeholderDataURI}
           />
+          <StyledShowcaseContent href={`/projects/${project.slug}`}>
+            <StyledShowcaseTitle>{project.title}</StyledShowcaseTitle>
+            <StyledShowcaseCategory>
+              {project.projectCategories?.nodes[0]?.name}
+            </StyledShowcaseCategory>
+          </StyledShowcaseContent>
         </StyledShowcaseImage>
 
-        <StyledShowcaseContent href={`/projects/${project.slug}`}>
-          <StyledShowcaseTitle>{project.title}</StyledShowcaseTitle>
-          <StyledShowcaseCategory>
-            {project.projectCategories?.nodes[0]?.name}
-          </StyledShowcaseCategory>
-        </StyledShowcaseContent>
+        {showAllProjects && (
+          <StyledAllProjects>
+            <StyledLink href="/projects">
+              <StyledShowcaseTitle>All projects</StyledShowcaseTitle>
+              <IconButton />
+            </StyledLink>
+          </StyledAllProjects>
+        )}
       </StyledShowcaseDetails>
-
-      {showAllProjects && (
-        <StyledAllProjects>
-          <StyledLink href="/projects">
-            <StyledShowcaseTitle>View all projects</StyledShowcaseTitle>
-            <IconButton />
-          </StyledLink>
-        </StyledAllProjects>
-      )}
     </StyledShowcaseWrapper>
   );
 }

@@ -10,9 +10,11 @@ import ShowcaseItemDesktop from "./showcase/showcase-item-desktop";
 
 import useIsDesktop from "../../hooks/useIsDesktop";
 import ShowcaseItemMobile from "./showcase/shocase-item-mobile";
+import { Row } from "../global/grid/Row";
+import { Col } from "../global/grid/Col";
 
-const StyledSpacer = styled.div`
-  height: 100vh;
+const StyledSpacer = styled.div<{ height: number }>`
+  height: ${({ height }) => height}vh;
 `;
 
 interface IStyledWrapper {
@@ -46,9 +48,10 @@ const StyledMotionWrapper = styled(motion.div)<IStyledWrapper>`
 
 const StyledTitle = styled.h2<{ color: string }>`
   transition: 0.3s ease-in-out;
+  margin-top: 0;
   font-size: ${getRemSize(dimensions.headingSizes.display2.desktop)};
   text-align: center;
-  grid-column: 1 / span 12;
+  /* grid-column: 1 / span 12; */
   line-height: 225px;
   color: ${({ color }) => color};
   @media all and (max-width: 1164px) {
@@ -71,6 +74,7 @@ export default function Showcase({ title, projects }: IShowcase) {
   const [canSnapScroll, setCanSnapScroll] = useState(false);
   const [breakpoint, setBreakpoint] = useState(0);
   const [beginScalePos, setBeginScalePos] = useState(0);
+  const [fromStart, setFromStart] = useState(true);
 
   const ref = useRef(null);
   const isDesktop = useIsDesktop();
@@ -98,6 +102,7 @@ export default function Showcase({ title, projects }: IShowcase) {
           setCanSnapScroll(true);
           setBreakpoint(scrollY.get());
           setCanScale(false);
+          setFromStart(false);
         }
       }
     };
@@ -122,25 +127,23 @@ export default function Showcase({ title, projects }: IShowcase) {
     setIsOpen(false);
     setCanSnapScroll(false);
     setBreakpoint(0);
+    setFromStart(true);
   };
 
-  // const debugPanel = useDebugPanel({
-  //   isOpen,
-  //   canScale,
-  //   canSnapScroll,
-  //   breakpoint,
-  //   beginScalePos,
-  //   fps,
-  //   scrollY: scrollY.get(),
-  // });
+  const forwardScale = (isOpen: boolean) => {
+    setIsOpen(isOpen);
+  };
 
   return (
-    <>
-      {/* {debugPanel} */}
+    <div style={{ position: "relative" }}>
       <StyledWrapper ref={ref} open={isOpen}>
-        <StyledTitle color={isOpen ? colors.accent : colors.white}>
-          {title}
-        </StyledTitle>
+        <Row>
+          <Col start={1} span={12}>
+            <StyledTitle color={isOpen ? colors.accent : colors.white}>
+              {title}
+            </StyledTitle>
+          </Col>
+        </Row>
         <StyledMotionWrapper open={isOpen}>
           {projects.nodes.map((project: Project, index: number) => {
             if (isDesktop) {
@@ -151,7 +154,10 @@ export default function Showcase({ title, projects }: IShowcase) {
                   scale={index === 0 ? scale : undefined}
                   isOpen={isOpen}
                   showAllProjects={index === projects.nodes.length - 1}
+                  isFirst={index === 0}
+                  isLast={index === projects.nodes.length - 1}
                   reverseScale={reverseScale}
+                  forwardScale={forwardScale}
                 />
               );
             }
@@ -169,7 +175,7 @@ export default function Showcase({ title, projects }: IShowcase) {
           })}
         </StyledMotionWrapper>
       </StyledWrapper>
-      <StyledSpacer />
-    </>
+      <StyledSpacer height={fromStart ? 130 : 100} />
+    </div>
   );
 }
