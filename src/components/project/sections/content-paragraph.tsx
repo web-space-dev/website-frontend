@@ -15,15 +15,12 @@ interface IProps {
   content: ParagraphItem[];
 }
 
-const StyledPillWrapper = styled.div`
-  // margin-bottom: 24px;
-  // margin-top: 120px;
-`;
+const StyledPillWrapper = styled.div``;
 
 const StyledParagraphFirst = styled.p`
   font-weight: 500;
   font-size: ${getRemSize(dimensions.textSizes.normal.desktop)};
-  line-height: 1.45;
+  line-height: 1.35;
   text-indent: 100px;
   letter-spacing: 2px;
 
@@ -36,7 +33,7 @@ const StyledParagraphFirst = styled.p`
 
 const StyledParagraphSecond = styled.p`
   font-weight: 500;
-  line-height: 1.4;
+  line-height: 1.1;
   text-indent: 100px;
   letter-spacing: 2px;
 
