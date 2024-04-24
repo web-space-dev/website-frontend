@@ -2,6 +2,8 @@ import styled from "@emotion/styled";
 import { Project } from "../../../interfaces/project";
 import Image from "next/image";
 import { IconButton } from "../../global/iconButton";
+import { getRemSize } from "../../../styles/globalCss";
+import { colors, dimensions } from "../../../styles/variables";
 
 const StyledShowcaseWrapper = styled.div`
   display: flex;
@@ -9,9 +11,8 @@ const StyledShowcaseWrapper = styled.div`
   min-width: 343px;
   height: 537px;
   flex-direction: column;
-  margin: 0 4px;
-  /* perspective: 500px; */
-  /* scroll-snap-align: ${({ isOpen }) => (isOpen ? "start" : "none")}; */
+  margin: 0 4px 0 12px;
+  scroll-snap-align: center;
 `;
 
 const StyledShowcaseImage = styled.div`
@@ -26,26 +27,39 @@ const StyledShowcaseImage = styled.div`
 const StyledShowcaseDetails = styled.div`
   /* Add your styles for StyledShowcaseDetails here */
   width: 100%;
+  height: 86px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  margin-top: 10px;
+  padding: 8px 8px 8px 24px;
 `;
 
 const StyledShowcaseContentWrapper = styled.div`
   /* Add your styles for StyledShowcaseContentWrapper here */
 `;
 
-const StyledShowcaseTitle = styled.h2`
+const StyledShowcaseTitle = styled.h3`
   /* Add your styles for StyledShowcaseTitle here */
+  margin: 0;
+  font-size: ${getRemSize(dimensions.headingSizes.small.mobile)};
 `;
 
 const StyledShowcaseCategory = styled.p`
   /* Add your styles for StyledShowcaseCategory here */
+  margin: 0;
+  font-size: ${getRemSize(dimensions.headingSizes.small.mobile)};
 `;
 
 const StyledLink = styled.a`
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  & button {
+    margin: auto;
+  }
 `;
 
 interface ShowcaseItemProps {
