@@ -5,17 +5,10 @@ import styled from "@emotion/styled";
 interface IProps {
   images: Gallery;
 }
-const ImagesWrapper = styled.div`
-  display: flex;
-  flex-wrap: nowrap;
-`;
 
-const StyledImage = styled(Image)`
-  object-fit: none;
-`;
 export default function Gallery2({ images }: IProps) {
   return (
-    <ImagesWrapper>
+    <div>
       {images.nodes.map((image, index) => {
         return (
           <Image
@@ -28,6 +21,6 @@ export default function Gallery2({ images }: IProps) {
           />
         );
       })}
-    </ImagesWrapper>
+    </div>
   );
 }
