@@ -3,6 +3,8 @@ import { Gallery } from "../../../interfaces/project";
 import styled from "@emotion/styled";
 import { breakpoints } from "../../../styles/variables";
 import useIsDesktop from "../../../hooks/useIsDesktop";
+import useIsTablet from "../../../hooks/useIsTablet";
+
 interface IProps {
   images: Gallery;
 }
@@ -39,14 +41,15 @@ const StyledImageWrapper = styled.div`
 
 export default function Gallery2({ images }: IProps) {
   const isDesktop = useIsDesktop();
+  const isTablet = useIsTablet();
   return (
     <StyledImageWrapper>
       {images.nodes.map((image, index) => {
         return (
           <Image
             key={index}
-            width={isDesktop ? 500 : 343}
-            height={768}
+            width={isDesktop ? 500 : isTablet ? 686 : 343}
+            height={isDesktop ? 768 : isTablet ? 428 : 236}
             alt={`Gallery Image ${index}`}
             loader={() => image.sourceUrl}
             src={image.sourceUrl}
