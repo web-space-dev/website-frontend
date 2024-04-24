@@ -1,23 +1,81 @@
 import { ParagraphItem } from "../../../interfaces/project";
+import { Col } from "../../global/grid/Col";
+import { getRemSize } from "../../../../src/styles/globalCss";
+import styled from "@emotion/styled";
+import {
+  colors,
+  dimensions,
+  breakpoints,
+} from "../../../../src/styles/variables";
+import Pill from "../../global/pill";
+import { Row } from "../../global/grid/Row";
+// import { GridContainer } from "../../global/grid/gridContainer";
 
 interface IProps {
   content: ParagraphItem[];
 }
 
+const StyledPillWrapper = styled.div`
+  // margin-bottom: 24px;
+  // margin-top: 120px;
+`;
+
+const StyledParagraphFirst = styled.p`
+  font-weight: 500;
+  font-size: ${getRemSize(dimensions.textSizes.normal.desktop)};
+  line-height: 1.45;
+  text-indent: 100px;
+  letter-spacing: 2px;
+
+  @media (max-width: ${breakpoints.md}px) {
+    font-size: ${getRemSize(dimensions.textSizes.normal.mobile)};
+    text-indent: 60px;
+    letter-spacing: 1px;
+  }
+`;
+
+const StyledParagraphSecond = styled.p`
+  font-weight: 500;
+  line-height: 1.4;
+  text-indent: 100px;
+  letter-spacing: 2px;
+
+  @media (max-width: ${breakpoints.md}px) {
+    font-size: ${getRemSize(dimensions.textSizes.large.mobile)}!important;
+    text-indent: 60px;
+    letter-spacing: 1px;
+  }
+`;
+
 export function ContentParagraph({ content }: IProps) {
   return (
-    <div>
+    <Row>
       {content.map((paragraph, index) => {
-        if (paragraph.title) return <h3 key={index}>{paragraph.title}</h3>;
+        if (paragraph.title)
+          return (
+            <Col start={1} span={4}>
+              <StyledPillWrapper>
+                <Pill key={index} pillText={paragraph.title} />
+              </StyledPillWrapper>
+            </Col>
+          );
         if (paragraph.paragraph)
-          return <p key={index}>{paragraph.paragraph}</p>;
+          return (
+            <Col start={5} span={8}>
+              <StyledParagraphFirst key={index}>
+                {paragraph.paragraph}
+              </StyledParagraphFirst>
+            </Col>
+          );
         if (paragraph.largeParagraph)
           return (
-            <p style={{ fontSize: 25 }} key={index}>
-              {paragraph.largeParagraph}
-            </p>
+            <Col start={5} span={8}>
+              <StyledParagraphSecond style={{ fontSize: 64 }} key={index}>
+                {paragraph.largeParagraph}
+              </StyledParagraphSecond>
+            </Col>
           );
       })}
-    </div>
+    </Row>
   );
 }
