@@ -5,74 +5,116 @@ import { Col } from "../../global/grid/Col";
 import Pill from "../../global/pill";
 import styled from "@emotion/styled";
 import { useState } from "react";
+import { dimensions, breakpoints, colors } from "../../../styles/variables";
+import { getRemSize } from "../../../styles/globalCss";
+import useIsDesktop from "../../../hooks/useIsDesktop";
 
 interface IProps {
   content: DynamicTextAndImage[];
 }
 const StyledPillWrapper = styled.div``;
 
-const StyledParagraph = styled.p``;
+const StyledAnimationWrapper = styled.div`
+  position: relative;
+`;
 
 const StyledImageWrapper = styled.div`
-  position: relative;
   & img {
     position: absolute;
-    top: 0;
-    left: 0;
-    // object-fit: cover;
-    width: 100px;
-    height: auto;
+    bottom: 165px;
+    right: 874px;
+    width: 375px;
+    height: 774px;
   }
 `;
 
+const StyledParagraphImage = styled.p``;
+
+const StyledParagraph = styled.p`
+  font-size: ${getRemSize(dimensions.headingSizes.large.mobile)};
+  line-height: 1.2;
+  letter-spacing: 2px;
+  font-weight: 500;
+`;
+
 export default function DynamicTextAndImages({ content }: IProps) {
+  const isDesktop = useIsDesktop();
   const [hoverIndex, setHoverIndex] = useState(null);
-  // const [hover, setHover] = useState(false);
   const onHover = (index) => {
-    // e.preventDefault();
     setHoverIndex(index);
     console.log("hovered");
   };
 
   const onHoverOver = () => {
-    // e.preventDefault  ();
     setHoverIndex(null);
   };
   return (
     <Row>
-      <Col start={1} span={5}>
-        <StyledPillWrapper>
-          <Pill pillText="The Challenge" />
-        </StyledPillWrapper>
-      </Col>
-      {content.map((item, index) => {
-        return item?.image ? (
-          <Col start={6} span={6}>
-            <div
-              onMouseEnter={(e) => onHover(index)}
-              onMouseLeave={(e) => onHoverOver()}
-            >
-              <StyledParagraph>{item.text}</StyledParagraph>
-              {hoverIndex === index && (
-                <StyledImageWrapper>
-                  <Image
-                    key={index}
-                    width={500}
-                    height={200}
-                    alt={`Gallery Image ${index}`}
-                    loader={() => item.image.node.sourceUrl}
-                    src={item.image.node.sourceUrl}
-                  />
-                </StyledImageWrapper>
-              )}
-            </div>
+      {isDesktop ? (
+        <>
+          <Col start={1} span={4}>
+            <StyledPillWrapper>
+              <Pill pillText="The Challenge" />
+            </StyledPillWrapper>
           </Col>
-        ) : (
-          <Col start={6} span={6}>
-            <StyledParagraph>{item.text}</StyledParagraph>
+          <Col start={5} span={8}>
+            <StyledAnimationWrapper>
+              {content.map((item, index) => {
+                return item?.image ? (
+                  // <div
+                  //   onMouseEnter={(e) => onHover(index)}
+                  //   onMouseLeave={(e) => onHoverOver()}
+                  // >
+                  <>
+                    <StyledParagraphImage>{item.text}</StyledParagraphImage>
+                    {/* // {hoverIndex === index && ( */}
+                    <StyledImageWrapper>
+                      <Image
+                        key={index}
+                        width={375}
+                        height={774}
+                        alt={`Gallery Image ${index}`}
+                        loader={() => item.image.node.sourceUrl}
+                        src={item.image.node.sourceUrl}
+                      />
+                    </StyledImageWrapper>
+                    {/* // )} */}
+                    {/* </div> */}
+                  </>
+                ) : (
+                  <StyledParagraph>{item.text}</StyledParagraph>
+                );
+              })}
+            </StyledAnimationWrapper>
           </Col>
-        );
-      })}
+        </>
+      ) : (
+        <>
+          <Col start={1} span={12}>
+            <StyledPillWrapper>
+              <Pill pillText="The Challenge" />
+            </StyledPillWrapper>
+          </Col>
+          <Col start={1} span={12}>
+            {content.map((item) => {
+              return (
+                <>
+                  <StyledParagraph>{item.text}</StyledParagraph>
+                  <StyledImageWrapper>
+                    <Image
+                      width={375}
+                      height={774}
+                      alt={`Gallery Image`}
+                      loader={() => item.image.node.sourceUrl}
+                      src={item.image.node.sourceUrl}
+                    />
+                  </StyledImageWrapper>
+                </>
+              );
+            })}
+          </Col>
+        </>
+      )}
     </Row>
   );
 }
