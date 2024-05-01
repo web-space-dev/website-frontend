@@ -34,6 +34,7 @@ const StyledHeading = styled.h2`
     text-indent: 81px;
     font-weight: 400;
     letter-spacing: 1px;
+    line-height: 1.1;
   }
 `;
 
