@@ -9,7 +9,6 @@ import {
 } from "../../../../src/styles/variables";
 import Pill from "../../global/pill";
 import { Row } from "../../global/grid/Row";
-// import { GridContainer } from "../../global/grid/gridContainer";
 
 interface IProps {
   content: ParagraphItem[];
@@ -50,24 +49,22 @@ export function ContentParagraph({ content }: IProps) {
       {content.map((paragraph, index) => {
         if (paragraph.title)
           return (
-            <Col start={1} span={4}>
+            <Col start={1} span={4} key={`title-${index}`}>
               <StyledPillWrapper>
-                <Pill key={index} pillText={paragraph.title} />
+                <Pill pillText={paragraph.title} />
               </StyledPillWrapper>
             </Col>
           );
         if (paragraph.paragraph)
           return (
-            <Col start={5} span={8}>
-              <StyledParagraphFirst key={index}>
-                {paragraph.paragraph}
-              </StyledParagraphFirst>
+            <Col start={5} span={8} key={`firstParagraph-${index}`}>
+              <StyledParagraphFirst>{paragraph.paragraph}</StyledParagraphFirst>
             </Col>
           );
         if (paragraph.largeParagraph)
           return (
-            <Col start={5} span={8}>
-              <StyledParagraphSecond style={{ fontSize: 64 }} key={index}>
+            <Col start={5} span={8} key={`secondParagraph-${index}`}>
+              <StyledParagraphSecond style={{ fontSize: 64 }}>
                 {paragraph.largeParagraph}
               </StyledParagraphSecond>
             </Col>

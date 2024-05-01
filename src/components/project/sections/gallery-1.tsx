@@ -15,7 +15,6 @@ export default function Gallery1({ images }: IProps) {
             width={500}
             height={200}
             alt={`Gallery Image ${index}`}
-            loader={() => image.sourceUrl}
             src={image.sourceUrl}
           />
         );
