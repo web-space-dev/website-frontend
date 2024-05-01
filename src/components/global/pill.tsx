@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { colors, dimensions } from "../../styles/variables";
+import { colors, dimensions, breakpoints } from "../../styles/variables";
 import { getRemSize } from "../../styles/globalCss";
 
 interface IPill {
@@ -17,6 +17,9 @@ const StyledPill = styled.span`
   display: inline-block;
   margin-right: 20px;
   text-align: center;
+  @media (max-width: ${breakpoints.sm}px) {
+    font-size: ${getRemSize(dimensions.textSizes.small.desktop)};
+  }
 `;
 
 export default function Pill({ pillText }: IPill) {
