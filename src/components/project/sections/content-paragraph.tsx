@@ -2,14 +2,9 @@ import { ParagraphItem } from "../../../interfaces/project";
 import { Col } from "../../global/grid/Col";
 import { getRemSize } from "../../../../src/styles/globalCss";
 import styled from "@emotion/styled";
-import {
-  colors,
-  dimensions,
-  breakpoints,
-} from "../../../../src/styles/variables";
+import { dimensions, breakpoints } from "../../../../src/styles/variables";
 import Pill from "../../global/pill";
 import { Row } from "../../global/grid/Row";
-// import { GridContainer } from "../../global/grid/gridContainer";
 
 interface IProps {
   content: ParagraphItem[];
@@ -41,7 +36,7 @@ const StyledParagraphSecond = styled.p`
   font-size: ${getRemSize(dimensions.textSizes.large.desktop)};
 
   @media (max-width: ${breakpoints.md}px) {
-    font-size: ${getRemSize(dimensions.textSizes.large.mobile)}!important;
+    font-size: ${getRemSize(dimensions.textSizes.large.mobile)};
     text-indent: 60px;
     letter-spacing: 1px;
   }
