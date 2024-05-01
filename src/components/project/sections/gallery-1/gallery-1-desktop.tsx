@@ -15,6 +15,11 @@ interface IProps {
 const StyledGalleryWrapper = styled.div`
   position: relative;
   overflow-x: hidden;
+  margin-bottom: 180px;
+
+  @media (man-width: ${breakpoints.md}px) {
+    margin-bottom: 120px;
+  }
 `;
 
 const StyledImagesWrapper = styled.div`
@@ -41,8 +46,8 @@ const StyledImagesWrapper = styled.div`
 
   @media (min-width: 900px) {
     height: 768px;
-    justify-content: center; // Center images on larger screens
-    overflow: hidden; // Disable scrolling
+    justify-content: center;
+    overflow: hidden;
     width: 100%;
     padding-left: 0;
   }
@@ -52,7 +57,6 @@ const StyledImage = styled(motion.div)`
   overflow: hidden;
   flex: 0 0 100vw;
   width: 100%;
-  // margin-left: -45px;
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -129,20 +133,6 @@ export default function Gallery1Desktop({ images }: IProps) {
   const [[page, direction], setPage] = useState([0, 0]);
   const imageIndex = wrap(0, images.nodes.length, page);
   const wrapperRef = useRef(null);
-  // const isDesktop = useIsDesktop();
-  // const isTablet = useIsTablet();
-  // useEffect(() => {
-  //   const handleResize = () => {
-  //     const img = wrapperRef.current.querySelector("img");
-  //     if (img) {
-  //       wrapperRef.current.style.height = `${img.offsetHeight}px`;
-  //     }
-  //   };
-
-  //   window.addEventListener("resize", handleResize);
-  //   handleResize();
-  //   return () => window.removeEventListener("resize", handleResize);
-  // }, []);
 
   const paginate = (newDirection: number) => {
     setPage([page + newDirection, newDirection]);
