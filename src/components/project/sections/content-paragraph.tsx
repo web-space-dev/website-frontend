@@ -38,6 +38,7 @@ const StyledParagraphSecond = styled.p`
   line-height: 1.1;
   text-indent: 100px;
   letter-spacing: 2px;
+  font-size: ${getRemSize(dimensions.textSizes.large.desktop)};
 
   @media (max-width: ${breakpoints.md}px) {
     font-size: ${getRemSize(dimensions.textSizes.large.mobile)}!important;
@@ -69,7 +70,7 @@ export function ContentParagraph({ content }: IProps) {
         if (paragraph.largeParagraph)
           return (
             <Col start={5} span={8}>
-              <StyledParagraphSecond style={{ fontSize: 64 }} key={index}>
+              <StyledParagraphSecond key={index}>
                 {paragraph.largeParagraph}
               </StyledParagraphSecond>
             </Col>
