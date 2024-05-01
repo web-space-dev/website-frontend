@@ -22,17 +22,6 @@ const StyledPillWrapper = styled.div``;
 
 const StyledWrapper = styled.div``;
 
-const StyledImageWrapper = styled.div`
-  display: flex;
-  overflow-x: auto;
-  gap: 8px;
-  & img {
-    border-radius: 26px;
-    object-fit: cover;
-    width: 162px;
-    height: 343px;
-  }
-`;
 const StyledImage = styled(motion(Image))`
   border-radius: 26px;
   object-fit: cover;
@@ -54,6 +43,21 @@ const StyledImage = styled(motion(Image))`
     left: 116px;
   }
 `;
+const StyledMobileImageWrapper = styled.div`
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: scroll;
+  gap: 8px;
+  width: 100%;
+  scrollbar-width: none;
+`;
+const StyledMobileImage = styled(Image)`
+  border-radius: 26px;
+  object-fit: cover;
+  width: 162px;
+  height: 343px;
+  flex-shrink: 0;
+`;
 
 const StyledParagraphImage = styled.span`
   color: ${colors.accent};
@@ -71,6 +75,18 @@ const StyledParagraph = styled.p`
   line-height: 1.2;
   letter-spacing: 2px;
   font-weight: 500;
+`;
+
+const StyledMobileParagraph = styled.p`
+  font-size: ${getRemSize(dimensions.textSizes.normal.desktop)};
+  line-height: 1.3;
+  letter-spacing: 1px;
+  font-weight: 400;
+  text-indent: 72px;
+  margin-bottom: 40px;
+`;
+const StyledMobileParagraphImage = styled.span`
+  font-size: ${getRemSize(dimensions.textSizes.normal.desktop)};
 `;
 export default function DynamicTextAndImages({ content }: IProps) {
   const isDesktop = useIsDesktop();
@@ -137,25 +153,33 @@ export default function DynamicTextAndImages({ content }: IProps) {
             </Col>
             <Col start={1} span={12}>
               <StyledWrapper>
-                {content.map((item, index) => {
-                  return (
-                    <>
-                      <StyledParagraph>{item.text}</StyledParagraph>
-                      {item.image && item.image.node && (
-                        <StyledImageWrapper>
-                          <Image
-                            key={index}
-                            width={162}
-                            height={343}
-                            alt={`Gallery Image ${index}`}
-                            loader={() => item.image.node.sourceUrl}
-                            src={item.image.node.sourceUrl}
-                          />
-                        </StyledImageWrapper>
-                      )}
-                    </>
-                  );
-                })}
+                <StyledMobileParagraph>
+                  {content.map((item, index) => {
+                    return item?.image ? (
+                      <StyledMobileParagraphImage>
+                        <span>{item.text}</span>
+                      </StyledMobileParagraphImage>
+                    ) : (
+                      <>{item.text}</>
+                    );
+                  })}
+                </StyledMobileParagraph>
+                <StyledMobileImageWrapper>
+                  {content.map((item, index) => {
+                    return (
+                      item.image &&
+                      item.image.node && (
+                        <StyledMobileImage
+                          width={375}
+                          height={774}
+                          alt={`Gallery Image ${index}`}
+                          loader={() => item.image.node.sourceUrl}
+                          src={item.image.node.sourceUrl}
+                        />
+                      )
+                    );
+                  })}
+                </StyledMobileImageWrapper>
               </StyledWrapper>
             </Col>
           </>
