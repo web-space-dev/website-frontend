@@ -23,11 +23,13 @@ const StyledParagraphFirst = styled.p`
   line-height: 1.35;
   text-indent: 100px;
   letter-spacing: 2px;
+  margin-bottom: 40px;
 
   @media (max-width: ${breakpoints.md}px) {
     font-size: ${getRemSize(dimensions.textSizes.normal.mobile)};
     text-indent: 60px;
     letter-spacing: 1px;
+    margin-bottom: -15px;
   }
 `;
 
