@@ -1,9 +1,10 @@
+import React from "react";
 import styled from "@emotion/styled";
 import { colors, breakpoints } from "../../styles/variables";
 import ArrowUpRight from "../../icons/arrowUpRight";
 import { motion } from "framer-motion";
 
-const StyledIcon = styled(ArrowUpRight)`
+const StyledIcon = styled.div`
   width: 30px;
   height: 30px;
   margin-left: -2px;
@@ -63,6 +64,10 @@ const StyledPillButton = styled(motion.div)`
     transform: rotate(45deg);
   }
 
+  @media all and (max-width: ${breakpoints.md}px) {
+    padding: 2vw;
+  }
+
   @media all and (max-width: ${breakpoints.sm}px) {
     min-width: 237px;
     padding: 4vw;
@@ -71,15 +76,29 @@ const StyledPillButton = styled(motion.div)`
 `;
 interface StyledPillButtonProps {
   text: string;
+  children: React.ReactNode;
+  className?: string;
 }
 
-const StyledPillIconButton: React.FC<StyledPillButtonProps> = ({ text }) => (
-  <StyledPillButton>
+const StyledPillIconButton: React.FC<StyledPillButtonProps> = ({
+  className = "",
+  text,
+  children,
+}) => (
+  <StyledPillButton className={`styled-pill-button ${className}`}>
     <span>{text}</span>
-    <StyledIcon className="styled-icon" />
+    <StyledIcon className="styled-icon">{children}</StyledIcon>
   </StyledPillButton>
 );
 
-export function PillIconButton({ text }: { text: string }) {
-  return <StyledPillIconButton text={text} />;
+export function PillIconButton({
+  text,
+  className = "",
+  children,
+}: StyledPillButtonProps) {
+  return (
+    <StyledPillIconButton text={text} className={className}>
+      {children}
+    </StyledPillIconButton>
+  );
 }
