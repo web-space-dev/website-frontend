@@ -30,17 +30,17 @@ const StyledImage = styled(motion(Image))`
   position: absolute;
   @media (min-width: 1350px) {
     top: 92px;
-    left: 310px;
+    left: 220px;
   }
 
   @media (min-width: 1088px) and (max-width: 1350px) {
     top: 92px;
-    left: 186px;
+    left: 138px;
   }
 
   @media (max-width: 1088px) {
     top: 92px;
-    left: 116px;
+    left: 75px;
   }
 `;
 const StyledMobileImageWrapper = styled.div`
@@ -72,7 +72,7 @@ const StyledParagraphImage = styled.span`
 `;
 const StyledParagraph = styled.p`
   font-size: ${getRemSize(dimensions.textSizes.large.desktop)};
-  line-height: 1.2;
+  line-height: 1.15;
   letter-spacing: 2px;
   font-weight: 500;
 `;
@@ -105,7 +105,7 @@ export default function DynamicTextAndImages({ content }: IProps) {
           <>
             <Col start={1} span={4}>
               <StyledPillWrapper>
-                <Pill pillText="The Challenge" />
+                <Pill pillText="The challenge" />
               </StyledPillWrapper>
             </Col>
             <Col start={5} span={8}>
@@ -148,7 +148,7 @@ export default function DynamicTextAndImages({ content }: IProps) {
           <>
             <Col start={1} span={12}>
               <StyledPillWrapper>
-                <Pill pillText="The Challenge" />
+                <Pill pillText="The challenge" />
               </StyledPillWrapper>
             </Col>
             <Col start={1} span={12}>
