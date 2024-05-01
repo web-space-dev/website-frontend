@@ -17,7 +17,6 @@ export default function DynamicTextAndImages({ content }: IProps) {
               width={500}
               height={200}
               alt={`Gallery Image ${index}`}
-              loader={() => item.image.node.sourceUrl}
               src={item.image.node.sourceUrl}
             />
           );

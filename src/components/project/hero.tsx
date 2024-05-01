@@ -302,8 +302,8 @@ export function Hero({ project }: Props) {
       <Col span={12}>
         <StyledTagsWrapper>
           {project.tags.nodes.map((tag, index) => (
-            <StyledTag>
-              <span key={index}>{tag.name}</span>
+            <StyledTag key={`tag-${index}`}>
+              <span>{tag.name}</span>
             </StyledTag>
           ))}
           <StyledOutlineArrowButton>

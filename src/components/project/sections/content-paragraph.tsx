@@ -48,24 +48,22 @@ export function ContentParagraph({ content }: IProps) {
       {content.map((paragraph, index) => {
         if (paragraph.title)
           return (
-            <Col start={1} span={4}>
+            <Col start={1} span={4} key={`title-${index}`}>
               <StyledPillWrapper>
-                <Pill key={index} pillText={paragraph.title} />
+                <Pill pillText={paragraph.title} />
               </StyledPillWrapper>
             </Col>
           );
         if (paragraph.paragraph)
           return (
-            <Col start={5} span={8}>
-              <StyledParagraphFirst key={index}>
-                {paragraph.paragraph}
-              </StyledParagraphFirst>
+            <Col start={5} span={8} key={`firstParagraph-${index}`}>
+              <StyledParagraphFirst>{paragraph.paragraph}</StyledParagraphFirst>
             </Col>
           );
         if (paragraph.largeParagraph)
           return (
-            <Col start={5} span={8}>
-              <StyledParagraphSecond key={index}>
+            <Col start={5} span={8} key={`secondParagraph-${index}`}>
+              <StyledParagraphSecond>
                 {paragraph.largeParagraph}
               </StyledParagraphSecond>
             </Col>
