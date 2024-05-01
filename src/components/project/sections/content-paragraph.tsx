@@ -2,11 +2,7 @@ import { ParagraphItem } from "../../../interfaces/project";
 import { Col } from "../../global/grid/Col";
 import { getRemSize } from "../../../../src/styles/globalCss";
 import styled from "@emotion/styled";
-import {
-  colors,
-  dimensions,
-  breakpoints,
-} from "../../../../src/styles/variables";
+import { dimensions, breakpoints } from "../../../../src/styles/variables";
 import Pill from "../../global/pill";
 import { Row } from "../../global/grid/Row";
 
@@ -22,11 +18,13 @@ const StyledParagraphFirst = styled.p`
   line-height: 1.35;
   text-indent: 100px;
   letter-spacing: 2px;
+  margin-bottom: 40px;
 
   @media (max-width: ${breakpoints.md}px) {
     font-size: ${getRemSize(dimensions.textSizes.normal.mobile)};
     text-indent: 60px;
     letter-spacing: 1px;
+    margin-bottom: -15px;
   }
 `;
 
@@ -35,9 +33,10 @@ const StyledParagraphSecond = styled.p`
   line-height: 1.1;
   text-indent: 100px;
   letter-spacing: 2px;
+  font-size: ${getRemSize(dimensions.textSizes.large.desktop)};
 
   @media (max-width: ${breakpoints.md}px) {
-    font-size: ${getRemSize(dimensions.textSizes.large.mobile)}!important;
+    font-size: ${getRemSize(dimensions.textSizes.large.mobile)};
     text-indent: 60px;
     letter-spacing: 1px;
   }
@@ -64,7 +63,7 @@ export function ContentParagraph({ content }: IProps) {
         if (paragraph.largeParagraph)
           return (
             <Col start={5} span={8} key={`secondParagraph-${index}`}>
-              <StyledParagraphSecond style={{ fontSize: 64 }}>
+              <StyledParagraphSecond>
                 {paragraph.largeParagraph}
               </StyledParagraphSecond>
             </Col>
