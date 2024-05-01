@@ -8,6 +8,7 @@ import { useState } from "react";
 import { dimensions, breakpoints, colors } from "../../../styles/variables";
 import { getRemSize } from "../../../styles/globalCss";
 import useIsDesktop from "../../../hooks/useIsDesktop";
+import useIsTablet from "../../../hooks/useIsTablet";
 import { motion } from "framer-motion";
 
 interface IProps {
@@ -54,9 +55,14 @@ const StyledMobileImageWrapper = styled.div`
 const StyledMobileImage = styled(Image)`
   border-radius: 26px;
   object-fit: cover;
-  width: 162px;
-  height: 343px;
+  width: 212px;
+  height: 393px;
   flex-shrink: 0;
+
+  @media (max-width: ${breakpoints.sm}px) {
+    width: 162px;
+    height: 343px;
+  }
 `;
 
 const StyledParagraphImage = styled.span`
@@ -90,6 +96,7 @@ const StyledMobileParagraphImage = styled.span`
 `;
 export default function DynamicTextAndImages({ content }: IProps) {
   const isDesktop = useIsDesktop();
+  const isTablet = useIsTablet();
   const [hoverIndex, setHoverIndex] = useState(null);
   const onHover = (index) => {
     setHoverIndex(index);
@@ -170,8 +177,8 @@ export default function DynamicTextAndImages({ content }: IProps) {
                       item.image &&
                       item.image.node && (
                         <StyledMobileImage
-                          width={375}
-                          height={774}
+                          width={isTablet ? 212 : 162}
+                          height={isTablet ? 393 : 343}
                           alt={`Gallery Image ${index}`}
                           loader={() => item.image.node.sourceUrl}
                           src={item.image.node.sourceUrl}
