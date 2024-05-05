@@ -3,7 +3,6 @@ import { Pill as IPill, WhatWeDo as IWhatWeDo } from "../../interfaces/home";
 import { breakpoints, colors, dimensions } from "../../styles/variables";
 import { getRemSize } from "../../styles/globalCss";
 import { GridContainer } from "../global/grid/gridContainer";
-import Pill from "../global/pill";
 import { useState } from "react";
 import { css } from "@emotion/react";
 import { Row } from "../global/grid/Row";
@@ -167,7 +166,6 @@ const ProcessItem = ({
         isExpanded={isDesktop ? hoverItems[index] : true}
       >
         {pills.map((pill) => {
-          console.log(pill.pillText, pill.id);
           return (
             <StyledPill key={`${pill.pillText}-${pill.id}`} index={pill.id}>
               {pill.pillText}
