@@ -9,7 +9,6 @@ import { css } from "@emotion/react";
 import { Row } from "../global/grid/Row";
 import { Col } from "../global/grid/Col";
 import useIsDesktop from "../../hooks/useIsDesktop";
-import { useRef } from "react";
 
 const StyledWrapper = styled(GridContainer)`
   margin: 140px 0;
@@ -93,47 +92,8 @@ const StyledPill = styled.span<{ index: number }>`
     text-align: center;
     max-width: 350px;
     font-size: ${getRemSize(dimensions.textSizes.normal.desktop)};
-    margin-left: ${(props) =>
-      props.index === 0
-        ? "90px"
-        : props.index === 1
-        ? "0px"
-        : props.index === 2
-        ? "86px"
-        : props.index === 3
-        ? "0px"
-        : props.index === 4
-        ? "43px"
-        : props.index === 5
-        ? "11px"
-        : props.index === 6
-        ? "33px"
-        : props.index === 7
-        ? "0px"
-        : props.index === 8
-        ? "91px"
-        : "0px"};
-    margin-right: ${(props) =>
-      props.index === 0
-        ? "13px"
-        : props.index === 1
-        ? "56px"
-        : props.index === 2
-        ? "0px"
-        : props.index === 3
-        ? "91px"
-        : props.index === 4
-        ? "18px"
-        : props.index === 5
-        ? "62px"
-        : props.index === 6
-        ? "76px"
-        : props.index === 7
-        ? "61px"
-        : props.index === 8
-        ? "0px"
-        : "0px"};
-  }
+    margin-left: ${(props) => marginLeftValues[props.index] || "0px"};
+    margin-right: ${(props) => marginRightValues[props.index] || "0px"};
   @media all and (max-width: 385px) {
     font-size: 25px;
   }
@@ -146,6 +106,31 @@ interface IProcessItem {
   hoverItems: boolean[];
   setHoverItems: (items: boolean[]) => void;
 }
+
+const marginLeftValues = [
+  "90px",
+  "0px",
+  "86px",
+  "0px",
+  "43px",
+  "11px",
+  "33px",
+  "0px",
+  "91px",
+  "0px",
+];
+const marginRightValues = [
+  "13px",
+  "56px",
+  "0px",
+  "91px",
+  "18px",
+  "62px",
+  "76px",
+  "61px",
+  "0px",
+  "0px",
+];
 
 const ProcessItem = ({
   title,
