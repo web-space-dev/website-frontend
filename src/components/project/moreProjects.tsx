@@ -50,9 +50,7 @@ const StyledProjectCard = styled.div<{ bgImage: string }>`
   max-width: 680px;
   min-width: 200px;
   width: 100%;
-  // height: auto;
   height: 264px;
-  // min-height:
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -61,7 +59,6 @@ const StyledProjectCard = styled.div<{ bgImage: string }>`
     max-width: 100%;
     margin-right: auto;
     margin-left: auto;
-    // margin-bottom: 11px;
   }
 `;
 const StyledTitleWrapper = styled.div`
