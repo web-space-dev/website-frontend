@@ -19,10 +19,6 @@ const StyledBigWrapper = styled.div`
   position: relative;
 `;
 
-const StyledPillWrapper = styled.div``;
-
-const StyledWrapper = styled.div``;
-
 const StyledImage = styled(motion(Image))`
   border-radius: 26px;
   object-fit: cover;
@@ -111,83 +107,77 @@ export default function DynamicTextAndImages({ content }: IProps) {
         {isDesktop ? (
           <>
             <Col start={1} span={4}>
-              <StyledPillWrapper>
-                <Pill pillText="The challenge" />
-              </StyledPillWrapper>
+              <Pill pillText="The challenge" />
             </Col>
             <Col start={5} span={8}>
-              <StyledWrapper>
-                <StyledParagraph>
-                  {content.map((item, index) => {
-                    return item?.image ? (
-                      <StyledParagraphImage
-                        onMouseEnter={(e) => onHover(index)}
-                        onMouseLeave={(e) => onHoverOver()}
-                      >
-                        {" "}
-                        <span>{item.text}</span>
-                      </StyledParagraphImage>
-                    ) : (
-                      <>{item.text}</>
-                    );
-                  })}
-                </StyledParagraph>
-                {hoverIndex && (
-                  <StyledImage
-                    initial={{ opacity: 0, scale: 0.5 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{
-                      duration: 0.5,
-                      delay: 0.2,
-                      ease: [0, 0.71, 0.2, 1.01],
-                    }}
-                    width={375}
-                    height={774}
-                    alt={`Gallery Image ${hoverIndex}`}
-                    loader={() => content[hoverIndex].image.node.sourceUrl}
-                    src={content[hoverIndex].image.node.sourceUrl}
-                  />
-                )}
-              </StyledWrapper>
+              <StyledParagraph>
+                {content.map((item, index) => {
+                  return item?.image ? (
+                    <StyledParagraphImage
+                      onMouseEnter={(e) => onHover(index)}
+                      onMouseLeave={(e) => onHoverOver()}
+                    >
+                      {" "}
+                      <span>{item.text}</span>
+                    </StyledParagraphImage>
+                  ) : (
+                    <>{item.text}</>
+                  );
+                })}
+              </StyledParagraph>
+              {hoverIndex && (
+                <StyledImage
+                  initial={{ opacity: 0, scale: 0.5 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{
+                    duration: 0.5,
+                    delay: 0.2,
+                    ease: [0, 0.71, 0.2, 1.01],
+                  }}
+                  width={375}
+                  height={774}
+                  onMouseEnter={(e) => onHover(hoverIndex)}
+                  onMouseLeave={(e) => onHoverOver()}
+                  alt={`Gallery Image ${hoverIndex}`}
+                  loader={() => content[hoverIndex].image.node.sourceUrl}
+                  src={content[hoverIndex].image.node.sourceUrl}
+                />
+              )}
             </Col>
           </>
         ) : (
           <>
             <Col start={1} span={12}>
-              <StyledPillWrapper>
-                <Pill pillText="The challenge" />
-              </StyledPillWrapper>
+              <Pill pillText="The challenge" />
             </Col>
             <Col start={1} span={12}>
-              <StyledWrapper>
-                <StyledMobileParagraph>
-                  {content.map((item, index) => {
-                    return item?.image ? (
-                      <StyledMobileParagraphImage>
-                        <span>{item.text}</span>
-                      </StyledMobileParagraphImage>
-                    ) : (
-                      <>{item.text}</>
-                    );
-                  })}
-                </StyledMobileParagraph>
-                <StyledMobileImageWrapper>
-                  {content.map((item, index) => {
-                    return (
-                      item.image &&
-                      item.image.node && (
-                        <StyledMobileImage
-                          width={isTablet ? 212 : 162}
-                          height={isTablet ? 393 : 343}
-                          alt={`Gallery Image ${index}`}
-                          loader={() => item.image.node.sourceUrl}
-                          src={item.image.node.sourceUrl}
-                        />
-                      )
-                    );
-                  })}
-                </StyledMobileImageWrapper>
-              </StyledWrapper>
+              <StyledMobileParagraph>
+                {content.map((item, index) => {
+                  return item?.image ? (
+                    <StyledMobileParagraphImage>
+                      <span>{" " + item.text}</span>
+                    </StyledMobileParagraphImage>
+                  ) : (
+                    <>{item.text}</>
+                  );
+                })}
+              </StyledMobileParagraph>
+              <StyledMobileImageWrapper>
+                {content.map((item, index) => {
+                  return (
+                    item.image &&
+                    item.image.node && (
+                      <StyledMobileImage
+                        width={isTablet ? 212 : 162}
+                        height={isTablet ? 393 : 343}
+                        alt={`Gallery Image ${index}`}
+                        loader={() => item.image.node.sourceUrl}
+                        src={item.image.node.sourceUrl}
+                      />
+                    )
+                  );
+                })}
+              </StyledMobileImageWrapper>
             </Col>
           </>
         )}
