@@ -8,6 +8,8 @@ import { useState } from "react";
 import { css } from "@emotion/react";
 import { Row } from "../global/grid/Row";
 import { Col } from "../global/grid/Col";
+import useIsDesktop from "../../hooks/useIsDesktop";
+import { useRef } from "react";
 
 const StyledWrapper = styled(GridContainer)`
   margin: 140px 0;
@@ -18,6 +20,7 @@ const StyledTitle = styled.h2`
   font-weight: 400;
   @media all and (max-width: ${breakpoints.md}px) {
     grid-column: 1 / span 12;
+    margin-bottom: 0px;
   }
 `;
 
@@ -32,7 +35,12 @@ const StyledProcessListTitle = styled.h3`
   font-size: ${getRemSize(dimensions.headingSizes.large.desktop)};
   transition: 0.3s ease-in-out;
   @media all and (max-width: ${breakpoints.md}px) {
-    font-size: ${getRemSize(dimensions.headingSizes.large.mobile)};
+    font-size: ${getRemSize(dimensions.headingSizes.medium.desktop)};
+    font-weight: 400;
+    letter-spacing: 2px;
+  }
+  @media all and (max-width: ${breakpoints.sm}px) {
+    font-size: ${getRemSize(dimensions.headingSizes.medium.mobile)};
   }
   ${({ isGlassy }: { isGlassy: boolean }) =>
     isGlassy &&
@@ -51,6 +59,15 @@ const StyledProcessItemExpand = styled.div<IStyledProcessItemExpand>`
   opacity: 0;
   overflow: hidden;
   transition: 0.3s ease-in-out;
+  @media all and (max-width: ${breakpoints.md}px) {
+    margin: 8px 0 32px 0;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    margin-left: auto;
+    margin-right: auto;
+    align-items: center;
+  }
 
   ${({ isExpanded }) =>
     isExpanded &&
@@ -61,15 +78,65 @@ const StyledProcessItemExpand = styled.div<IStyledProcessItemExpand>`
     `}
 `;
 
-const StyledPill = styled.span`
+const StyledPill = styled.span<{ index: number }>`
   background-color: ${colors.white};
   color: ${colors.black};
-  padding: 10px 30px;
-  margin: 0 16px;
+  padding: 10px 30px 12px 30px;
+  margin: 0px 16px;
   border-radius: 50px;
   font-weight: 500;
-  letter-spacing: 1px;
+  letter-spacing: 2px;
   display: inline-block;
+
+  @media all and (max-width: ${breakpoints.md}px) {
+    margin: 12px 16px;
+    text-align: center;
+    max-width: 350px;
+    font-size: ${getRemSize(dimensions.textSizes.normal.desktop)};
+    margin-left: ${(props) =>
+      props.index === 0
+        ? "90px"
+        : props.index === 1
+        ? "0px"
+        : props.index === 2
+        ? "86px"
+        : props.index === 3
+        ? "0px"
+        : props.index === 4
+        ? "43px"
+        : props.index === 5
+        ? "11px"
+        : props.index === 6
+        ? "33px"
+        : props.index === 7
+        ? "0px"
+        : props.index === 8
+        ? "91px"
+        : "0px"};
+    margin-right: ${(props) =>
+      props.index === 0
+        ? "13px"
+        : props.index === 1
+        ? "56px"
+        : props.index === 2
+        ? "0px"
+        : props.index === 3
+        ? "91px"
+        : props.index === 4
+        ? "18px"
+        : props.index === 5
+        ? "62px"
+        : props.index === 6
+        ? "76px"
+        : props.index === 7
+        ? "61px"
+        : props.index === 8
+        ? "0px"
+        : "0px"};
+  }
+  @media all and (max-width: 385px) {
+    font-size: 25px;
+  }
 `;
 
 interface IProcessItem {
@@ -87,15 +154,20 @@ const ProcessItem = ({
   setHoverItems,
   index,
 }: IProcessItem) => {
+  const isDesktop = useIsDesktop();
+
   const setHovering = (option: boolean) => {
-    const newHoverItems = hoverItems;
-    newHoverItems[index] = option;
+    if (isDesktop) {
+      const newHoverItems = hoverItems;
+      newHoverItems[index] = option;
 
-    setHoverItems([...newHoverItems]);
+      setHoverItems([...newHoverItems]);
+    }
   };
-
   const isGlassy = () => {
-    return !hoverItems[index] && hoverItems.some((item) => item);
+    if (isDesktop) {
+      return !hoverItems[index] && hoverItems.some((item) => item);
+    }
   };
 
   return (
@@ -106,12 +178,17 @@ const ProcessItem = ({
       <StyledProcessListTitle isGlassy={isGlassy()}>
         {title}
       </StyledProcessListTitle>
-      <StyledProcessItemExpand isExpanded={hoverItems[index]}>
-        {pills.map((pill, index) => (
-          <StyledPill key={`${pill.pillText}-${index}`}>
-            {pill.pillText}
-          </StyledPill>
-        ))}
+      <StyledProcessItemExpand
+        isExpanded={isDesktop ? hoverItems[index] : true}
+      >
+        {pills.map((pill) => {
+          console.log(pill.pillText, pill.id);
+          return (
+            <StyledPill key={`${pill.pillText}-${pill.id}`} index={pill.id}>
+              {pill.pillText}
+            </StyledPill>
+          );
+        })}
       </StyledProcessItemExpand>
     </li>
   );
@@ -126,6 +203,15 @@ export default function WhatWeDo({ items }: WhatWeDoProps) {
     new Array(items.length).fill(false)
   );
 
+  let pillId = 0;
+  const itemsWithUniqueIds = items.map((item) => ({
+    ...item,
+    pills: item.pills.map((pill) => ({
+      ...pill,
+      id: pillId++,
+    })),
+  }));
+
   return (
     <StyledWrapper>
       <Row>
@@ -134,7 +220,7 @@ export default function WhatWeDo({ items }: WhatWeDoProps) {
         </Col>
         <Col start={3} span={10}>
           <StyledProcessList>
-            {items.map((item, index) => (
+            {itemsWithUniqueIds.map((item, index) => (
               <ProcessItem
                 key={index}
                 title={item.title}
