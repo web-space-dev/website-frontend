@@ -101,10 +101,18 @@ const StyledTextSpacer = styled.span`
 `;
 
 const StyledImage = styled(Image)`
-  width: 44px;
-  height: 44px;
+  width: 70px;
+  height: 70px;
   margin-left: 0.7rem;
   vertical-align: middle;
+  position: relative;
+  top: -10px;
+
+  @media all and (max-width: ${breakpoints.md}px) {
+    width: 60px;
+    height: 60px;
+    top: -14px;
+  }
 
   @media all and (max-width: ${breakpoints.sm}px) {
     display: none;
@@ -112,14 +120,16 @@ const StyledImage = styled(Image)`
 `;
 
 const StyledIconButton = styled.button`
-  width: 44px;
-  height: 44px;
+  width: 70px;
+  height: 70px;
   margin: 0 0 0 0.7rem;
   padding: 0;
   border: 2px solid ${colors.blackLight};
   transition: 0.3s ease;
-  border-radius: 0.75rem;
+  border-radius: 26px;
   vertical-align: middle;
+  position: relative;
+  top: -10px;
 
   &:hover {
     background-color: ${colors.accent};
@@ -268,7 +278,13 @@ export default function Footer() {
                 </StyledTextSpacer>
                 <StyledParagraphText>
                   Get in contact, have a chat with Eoan
-                  {<StyledImage src={eoanPicture} alt="Eoan" />} or chat
+                  {
+                    // <StyledBox>
+                    <StyledImage src={eoanPicture} alt="Eoan" />
+                    // <StyledSpace />
+                    // </StyledBox>
+                  }{" "}
+                  or chat
                   {isDesktop && (
                     <Link href="/contact">
                       <StyledIconButton>
