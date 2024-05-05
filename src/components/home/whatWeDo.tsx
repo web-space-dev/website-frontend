@@ -78,6 +78,31 @@ const StyledProcessItemExpand = styled.div<IStyledProcessItemExpand>`
     `}
 `;
 
+const marginLeftValues = [
+  "90px",
+  "0px",
+  "86px",
+  "0px",
+  "43px",
+  "11px",
+  "33px",
+  "0px",
+  "91px",
+  "0px",
+];
+const marginRightValues = [
+  "13px",
+  "56px",
+  "0px",
+  "91px",
+  "18px",
+  "62px",
+  "76px",
+  "61px",
+  "0px",
+  "0px",
+];
+
 const StyledPill = styled.span<{ index: number }>`
   background-color: ${colors.white};
   color: ${colors.black};
@@ -93,7 +118,9 @@ const StyledPill = styled.span<{ index: number }>`
     text-align: center;
     max-width: 350px;
     font-size: ${getRemSize(dimensions.textSizes.normal.desktop)};
-    margin-left: ${(props) =>
+    margin-left: ${(props) => marginLeftValues[props.index] || "0px"};
+    margin-right: ${(props) => marginRightValues[props.index] || "0px"};
+    /* margin-left: ${(props) =>
       props.index === 0
         ? "90px"
         : props.index === 1
@@ -132,7 +159,7 @@ const StyledPill = styled.span<{ index: number }>`
         ? "61px"
         : props.index === 8
         ? "0px"
-        : "0px"};
+        : "0px"}; */
   }
   @media all and (max-width: 385px) {
     font-size: 25px;
