@@ -1,11 +1,10 @@
 import { Projects } from "../../interfaces/project";
-import Image from "next/image";
 import { IconButton } from "../global/iconButton";
 import styled from "@emotion/styled";
-import { colors, breakpoints, dimensions } from "../../styles/variables";
+import { breakpoints, dimensions } from "../../styles/variables";
 import { getRemSize } from "../../styles/globalCss";
-import { Row } from "../global/grid/Row";
 import useIsDesktop from "../../hooks/useIsDesktop";
+import { Fragment } from "react";
 
 interface IProjectsData {
   projects: Projects;
@@ -81,8 +80,6 @@ const StyledTitle = styled.h3`
   font-size: ${getRemSize(dimensions.textSizes.normal.desktop)};
 `;
 
-const StyledIconButton = styled(IconButton)``;
-
 const StyledTitleWrapperMobile = styled.div`
   display: flex;
   justify-content: space-between;
@@ -101,34 +98,31 @@ export function MoreProjects({ projects }: IProjectsData) {
     <>
       <StyledHeading>More projects</StyledHeading>
       {isDesktop ? (
-        <>
-          <StyledProjectCardsWrapper>
-            {projects.nodes.map((project, index) => (
-              <StyledProjectCard
-                key={index}
-                bgImage={project?.featuredImage?.node.sourceUrl}
-              >
-                <img
-                  src={project?.featuredImage?.node.sourceUrl}
-                  alt={`Cover Image for ${project.title}`}
-                  width={714}
-                  height={264}
-                  style={{ display: "none" }}
-                />
-                <StyledTitleWrapper>
-                  <StyledTitle>{project.title}</StyledTitle>
-                  <StyledIconButton />
-                </StyledTitleWrapper>
-              </StyledProjectCard>
-            ))}
-          </StyledProjectCardsWrapper>
-        </>
+        <StyledProjectCardsWrapper>
+          {projects.nodes.map((project, index) => (
+            <StyledProjectCard
+              key={index}
+              bgImage={project?.featuredImage?.node.sourceUrl}
+            >
+              <img
+                src={project?.featuredImage?.node.sourceUrl}
+                alt={`Cover Image for ${project.title}`}
+                width={714}
+                height={264}
+                style={{ display: "none" }}
+              />
+              <StyledTitleWrapper>
+                <StyledTitle>{project.title}</StyledTitle>
+                <IconButton />
+              </StyledTitleWrapper>
+            </StyledProjectCard>
+          ))}
+        </StyledProjectCardsWrapper>
       ) : (
         <StyledProjectCardsWrapper>
           {projects.nodes.map((project, index) => (
-            <>
+            <Fragment key={index}>
               <StyledProjectCard
-                key={index}
                 bgImage={project?.featuredImage?.node.sourceUrl}
               >
                 <img
@@ -141,9 +135,9 @@ export function MoreProjects({ projects }: IProjectsData) {
               </StyledProjectCard>
               <StyledTitleWrapperMobile>
                 <StyledTitle>{project.title}</StyledTitle>
-                <StyledIconButton />
+                <IconButton />
               </StyledTitleWrapperMobile>
-            </>
+            </Fragment>
           ))}
         </StyledProjectCardsWrapper>
       )}
