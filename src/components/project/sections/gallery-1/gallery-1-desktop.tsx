@@ -71,8 +71,6 @@ const StyledImage = styled(motion.div)`
   }
 `;
 
-const StyledMobileNextImage = styled.div``;
-
 const StyledButtonsWrapper = styled.div`
   position: absolute;
   display: flex;
@@ -98,10 +96,6 @@ const StyledArrowButton = styled.div`
   z-index: 2;
   cursor: pointer;
 `;
-
-const StyledArrowLeft = styled(ArrowLeft)``;
-
-const StyledArrowRight = styled(ArrowRight)``;
 
 const variants = {
   enter: (direction: number) => {
@@ -183,7 +177,7 @@ export default function Gallery1Desktop({ images }: IProps) {
             paginate(-1);
           }}
         >
-          <StyledArrowLeft fill={colors.white} />
+          <ArrowLeft fill={colors.white} />
         </StyledArrowButton>
         <StyledArrowButton
           onClick={(e) => {
@@ -191,7 +185,7 @@ export default function Gallery1Desktop({ images }: IProps) {
             paginate(1);
           }}
         >
-          <StyledArrowRight fill={colors.white} />
+          <ArrowRight fill={colors.white} />
         </StyledArrowButton>
       </StyledButtonsWrapper>
     </StyledGalleryWrapper>

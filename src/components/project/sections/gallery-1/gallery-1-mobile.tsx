@@ -1,12 +1,7 @@
-import React, { useState, useEffect, useRef } from "react";
+import React from "react";
 import Image from "next/image";
 import { Gallery } from "../../../../interfaces/project";
 import styled from "@emotion/styled";
-import { motion, AnimatePresence } from "framer-motion";
-import { wrap } from "popmotion";
-import { breakpoints, colors } from "../../../../styles/variables";
-import ArrowRight from "../../../../icons/arrowRight";
-import ArrowLeft from "../../../../icons/arrowLeft";
 import useIsTablet from "../../../../hooks/useIsTablet";
 
 interface IProps {
@@ -25,6 +20,7 @@ const StyledGalleryWrapper = styled.div<{ wrapperHeight: number }>`
 `;
 
 const StyledImageWrapper = styled.div`
+  width: 100%;
   &:not(:last-child) {
     margin-right: 8px;
   }
@@ -43,21 +39,17 @@ export default function Gallery1Mobile({ images }: IProps) {
 
   return (
     <StyledGalleryWrapper wrapperHeight={isTablet ? 472 : 236}>
-      {images.nodes
-        .slice()
-        .reverse()
-        .map((image, index) => (
-          <StyledImageWrapper>
-            <Image
-              key={index}
-              width={isTablet ? 686 : 343}
-              height={isTablet ? 472 : 236}
-              alt={image.altText}
-              loader={() => image.sourceUrl}
-              src={image.sourceUrl}
-            />
-          </StyledImageWrapper>
-        ))}
+      {images.nodes.map((image, index) => (
+        <StyledImageWrapper key={index}>
+          <Image
+            width={isTablet ? 686 : 343}
+            height={isTablet ? 472 : 236}
+            alt={image.altText}
+            loader={() => image.sourceUrl}
+            src={image.sourceUrl}
+          />
+        </StyledImageWrapper>
+      ))}
     </StyledGalleryWrapper>
   );
 }
