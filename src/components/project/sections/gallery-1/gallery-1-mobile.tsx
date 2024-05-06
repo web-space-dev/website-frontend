@@ -28,10 +28,9 @@ const StyledImageWrapper = styled.div`
   flex: 0 0 auto;
 
   & img {
+    max-width: 100%;
     object-fit: cover;
     border-radius: 26px;
-    width: 100%;
-    height: 100%;
   }
 `;
 
@@ -46,8 +45,10 @@ export default function Gallery1Mobile({ images }: IProps) {
             width={isTablet ? 686 : 343}
             height={isTablet ? 472 : 236}
             alt={image.altText}
-            loader={() => image.sourceUrl}
+            placeholder="blur"
+            blurDataURL={image.placeholderDataURI}
             src={image.sourceUrl}
+            sizes="(max-width: 768px) 80vw, (max-width: 1200px) 50vw, 33vw"
           />
         </StyledImageWrapper>
       ))}

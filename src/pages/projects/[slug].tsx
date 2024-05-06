@@ -7,13 +7,11 @@ import {
   getProjectAndMoreProjects,
   getSiteData,
 } from "../../lib/api";
-import Image from "next/image";
 import { ISiteData } from "../../interfaces/site";
 import { IProjectData } from "../../interfaces/project";
 import { Hero } from "../../components/project/hero";
 import ProjectBody from "../../components/project/content";
 import { GridContainer } from "../../components/global/grid/gridContainer";
-import styled from "@emotion/styled";
 import Navbar from "../../components/navbar";
 
 interface IProject extends IProjectData {
@@ -47,7 +45,7 @@ export default function Project({
             <ProjectBody content={project.projectFields.content} />
 
             {/* Other Projects */}
-            <h2>Other projects</h2>
+            {/* <h2>Other projects</h2>
             {projects.nodes.map((project, index) => (
               <div key={index}>
                 <Image
@@ -59,7 +57,7 @@ export default function Project({
                 />
                 <h3>{project.title}</h3>
               </div>
-            ))}
+            ))} */}
           </GridContainer>
         </>
       )}

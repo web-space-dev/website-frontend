@@ -7,10 +7,6 @@ import { Col } from "../global/grid/Col";
 import ArrowUpRight from "../../icons/arrowUpRight";
 import Image from "next/image";
 
-interface IStyledDivImage {
-  imageSrc: string;
-}
-
 const StyledLogoImage = styled.div<{ dark: boolean }>`
   position: absolute;
   top: 14px;
@@ -22,12 +18,9 @@ const StyledLogoImage = styled.div<{ dark: boolean }>`
   }
 `;
 
-const StyledDivImage = styled.div<IStyledDivImage>`
+const StyledDivImage = styled.div`
   overflow: hidden;
   position: absolute;
-  background-image: url(${(props) => props.imageSrc});
-  background-size: cover;
-  background-position: center;
   width: 100%;
   height: 585px;
   left: 0;
@@ -37,6 +30,10 @@ const StyledDivImage = styled.div<IStyledDivImage>`
 
   @media (max-width: ${breakpoints.md}px) {
     height: 650px;
+  }
+
+  & img {
+    height: auto;
   }
 `;
 
@@ -267,7 +264,15 @@ export function Hero({ project }: Props) {
           height={40}
         />
       </StyledLogoImage>
-      <StyledDivImage imageSrc={project.featuredImage?.node.sourceUrl} />
+      <StyledDivImage>
+        <Image
+          fill
+          src={project.featuredImage?.node.sourceUrl}
+          alt={`${project.title} Feature Image`}
+          placeholder="blur"
+          blurDataURL={project.featuredImage.node.placeholderDataURI}
+        />
+      </StyledDivImage>
       <StyledTitleRow>
         <Col start={2} span={7}>
           <StyledHeading1>{project.title}</StyledHeading1>
