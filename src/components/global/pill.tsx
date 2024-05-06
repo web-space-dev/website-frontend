@@ -17,6 +17,7 @@ const StyledPill = styled.span`
   display: inline-block;
   margin-right: 20px;
   text-align: center;
+  letter-spacing: 1.5px;
   @media (max-width: ${breakpoints.sm}px) {
     font-size: ${getRemSize(dimensions.textSizes.small.desktop)};
   }
