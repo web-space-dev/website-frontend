@@ -220,29 +220,31 @@ export default function Index({ siteData, pageData, preview }: IIndex) {
                     </StyledContainer>
                   ) : (
                     <>
-                      <StyledContainer>
-                        <StyledImageWrapper>
-                          <Image
-                            src={project.featuredImage.node.sourceUrl}
-                            blurDataURL={
-                              project.featuredImage.node.placeholderDataURI
-                            }
-                            placeholder="blur"
-                            alt={`Cover Image for ${project.title}`}
-                            fill
-                            style={{ objectFit: "cover" }}
-                          />
-                        </StyledImageWrapper>
-                      </StyledContainer>
-                      <StyledProjectInfo>
-                        <StyledProjectDetails>
-                          <h2>{project.title}</h2>
-                          <p>{project.projectCategories?.nodes[0]?.name}</p>
-                        </StyledProjectDetails>
-                        <StyledLink>
-                          <IconButton />
-                        </StyledLink>
-                      </StyledProjectInfo>
+                      <Link href={`/projects/${project.slug}`}>
+                        <StyledContainer>
+                          <StyledImageWrapper>
+                            <Image
+                              src={project.featuredImage.node.sourceUrl}
+                              blurDataURL={
+                                project.featuredImage.node.placeholderDataURI
+                              }
+                              placeholder="blur"
+                              alt={`Cover Image for ${project.title}`}
+                              fill
+                              style={{ objectFit: "cover" }}
+                            />
+                          </StyledImageWrapper>
+                        </StyledContainer>
+                        <StyledProjectInfo>
+                          <StyledProjectDetails>
+                            <h2>{project.title}</h2>
+                            <p>{project.projectCategories?.nodes[0]?.name}</p>
+                          </StyledProjectDetails>
+                          <StyledLink>
+                            <IconButton />
+                          </StyledLink>
+                        </StyledProjectInfo>
+                      </Link>
                     </>
                   )}
                 </React.Fragment>

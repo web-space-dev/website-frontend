@@ -77,8 +77,8 @@ export default function Skills({ title, categories, skills }: ISkills) {
                           skill.featuredImage.node.placeholderDataURI
                         }
                         alt={skill.title + "Logo"}
-                        width={158}
-                        height={158}
+                        width={87}
+                        height={87}
                       />
                     );
                   })}
