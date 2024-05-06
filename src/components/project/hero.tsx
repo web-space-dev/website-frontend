@@ -5,6 +5,7 @@ import { getRemSize } from "../../styles/globalCss";
 import { Row } from "../global/grid/Row";
 import { Col } from "../global/grid/Col";
 import ArrowUpRight from "../../icons/arrowUpRight";
+import Image from "next/image";
 
 interface IStyledDivImage {
   imageSrc: string;
@@ -164,6 +165,7 @@ const StyledProjectFieldValue = styled.p`
 
   @media (max-width: ${breakpoints.md}px) {
     letter-spacing: 1px;
+  }
 `;
 
 const StyledTagsWrapper = styled.div`
@@ -258,7 +260,12 @@ export function Hero({ project }: Props) {
   return (
     <>
       <StyledLogoImage dark={false}>
-        <img src="/svg/logo-icon-white.svg" alt="Logo" width={40} height={40} />
+        <Image
+          src="/svg/logo-icon-white.svg"
+          alt="Logo"
+          width={40}
+          height={40}
+        />
       </StyledLogoImage>
       <StyledDivImage imageSrc={project.featuredImage?.node.sourceUrl} />
       <StyledTitleRow>
