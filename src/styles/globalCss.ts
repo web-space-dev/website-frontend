@@ -54,8 +54,6 @@ export const theme = css`
     }
   }
   img {
-    max-width: 100%;
-    object-fit: contain;
     position: relative;
   }
   figure {

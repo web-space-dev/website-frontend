@@ -5,10 +5,7 @@ import { getRemSize } from "../../styles/globalCss";
 import { Row } from "../global/grid/Row";
 import { Col } from "../global/grid/Col";
 import ArrowUpRight from "../../icons/arrowUpRight";
-
-interface IStyledDivImage {
-  imageSrc: string;
-}
+import Image from "next/image";
 
 const StyledLogoImage = styled.div<{ dark: boolean }>`
   position: absolute;
@@ -21,12 +18,9 @@ const StyledLogoImage = styled.div<{ dark: boolean }>`
   }
 `;
 
-const StyledDivImage = styled.div<IStyledDivImage>`
+const StyledDivImage = styled.div`
   overflow: hidden;
   position: absolute;
-  background-image: url(${(props) => props.imageSrc});
-  background-size: cover;
-  background-position: center;
   width: 100%;
   height: 585px;
   left: 0;
@@ -36,6 +30,10 @@ const StyledDivImage = styled.div<IStyledDivImage>`
 
   @media (max-width: ${breakpoints.md}px) {
     height: 650px;
+  }
+
+  & img {
+    height: auto;
   }
 `;
 
@@ -164,6 +162,7 @@ const StyledProjectFieldValue = styled.p`
 
   @media (max-width: ${breakpoints.md}px) {
     letter-spacing: 1px;
+  }
 `;
 
 const StyledTagsWrapper = styled.div`
@@ -258,9 +257,22 @@ export function Hero({ project }: Props) {
   return (
     <>
       <StyledLogoImage dark={false}>
-        <img src="/svg/logo-icon-white.svg" alt="Logo" width={40} height={40} />
+        <Image
+          src="/svg/logo-icon-white.svg"
+          alt="Logo"
+          width={40}
+          height={40}
+        />
       </StyledLogoImage>
-      <StyledDivImage imageSrc={project.featuredImage?.node.sourceUrl} />
+      <StyledDivImage>
+        <Image
+          fill
+          src={project.featuredImage?.node.sourceUrl}
+          alt={`${project.title} Feature Image`}
+          placeholder="blur"
+          blurDataURL={project.featuredImage.node.placeholderDataURI}
+        />
+      </StyledDivImage>
       <StyledTitleRow>
         <Col start={2} span={7}>
           <StyledHeading1>{project.title}</StyledHeading1>

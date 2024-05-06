@@ -101,7 +101,7 @@ export default function Navbar({ dark }) {
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
 
   const iconStyle = {
-    width: "1rem",
+    // width: "1rem",
     margin: "-0.25rem 0",
   };
 

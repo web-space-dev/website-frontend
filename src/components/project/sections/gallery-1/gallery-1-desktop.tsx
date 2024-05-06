@@ -17,7 +17,7 @@ const StyledGalleryWrapper = styled.div`
   overflow-x: hidden;
   margin-bottom: 180px;
 
-  @media (man-width: ${breakpoints.md}px) {
+  @media (min-width: ${breakpoints.md}px) {
     margin-bottom: 120px;
   }
 `;
@@ -33,10 +33,9 @@ const StyledImagesWrapper = styled.div`
   width: 100%;
   border-radius: 20px;
   height: 236px;
+  align-items: center;
 
   & img {
-    object-fit: cover;
-    width: 100%;
     border-radius: 20px;
   }
 
@@ -64,8 +63,8 @@ const StyledImage = styled(motion.div)`
   justify-content: flex-start;
 
   @media (min-width: 900px) {
-    max-width: 1440px;
-    width: 100%;
+    /* max-width: 1440px; */
+    height: auto;
     right: 0;
     position: absolute;
   }
@@ -164,8 +163,10 @@ export default function Gallery1Desktop({ images }: IProps) {
               width={1440}
               height={768}
               alt={`Gallery Image ${page}`}
-              loader={() => images.nodes[imageIndex].sourceUrl}
               src={images.nodes[imageIndex].sourceUrl}
+              placeholder="blur"
+              blurDataURL={images.nodes[imageIndex].placeholderDataURI}
+              style={{ width: "100%", height: "auto" }}
             />
           </StyledImage>
         </AnimatePresence>
