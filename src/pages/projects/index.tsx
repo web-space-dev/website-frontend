@@ -9,7 +9,10 @@ import styled from "@emotion/styled";
 import { IconButton } from "../../components/global/iconButton";
 import React, { useEffect, useState } from "react";
 import ArrowDown from "../../icons/arrowDown";
+import { breakpoints, colors, dimensions } from "../../styles/variables";
 import Navbar from "../../components/navbar";
+import { getRemSize } from "../../styles/globalCss";
+import useIsDesktop from "../../hooks/useIsDesktop";
 
 interface IIndex {
   siteData: ISiteData;
@@ -35,6 +38,7 @@ const StyledContainer = styled.div<
   border-radius: 1rem;
   position: relative;
   overflow: hidden;
+  // width: 100%;
 
   /* &::before {
     content: "";
@@ -105,6 +109,7 @@ const StyledLink = styled.a`
 
 const StyledHeader = styled.div<{ isDesktop: boolean }>`
   display: flex;
+  font-
   max-width: ${(props) => (props.isDesktop ? "auto" : "80vw")};
   flex-direction: ${(props) => (props.isDesktop ? "row" : "column")};
   align-items: ${(props) => (props.isDesktop ? "center" : "flex-start")};
@@ -116,52 +121,66 @@ const StyledHeader = styled.div<{ isDesktop: boolean }>`
 `;
 
 const StyledArrow = styled(ArrowDown)`
-  fill: #b30707;
+  fill: ${colors.white};
+  @media (max-width: ${breakpoints.md}px) {
+    transform: scale(0.9);
+    position: relative;
+    top: 3px;
+    margin-left: 10px;
+  }
+  @media (max-width: ${breakpoints.sm}px) {
+    transform: scale(0.7);
+  }
 `;
 
 const H2 = styled.h2`
   margin: 0;
-  font-size: 1.25rem;
+  font-size: ${getRemSize(dimensions.textSizes.normal.desktop)};
   line-height: 1.25rem;
-  font-weight: normal;
+  font-weight: 400;
 
-  @media (max-width: 700px) {
-    font-size: 1rem;
+  @media (max-width: ${breakpoints.md}px) {
+    font-size: ${getRemSize(dimensions.headingSizes.cta.mobile)};
   }
 `;
 
-const H1 = styled.h1``;
+const H1 = styled.h1`
+  font-size: ${getRemSize(dimensions.headingSizes.medium.desktop)};
+
+  @media (max-width: ${breakpoints.md}px) {
+    font-size: 55px;
+  }
+  @media (max-width: ${breakpoints.sm}px) {
+    font-size: ${getRemSize(dimensions.headingSizes.large.mobile)};
+  }
+`;
 
 const StyledShowcaseCategory = styled.p`
   margin: 0;
-  font-size: 1.25rem;
+  font-size: ${getRemSize(dimensions.textSizes.normal.desktop)};
   line-height: 1.25rem;
 
-  @media (max-width: 700px) {
-    font-size: 1rem;
+  @media (max-width: ${breakpoints.md}px) {
+    font-size: ${getRemSize(dimensions.headingSizes.cta.mobile)};
   }
 `;
 
 export default function Index({ siteData, pageData, preview }: IIndex) {
-  const [isDesktop, setIsDesktop] = useState(false);
-
-  useEffect(() => {
-    function handleResize() {
-      setIsDesktop(window.innerWidth > 700);
-    }
-    handleResize();
-    window.addEventListener("resize", handleResize);
-
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  const isDesktop = useIsDesktop();
 
   return (
     <Layout preview={preview} pageTitle={"Projects"} siteData={siteData}>
       <Navbar dark={true} />
       <StyledHeader isDesktop={isDesktop}>
-        <H1>
-          Take a look at our Projects <StyledArrow />
-        </H1>
+        {isDesktop ? (
+          <H1>
+            Take a look at our - Project <StyledArrow />
+          </H1>
+        ) : (
+          <H1>
+            Take a look at our Project <StyledArrow />
+          </H1>
+        )}
       </StyledHeader>
 
       {pageData.projects.nodes.map((project, index) => {
