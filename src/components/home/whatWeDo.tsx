@@ -76,6 +76,31 @@ const StyledProcessItemExpand = styled.div<IStyledProcessItemExpand>`
     `}
 `;
 
+const marginLeftValues = [
+  "90px",
+  "0px",
+  "86px",
+  "0px",
+  "43px",
+  "11px",
+  "33px",
+  "0px",
+  "91px",
+  "0px",
+];
+const marginRightValues = [
+  "13px",
+  "56px",
+  "0px",
+  "91px",
+  "18px",
+  "62px",
+  "76px",
+  "61px",
+  "0px",
+  "0px",
+];
+
 const StyledPill = styled.span<{ index: number }>`
   background-color: ${colors.white};
   color: ${colors.black};
@@ -105,31 +130,6 @@ interface IProcessItem {
   hoverItems: boolean[];
   setHoverItems: (items: boolean[]) => void;
 }
-
-const marginLeftValues = [
-  "90px",
-  "0px",
-  "86px",
-  "0px",
-  "43px",
-  "11px",
-  "33px",
-  "0px",
-  "91px",
-  "0px",
-];
-const marginRightValues = [
-  "13px",
-  "56px",
-  "0px",
-  "91px",
-  "18px",
-  "62px",
-  "76px",
-  "61px",
-  "0px",
-  "0px",
-];
 
 const ProcessItem = ({
   title,
