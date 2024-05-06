@@ -14,7 +14,6 @@ import {
   StyledParagraphWrapper as OriginalStyledParagraphWrapper,
   StyledParagraphText as OriginalStyledParagraphText,
   StyledPillWrapper as OriginalStyledPillWrapper,
-  StyledTextSpacer as OriginalStyledTextSpacer,
 } from "../../components/home/approach";
 import useIsDesktop from "../../hooks/useIsDesktop";
 import { Row } from "./grid/Row";
@@ -23,7 +22,7 @@ import React, { useState } from "react";
 import { Contact } from "../contact";
 
 const StyledWrapper = styled(GridContainer)`
-  margin: 300px 0 260px 0;
+  margin: 300px auto 260px auto;
 
   @media all and (max-width: ${breakpoints.md}px) {
     margin: 159px 0;
@@ -143,13 +142,12 @@ const StyledIconButton = styled.button`
 `;
 
 const PillIconButton = styled(OriginalPillIconButton)`
-  && {
-    max-width: 257px;
-    margin: 60px 0;
-    font-size: 24px;
-    font-weight: 500;
-    & .styled-icon {
-      top: 28%;
+  max-width: 257px;
+  margin: 60px 0;
+  font-size: 24px;
+  font-weight: 500;
+  & .styled-icon {
+    top: 28%;
   }
 `;
 
@@ -272,7 +270,6 @@ const StyledSlideText = styled.span`
 `;
 
 const StyledPillIconButton = styled(PillIconButton)`
-
   &:hover .styled-icon {
     transform: rotate(0deg);
   }
@@ -281,6 +278,7 @@ const StyledPillIconButton = styled(PillIconButton)`
       stroke: ${colors.white};
       fill: none;
     }
+  }
 `;
 const StyledChatIcon = styled(ChatIcon)`
   position: relative;
