@@ -42,6 +42,13 @@ const StyledImageWrapper = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
+
+  @media (min-width: 1440px) {
+    & img {
+      width: 100%;
+      height: auto;
+    }
+  }
 `;
 
 const StyledProjectInfo = styled.div`
@@ -139,6 +146,9 @@ export default function Index({ siteData, pageData, preview }: IIndex) {
                             width={1440}
                             height={480}
                             alt={`Cover Image for ${project.title}`}
+                            // style={{ width: "100%", height: "auto" }}
+                            // fill
+                            // style={{ objectFit: "cover" }}
                           />
                         </StyledImageWrapper>
                         <StyledProjectInfo>
@@ -162,9 +172,12 @@ export default function Index({ siteData, pageData, preview }: IIndex) {
                               project.featuredImage.node.placeholderDataURI
                             }
                             placeholder="blur"
-                            width={343}
-                            height={440}
+                            // width={343}
+                            // height={440}
                             alt={`Cover Image for ${project.title}`}
+                            // style={{ width: "auto", height: "100%" }}
+                            fill
+                            style={{ objectFit: "cover" }}
                           />
                         </StyledImageWrapper>
                       </StyledContainer>
