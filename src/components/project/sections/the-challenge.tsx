@@ -4,7 +4,7 @@ import { Row } from "../../global/grid/Row";
 import { Col } from "../../global/grid/Col";
 import Pill from "../../global/pill";
 import styled from "@emotion/styled";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { dimensions, breakpoints, colors } from "../../../styles/variables";
 import { getRemSize } from "../../../styles/globalCss";
 import useIsDesktop from "../../../hooks/useIsDesktop";
@@ -134,6 +134,7 @@ export default function DynamicTextAndImages({ content }: IProps) {
                 {content.map((item, index) => {
                   return item?.image ? (
                     <StyledParagraphImage
+                      key={index}
                       onMouseEnter={(e) => onHover(index)}
                       onMouseLeave={(e) => onHoverOver()}
                     >
@@ -141,7 +142,7 @@ export default function DynamicTextAndImages({ content }: IProps) {
                       <span>{item.text}</span>
                     </StyledParagraphImage>
                   ) : (
-                    <>{item.text}</>
+                    <Fragment key={index}>{item.text}</Fragment>
                   );
                 })}
               </StyledParagraph>
@@ -155,8 +156,12 @@ export default function DynamicTextAndImages({ content }: IProps) {
                   width={375}
                   height={774}
                   alt={`Gallery Image ${hoverIndex}`}
-                  loader={() => content[hoverIndex].image.node.sourceUrl}
+                  // loader={() => content[hoverIndex].image.node.sourceUrl}
                   src={content[hoverIndex].image.node.sourceUrl}
+                  placeholder="blur"
+                  blurDataURL={
+                    content[hoverIndex].image.node.placeholderDataURI
+                  }
                 />
               )}
             </Col>
@@ -170,11 +175,11 @@ export default function DynamicTextAndImages({ content }: IProps) {
               <StyledMobileParagraph>
                 {content.map((item, index) => {
                   return item?.image ? (
-                    <StyledMobileParagraphImage>
+                    <StyledMobileParagraphImage key={index}>
                       <span>{" " + item.text}</span>
                     </StyledMobileParagraphImage>
                   ) : (
-                    <>{item.text}</>
+                    <Fragment key={index}>{item.text}</Fragment>
                   );
                 })}
               </StyledMobileParagraph>
@@ -187,8 +192,11 @@ export default function DynamicTextAndImages({ content }: IProps) {
                         width={isTablet ? 212 : 162}
                         height={isTablet ? 393 : 343}
                         alt={`Gallery Image ${index}`}
-                        loader={() => item.image.node.sourceUrl}
+                        // loader={() => item.image.node.sourceUrl}
                         src={item.image.node.sourceUrl}
+                        placeholder="blur"
+                        blurDataURL={item.image.node.placeholderDataURI}
+                        key={item.text}
                       />
                     )
                   );
