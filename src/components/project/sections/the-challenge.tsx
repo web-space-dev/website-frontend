@@ -90,10 +90,29 @@ const StyledMobileParagraph = styled.p`
 const StyledMobileParagraphImage = styled.span`
   font-size: ${getRemSize(dimensions.textSizes.normal.desktop)};
 `;
+
+const variants = {
+  open: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      y: { stiffness: 1000, velocity: -100 },
+    },
+  },
+  closed: {
+    y: 50,
+    opacity: 0,
+    transition: {
+      y: { stiffness: 1000 },
+    },
+  },
+};
+
 export default function DynamicTextAndImages({ content }: IProps) {
   const isDesktop = useIsDesktop();
   const isTablet = useIsTablet();
   const [hoverIndex, setHoverIndex] = useState(null);
+
   const onHover = (index) => {
     setHoverIndex(index);
   };
@@ -101,6 +120,7 @@ export default function DynamicTextAndImages({ content }: IProps) {
   const onHoverOver = () => {
     setHoverIndex(null);
   };
+
   return (
     <StyledBigWrapper>
       <Row>
@@ -127,17 +147,20 @@ export default function DynamicTextAndImages({ content }: IProps) {
               </StyledParagraph>
               {hoverIndex && (
                 <StyledImage
-                  initial={{ opacity: 0, scale: 0.5 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{
-                    duration: 0.5,
-                    delay: 0.2,
-                    ease: [0, 0.71, 0.2, 1.01],
-                  }}
-                  width={375}
-                  height={774}
                   onMouseEnter={(e) => onHover(hoverIndex)}
                   onMouseLeave={(e) => onHoverOver()}
+                  variants={variants}
+                  initial="closed"
+                  animate={hoverIndex ? "open" : "closed"}
+                  // initial={{ opacity: 0, scale: 0.5 }}
+                  // animate={{ opacity: 1, scale: 1 }}
+                  // transition={{
+                  //   duration: 0.5,
+                  //   delay: 0.2,
+                  //   ease: [0, 0.71, 0.2, 1.01],
+                  // }}
+                  width={375}
+                  height={774}
                   alt={`Gallery Image ${hoverIndex}`}
                   loader={() => content[hoverIndex].image.node.sourceUrl}
                   src={content[hoverIndex].image.node.sourceUrl}
