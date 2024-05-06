@@ -9,7 +9,7 @@ interface IPill {
 const StyledPill = styled.span`
   background-color: ${colors.white};
   color: ${colors.accent};
-  padding: 10px 24px;
+  padding: 8px 22px;
   font-size: ${getRemSize(dimensions.headingSizes.small.desktop)};
   border-radius: 50px;
   font-weight: 700;
