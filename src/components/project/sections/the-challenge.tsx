@@ -24,20 +24,19 @@ const StyledImage = styled(motion(Image))`
   object-fit: cover;
   width: 375px;
   height: 774px;
-  position: fixed;
-  top: 32px;
-  z-index: 100;
+  position: absolute;
   @media (min-width: 1350px) {
+    top: 92px;
     left: 220px;
   }
 
   @media (min-width: 1088px) and (max-width: 1350px) {
-    top: 62px;
+    top: 92px;
     left: 138px;
   }
 
   @media (max-width: 1088px) {
-    top: 32px;
+    top: 92px;
     left: 75px;
   }
 `;

@@ -147,7 +147,6 @@ export const theme = css`
     border: 1px solid ${colors.blackLight};
     color: ${colors.black};
     padding: 0.4rem 0.5rem;
-    margin-bottom: 1rem;
     width: 100%;
 
     &::placeholder,

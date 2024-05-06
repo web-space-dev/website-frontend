@@ -9,11 +9,11 @@ import styled from "@emotion/styled";
 import { IconButton } from "../../components/global/iconButton";
 import React from "react";
 import ArrowDown from "../../icons/arrowDown";
+import { breakpoints, colors, dimensions } from "../../styles/variables";
 import Navbar from "../../components/navbar";
 import { GridContainer } from "../../components/global/grid/gridContainer";
 import { Col } from "../../components/global/grid/Col";
 import { Row } from "../../components/global/grid/Row";
-import { breakpoints, dimensions } from "../../styles/variables";
 import { getRemSize } from "../../styles/globalCss";
 import useIsDesktop from "../../hooks/useIsDesktop";
 
@@ -105,26 +105,85 @@ const StyledLink = styled.span`
   align-items: center;
 `;
 
+const StyledArrow = styled(ArrowDown)`
+  fill: ${colors.white};
+  @media (max-width: ${breakpoints.md}px) {
+    transform: scale(0.9);
+    position: relative;
+    top: 3px;
+    margin-left: 10px;
+  }
+  @media (max-width: ${breakpoints.sm}px) {
+    transform: scale(0.7);
+  }
+`;
+
+const H2 = styled.h2`
+  margin: 0;
+  font-size: ${getRemSize(dimensions.textSizes.normal.desktop)};
+  line-height: 1.25rem;
+  font-weight: 400;
+
+  @media (max-width: ${breakpoints.md}px) {
+    font-size: ${getRemSize(dimensions.headingSizes.cta.mobile)};
+  }
+`;
+
+const H1 = styled.h1`
+  font-size: ${getRemSize(dimensions.headingSizes.medium.desktop)};
+
+  @media (max-width: ${breakpoints.md}px) {
+    font-size: 55px;
+  }
+  @media (max-width: ${breakpoints.sm}px) {
+    font-size: ${getRemSize(dimensions.headingSizes.large.mobile)};
+  }
+`;
+
+const StyledShowcaseCategory = styled.p`
+  margin: 0;
+  font-size: ${getRemSize(dimensions.textSizes.normal.desktop)};
+  line-height: 1.25rem;
+
+  @media (max-width: ${breakpoints.md}px) {
+    font-size: ${getRemSize(dimensions.headingSizes.cta.mobile)};
+  }
+`;
+
 const StyledHeader = styled.h1`
+  font-size: ${getRemSize(dimensions.headingSizes.medium.desktop)};
+
   text-align: center;
   margin-top: 50px;
   @media (max-width: ${breakpoints.md}px) {
+    font-size: ${getRemSize(55)};
     text-align: left;
     margin-top: 84px;
+  }
+
+  @media (max-width: ${breakpoints.sm}px) {
+    font-size: ${getRemSize(dimensions.headingSizes.large.mobile)};
   }
 `;
 
 export default function Index({ siteData, pageData, preview }: IIndex) {
   const isDesktop = useIsDesktop();
+
   return (
     <Layout preview={preview} pageTitle={"Projects"} siteData={siteData}>
       <Navbar dark={true} />
       <GridContainer>
         <Row>
           <Col span={12}>
-            <StyledHeader>
-              Take a look at our Projects <ArrowDown />
-            </StyledHeader>
+            {isDesktop ? (
+              <StyledHeader>
+                Take a look at our - Project <StyledArrow />
+              </StyledHeader>
+            ) : (
+              <StyledHeader>
+                Take a look at our Project <StyledArrow />
+              </StyledHeader>
+            )}
           </Col>
         </Row>
 
@@ -146,9 +205,6 @@ export default function Index({ siteData, pageData, preview }: IIndex) {
                             width={1440}
                             height={480}
                             alt={`Cover Image for ${project.title}`}
-                            // style={{ width: "100%", height: "auto" }}
-                            // fill
-                            // style={{ objectFit: "cover" }}
                           />
                         </StyledImageWrapper>
                         <StyledProjectInfo>
@@ -172,10 +228,7 @@ export default function Index({ siteData, pageData, preview }: IIndex) {
                               project.featuredImage.node.placeholderDataURI
                             }
                             placeholder="blur"
-                            // width={343}
-                            // height={440}
                             alt={`Cover Image for ${project.title}`}
-                            // style={{ width: "auto", height: "100%" }}
                             fill
                             style={{ objectFit: "cover" }}
                           />
