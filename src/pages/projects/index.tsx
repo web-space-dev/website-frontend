@@ -173,7 +173,7 @@ export default function Index({ siteData, pageData, preview }: IIndex) {
                           <h2>{project.title}</h2>
                           <p>{project.projectCategories?.nodes[0]?.name}</p>
                         </StyledProjectDetails>
-                        <StyledLink href={`/projects/${project.slug}`}>
+                        <StyledLink>
                           <IconButton />
                         </StyledLink>
                       </StyledProjectInfo>
