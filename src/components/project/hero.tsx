@@ -6,6 +6,7 @@ import { Row } from "../global/grid/Row";
 import { Col } from "../global/grid/Col";
 import ArrowUpRight from "../../icons/arrowUpRight";
 import Image from "next/image";
+import useIsDesktop from "../../hooks/useIsDesktop";
 
 const StyledLogoImage = styled.div<{ dark: boolean }>`
   position: absolute;
@@ -28,12 +29,16 @@ const StyledDivImage = styled.div`
   z-index: -1;
   border-radius: 0px 0px 20px 20px;
 
-  @media (max-width: ${breakpoints.md}px) {
-    height: 650px;
+  & img {
+    width: auto;
+    height: inherit;
   }
 
-  & img {
-    height: auto;
+  @media (max-width: ${breakpoints.md}px) {
+    height: 650px;
+    & img {
+      height: 100%;
+    }
   }
 `;
 
@@ -254,6 +259,8 @@ interface Props {
 }
 
 export function Hero({ project }: Props) {
+  const isDesktop = useIsDesktop();
+
   return (
     <>
       <StyledLogoImage dark={false}>
@@ -265,13 +272,24 @@ export function Hero({ project }: Props) {
         />
       </StyledLogoImage>
       <StyledDivImage>
-        <Image
-          fill
-          src={project.featuredImage?.node.sourceUrl}
-          alt={`${project.title} Feature Image`}
-          placeholder="blur"
-          blurDataURL={project.featuredImage.node.placeholderDataURI}
-        />
+        {isDesktop ? (
+          <Image
+            fill
+            src={project.featuredImage?.node.sourceUrl}
+            alt={`${project.title} Feature Image`}
+            placeholder="blur"
+            blurDataURL={project.featuredImage.node.placeholderDataURI}
+          />
+        ) : (
+          <Image
+            src={project.featuredImage?.node.sourceUrl}
+            alt={`${project.title} Feature Image`}
+            placeholder="blur"
+            blurDataURL={project.featuredImage.node.placeholderDataURI}
+            width={374}
+            height={649}
+          />
+        )}
       </StyledDivImage>
       <StyledTitleRow>
         <Col start={2} span={7}>

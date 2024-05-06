@@ -16,7 +16,7 @@ const StyledTitleRow = styled(Row)`
   margin: 120px 0 120px 0;
 
   @media (max-width: ${breakpoints.md}px) {
-    margin: 120px 0 120px 0;
+    margin: 120px 0 20px 0;
   }
 `;
 
