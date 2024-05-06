@@ -20,7 +20,8 @@ const StyledGalleryWrapper = styled.div<{ wrapperHeight: number }>`
 `;
 
 const StyledImageWrapper = styled.div`
-  width: 100%;
+  max-width: 90%;
+
   &:not(:last-child) {
     margin-right: 8px;
   }
