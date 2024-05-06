@@ -1,16 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import { Gallery } from "../../../interfaces/project";
+import { Gallery } from "../../../../interfaces/project";
 import styled from "@emotion/styled";
 import { motion, AnimatePresence } from "framer-motion";
 import { wrap } from "popmotion";
-import { breakpoints, colors } from "../../../styles/variables";
-import ArrowRight from "../../../icons/arrowRight";
-import ArrowLeft from "../../../icons/arrowLeft";
-import useIsDesktop from "../../../hooks/useIsDesktop";
-import useIsTablet from "../../../hooks/useIsTablet";
-import Gallery1Desktop from "./gallery-1/gallery-1-desktop";
-import Gallery1Mobile from "./gallery-1/gallery-1-mobile";
+import { breakpoints, colors } from "../../../../styles/variables";
+import ArrowRight from "../../../../icons/arrowRight";
+import ArrowLeft from "../../../../icons/arrowLeft";
 
 interface IProps {
   images: Gallery;
@@ -19,6 +15,11 @@ interface IProps {
 const StyledGalleryWrapper = styled.div`
   position: relative;
   overflow-x: hidden;
+  margin-bottom: 180px;
+
+  @media (man-width: ${breakpoints.md}px) {
+    margin-bottom: 120px;
+  }
 `;
 
 const StyledImagesWrapper = styled.div`
@@ -45,8 +46,8 @@ const StyledImagesWrapper = styled.div`
 
   @media (min-width: 900px) {
     height: 768px;
-    justify-content: center; // Center images on larger screens
-    overflow: hidden; // Disable scrolling
+    justify-content: center;
+    overflow: hidden;
     width: 100%;
     padding-left: 0;
   }
@@ -56,7 +57,6 @@ const StyledImage = styled(motion.div)`
   overflow: hidden;
   flex: 0 0 100vw;
   width: 100%;
-  // margin-left: -45px;
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -70,8 +70,6 @@ const StyledImage = styled(motion.div)`
     position: absolute;
   }
 `;
-
-const StyledMobileNextImage = styled.div``;
 
 const StyledButtonsWrapper = styled.div`
   position: absolute;
@@ -99,10 +97,6 @@ const StyledArrowButton = styled.div`
   cursor: pointer;
 `;
 
-const StyledArrowLeft = styled(ArrowLeft)``;
-
-const StyledArrowRight = styled(ArrowRight)``;
-
 const variants = {
   enter: (direction: number) => {
     return {
@@ -129,34 +123,14 @@ const swipePower = (offset: number, velocity: number) => {
   return Math.abs(offset) * velocity;
 };
 
-export default function Gallery1({ images }: IProps) {
+export default function Gallery1Desktop({ images }: IProps) {
   const [[page, direction], setPage] = useState([0, 0]);
   const imageIndex = wrap(0, images.nodes.length, page);
   const wrapperRef = useRef(null);
-  const isDesktop = useIsDesktop();
-  const isTablet = useIsTablet();
-  // useEffect(() => {
-  //   const handleResize = () => {
-  //     const img = wrapperRef.current.querySelector("img");
-  //     if (img) {
-  //       wrapperRef.current.style.height = `${img.offsetHeight}px`;
-  //     }
-  //   };
-
-  //   window.addEventListener("resize", handleResize);
-  //   handleResize();
-  //   return () => window.removeEventListener("resize", handleResize);
-  // }, []);
 
   const paginate = (newDirection: number) => {
     setPage([page + newDirection, newDirection]);
   };
-
-  if (isDesktop) {
-    return <Gallery1Desktop images={images} />;
-  }
-
-  return <Gallery1Mobile images={images} />;
 
   return (
     <StyledGalleryWrapper>
@@ -187,9 +161,8 @@ export default function Gallery1({ images }: IProps) {
             }}
           >
             <Image
-              // layout="responsive"
-              width={isDesktop ? 1440 : isTablet ? 686 : 343}
-              height={isDesktop ? 768 : isTablet ? 472 : 236}
+              width={1440}
+              height={768}
               alt={`Gallery Image ${page}`}
               loader={() => images.nodes[imageIndex].sourceUrl}
               src={images.nodes[imageIndex].sourceUrl}
@@ -204,7 +177,7 @@ export default function Gallery1({ images }: IProps) {
             paginate(-1);
           }}
         >
-          <StyledArrowLeft fill={colors.white} />
+          <ArrowLeft fill={colors.white} />
         </StyledArrowButton>
         <StyledArrowButton
           onClick={(e) => {
@@ -212,7 +185,7 @@ export default function Gallery1({ images }: IProps) {
             paginate(1);
           }}
         >
-          <StyledArrowRight fill={colors.white} />
+          <ArrowRight fill={colors.white} />
         </StyledArrowButton>
       </StyledButtonsWrapper>
     </StyledGalleryWrapper>
