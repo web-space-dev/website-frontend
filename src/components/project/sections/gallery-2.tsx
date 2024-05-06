@@ -22,18 +22,11 @@ const StyledImageWrapper = styled.div`
     margin-right: 20px;
   }
 
-  & img {
-    height: auto;
-    width: 100%;
-  }
-
   @media (max-width: ${breakpoints.sm}px) {
     flex-direction: column;
     margin-bottom: 120px;
     & img {
       border-radius: 26px;
-      height: auto;
-      width: 100%;
     }
     & img:not(:last-child) {
       margin-bottom: 8px;
@@ -51,7 +44,6 @@ export default function Gallery2({ images }: IProps) {
           {images.nodes.map((image, index) => {
             return (
               <Image
-                className={index === 0 ? "first-image" : "other-image"}
                 key={index}
                 width={
                   isDesktop ? (index === 0 ? 836 : 592) : isTablet ? 686 : 343
@@ -61,6 +53,11 @@ export default function Gallery2({ images }: IProps) {
                 src={image.sourceUrl}
                 placeholder="blur"
                 blurDataURL={image.placeholderDataURI}
+                style={
+                  isDesktop
+                    ? { height: "auto" }
+                    : { height: "auto", width: "100%" }
+                }
               />
             );
           })}
