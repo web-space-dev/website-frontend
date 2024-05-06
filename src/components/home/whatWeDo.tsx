@@ -118,8 +118,9 @@ const StyledPill = styled.span<{ index: number }>`
     font-size: ${getRemSize(dimensions.textSizes.normal.desktop)};
     margin-left: ${(props) => marginLeftValues[props.index] || "0px"};
     margin-right: ${(props) => marginRightValues[props.index] || "0px"};
-  @media all and (max-width: 385px) {
-    font-size: 25px;
+    @media all and (max-width: 385px) {
+      font-size: 25px;
+    }
   }
 `;
 
