@@ -16,7 +16,7 @@ const StyledTitleRow = styled(Row)`
   margin: 120px 0 120px 0;
 
   @media (max-width: ${breakpoints.md}px) {
-    margin: 120px 0 120px 0;
+    margin: 120px 0 20px 0;
   }
 `;
 
@@ -34,6 +34,7 @@ const StyledHeading = styled.h2`
     text-indent: 81px;
     font-weight: 400;
     letter-spacing: 1px;
+    line-height: 1.1;
   }
 `;
 

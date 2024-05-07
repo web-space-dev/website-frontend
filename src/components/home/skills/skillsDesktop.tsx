@@ -3,6 +3,7 @@ import { SkillCategories } from "../../../interfaces/home";
 import { AnimatePresence, motion } from "framer-motion";
 import { colors } from "../../../styles/variables";
 import styled from "@emotion/styled";
+import Image from "next/image";
 
 const StyledTabs = styled.div`
   margin-top: 80px;
@@ -65,10 +66,13 @@ export default function SkillsDesktop({ categories }: IProps) {
           transition={{ duration: 0.2 }}
         >
           {categories.nodes[activeTab].skills.nodes.map((skill, index) => (
-            <img
+            <Image
               key={index}
               src={skill.featuredImage.node.sourceUrl}
+              blurDataURL={skill.featuredImage.node.placeholderDataURI}
               alt={skill.title + "Logo"}
+              width={158}
+              height={158}
             />
           ))}
         </StyledLogoWrapper>

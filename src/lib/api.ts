@@ -1,4 +1,5 @@
 import { IHomePage } from "../interfaces/home";
+import { IPageData } from "../interfaces/page";
 import { IProjectData, IProjectsData } from "../interfaces/project";
 import { ISiteData } from "../interfaces/site";
 
@@ -48,6 +49,21 @@ export async function getAllProjectsWithSlug() {
   return data?.projects;
 }
 
+export async function getAllPagesWithSlug() {
+  const data = await fetchAPI(`
+  {
+    pages(where: {notIn: ["cG9zdDo5", "cG9zdDo0NA=="]}, first: 10000) {
+      edges {
+        node {
+          slug
+        }
+      }
+    }
+  }
+  `);
+  return data?.pages;
+}
+
 export async function getSiteData(): Promise<ISiteData> {
   const data = await fetchAPI(
     `
@@ -63,7 +79,7 @@ export async function getSiteData(): Promise<ISiteData> {
   return data;
 }
 
-export async function getHomeData(preview: boolean): Promise<IHomePage> {
+export async function getHomeData(): Promise<IHomePage> {
   const data = await fetchAPI(
     `
     query HomePage {
@@ -142,21 +158,13 @@ export async function getHomeData(preview: boolean): Promise<IHomePage> {
         }
       }
     }
-  `,
-    {
-      variables: {
-        onlyEnabled: !preview,
-        preview,
-      },
-    }
+  `
   );
 
   return data;
 }
 
-export async function getProjectsData(
-  preview: boolean
-): Promise<IProjectsData> {
+export async function getProjectsData(): Promise<IProjectsData> {
   const data = await fetchAPI(`
     query ProjectsPage {
       projects {
@@ -183,7 +191,9 @@ export async function getProjectsData(
   return data;
 }
 
-export async function getProjectAndMoreProjects(slug): Promise<IProjectData> {
+export async function getProjectAndMoreProjects(
+  slug: string
+): Promise<IProjectData> {
   const data = await fetchAPI(
     `
       query PostBySlug($slug: String!) {
@@ -326,4 +336,27 @@ export async function getProjectAndMoreProjects(slug): Promise<IProjectData> {
   if (data.projects.nodes.length > 2) data.projects.nodes.pop();
 
   return { project: data.projectBy, projects: data.projects };
+}
+
+export async function getPageData(slug: string): Promise<IPageData> {
+  const data = await fetchAPI(
+    `
+  query PageBySlug($slug: String!) {
+
+    pageBySlug(slug: $slug) {
+      id
+      title
+      slug
+      content
+    }
+  }
+  `,
+    {
+      variables: {
+        slug,
+      },
+    }
+  );
+
+  return data;
 }
