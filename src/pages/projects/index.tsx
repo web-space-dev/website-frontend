@@ -20,7 +20,6 @@ import useIsDesktop from "../../hooks/useIsDesktop";
 interface IIndex {
   siteData: ISiteData;
   pageData: IProjectsData;
-  preview: boolean;
 }
 
 const StyledContainer = styled.div`
@@ -166,11 +165,11 @@ const StyledHeader = styled.h1`
   }
 `;
 
-export default function Index({ siteData, pageData, preview }: IIndex) {
+export default function Index({ siteData, pageData }: IIndex) {
   const isDesktop = useIsDesktop();
 
   return (
-    <Layout preview={preview} pageTitle={"Projects"} siteData={siteData}>
+    <Layout pageTitle={"Projects"} siteData={siteData}>
       <Navbar dark={true} />
       <GridContainer>
         <Row>
@@ -257,12 +256,12 @@ export default function Index({ siteData, pageData, preview }: IIndex) {
   );
 }
 
-export const getStaticProps: GetStaticProps = async ({ preview = false }) => {
-  const pageData = await getProjectsData(preview);
+export const getStaticProps: GetStaticProps = async () => {
+  const pageData = await getProjectsData();
   const siteData = await getSiteData();
 
   return {
-    props: { siteData, pageData, preview },
+    props: { siteData, pageData },
     revalidate: 10,
   };
 };

@@ -15,14 +15,13 @@ import Navbar from "../components/navbar";
 interface IIndex {
   siteData: ISiteData;
   pageData: IHomePage;
-  preview: boolean;
 }
 
-export default function Index({ siteData, pageData, preview }: IIndex) {
+export default function Index({ siteData, pageData }: IIndex) {
   const { page, projects, skillCategories, skills } = pageData;
 
   return (
-    <Layout preview={preview} pageTitle={page.title} siteData={siteData}>
+    <Layout pageTitle={page.title} siteData={siteData}>
       <Navbar dark={true} />
 
       {/* Hero section */}
@@ -46,12 +45,12 @@ export default function Index({ siteData, pageData, preview }: IIndex) {
   );
 }
 
-export const getStaticProps: GetStaticProps = async ({ preview = false }) => {
-  const pageData = await getHomeData(preview);
+export const getStaticProps: GetStaticProps = async () => {
+  const pageData = await getHomeData();
   const siteData = await getSiteData();
 
   return {
-    props: { siteData, pageData, preview },
+    props: { siteData, pageData },
     revalidate: 10,
   };
 };
