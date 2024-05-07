@@ -20,14 +20,19 @@ interface IStyledWrapper {
   reverse?: boolean;
 }
 
-const StyledWrapper = styled(GridContainer)<IStyledWrapper>`
+const StyledWrapper = styled.section<IStyledWrapper>`
+  position: relative;
+  height: ${({ open }) => (open ? "100vh" : "auto")};
+  margin-top: ${({ reverse }) => (reverse ? "400px" : "0")};
+`;
+
+const StyledFollowingContainer = styled.div<IStyledWrapper>`
   position: ${({ open }) => (open ? "fixed" : "sticky")};
   height: 100vh;
   z-index: 20;
   background-color: ${colors.black};
   top: 0;
-  ${({ reverse }) => (reverse ? `bottom: 0;` : `top: 0;`)}
-  /* top: ${({ reverse }) => (reverse ? "" : "")} 0; */
+  bottom: ${({ reverse }) => (reverse ? `0` : `unset`)};
   left: 0;
   right: 0;
 
@@ -72,11 +77,6 @@ const StyledTitle = styled.h2<{ color: string }>`
   }
 `;
 
-const StyledMobileSpacer = styled.div`
-  margin-right: 343px;
-  scroll-snap-align: center;
-`;
-
 export default function ShowcaseWrapperDesktop({ title, projects }: IShowcase) {
   const [isOpen, setIsOpen] = useState(false);
   const [canScale, setCanScale] = useState(false);
@@ -86,7 +86,6 @@ export default function ShowcaseWrapperDesktop({ title, projects }: IShowcase) {
   const [fromStart, setFromStart] = useState(true);
 
   const ref = useRef(null);
-  // const isDesktop = useIsDesktop();
   const { scrollY } = useScroll();
   const scale = useTransform(
     scrollY,
@@ -145,15 +144,21 @@ export default function ShowcaseWrapperDesktop({ title, projects }: IShowcase) {
   };
 
   return (
-    <div style={{ position: "relative" }}>
-      <StyledWrapper ref={ref} open={isOpen} reverse={!fromStart && !isOpen}>
-        <Row>
-          <Col start={1} span={12}>
-            <StyledTitle color={isOpen ? colors.accent : colors.white}>
-              {title}
-            </StyledTitle>
-          </Col>
-        </Row>
+    <StyledWrapper open={isOpen} reverse={!fromStart}>
+      <StyledFollowingContainer
+        ref={ref}
+        open={isOpen}
+        reverse={!fromStart && !isOpen}
+      >
+        <GridContainer>
+          <Row>
+            <Col start={1} span={12}>
+              <StyledTitle color={isOpen ? colors.accent : colors.white}>
+                {title}
+              </StyledTitle>
+            </Col>
+          </Row>
+        </GridContainer>
         <StyledMotionWrapper open={isOpen}>
           {projects.nodes.map((project, index: number) => {
             if (index === projects.nodes.length - 1) {
@@ -161,12 +166,7 @@ export default function ShowcaseWrapperDesktop({ title, projects }: IShowcase) {
                 <ShowcaseItemFinalDesktop
                   key={index}
                   project={project}
-                  // scale={index === 0 ? scale : undefined}
                   isOpen={isOpen}
-                  // showAllProjects={index === projects.nodes.length - 1}
-                  // isFirst={index === 0}
-                  // isLast={index === projects.nodes.length - 1}
-                  reverseScale={reverseScale}
                   forwardScale={forwardScale}
                 />
               );
@@ -178,17 +178,14 @@ export default function ShowcaseWrapperDesktop({ title, projects }: IShowcase) {
                 project={project}
                 scale={index === 0 ? scale : undefined}
                 isOpen={isOpen}
-                showAllProjects={index === projects.nodes.length - 1}
                 isFirst={index === 0}
-                isLast={index === projects.nodes.length - 1}
                 reverseScale={reverseScale}
-                forwardScale={forwardScale}
               />
             );
           })}
         </StyledMotionWrapper>
-      </StyledWrapper>
+      </StyledFollowingContainer>
       <StyledSpacer height={fromStart ? 140 : 100} />
-    </div>
+    </StyledWrapper>
   );
 }

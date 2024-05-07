@@ -5,13 +5,13 @@ import { colors, dimensions } from "../../../styles/variables";
 import { getRemSize } from "../../../styles/globalCss";
 import { IconButton } from "../../global/iconButton";
 import { CustomImage } from "../../global/image";
-import { MotionValue, motion, useScroll } from "framer-motion";
+import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 
 interface IStyledShowcaseWrapper {
   open: boolean;
 }
-const StyledShowcaseWrapper = styled(motion.div)<IStyledShowcaseWrapper>`
+const StyledShowcaseWrapper = styled.div<IStyledShowcaseWrapper>`
   height: 100vh;
   display: flex;
   align-items: center;
@@ -112,23 +112,13 @@ const StyledLink = styled(Link)`
 
 interface ShowcaseItemProps {
   project: Project;
-  // scale?: MotionValue;
   isOpen: boolean;
-  // showAllProjects: boolean;
-  // isFirst: boolean;
-  // isLast: boolean;
-  reverseScale: () => void;
   forwardScale: (param: boolean) => void;
 }
 
 export default function ShowcaseItemFinalDesktop({
   project,
-  // scale,
   isOpen,
-  // showAllProjects,
-  // isFirst,
-  // isLast,
-  reverseScale,
   forwardScale,
 }: ShowcaseItemProps) {
   const ref = useRef(null);
@@ -142,14 +132,11 @@ export default function ShowcaseItemFinalDesktop({
   useEffect(() => {
     const wiggleRoom = 200;
     const handleScrollDown = (e: WheelEvent) => {
-      console.log("scrolling down");
-      // User is scrolling down
       scrollRef.current.y += e.deltaY;
       if (scrollRef.current.y > wiggleRoom) {
         console.log("trigger!");
         forwardScale(false);
         scrollRef.current.y = 0; // Reset the counter
-        // remove the event listener
         window.removeEventListener("wheel", handleScrollDown);
         setListening(false);
       }
@@ -157,13 +144,7 @@ export default function ShowcaseItemFinalDesktop({
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        console.log("checking");
-        /**
-         * Checking if it's the first element AND if it's in view
-         * (we know that because scale will be defined)
-         */
         if (entry.isIntersecting && !listening) {
-          // Oh also we check if the window is defined because of SSR
           if (typeof window !== "undefined") {
             console.log("is in view", entry.intersectionRatio);
             setListening(true);
@@ -183,9 +164,9 @@ export default function ShowcaseItemFinalDesktop({
         }
       },
       {
-        root: null, // relative to document viewport
-        rootMargin: "0px", // margin around root. Values are similar to css property. Unitless values not allowed
-        threshold: 0.9, // visible amount of item shown in relation to root
+        root: null,
+        rootMargin: "0px",
+        threshold: 0.9,
       }
     );
 
@@ -204,13 +185,7 @@ export default function ShowcaseItemFinalDesktop({
   }, []);
 
   return (
-    <StyledShowcaseWrapper
-      layout
-      transition={{ duration: 1 }}
-      open={isOpen}
-      ref={ref}
-      // style={scale ? { scale } : {}}
-    >
+    <StyledShowcaseWrapper open={isOpen} ref={ref}>
       <StyledShowcaseDetails>
         <StyledShowcaseImage fullwidth>
           <Link href={`/projects/${project.slug}`}>
