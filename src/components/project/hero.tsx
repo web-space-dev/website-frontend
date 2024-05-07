@@ -10,17 +10,6 @@ interface IStyledDivImage {
   imageSrc: string;
 }
 
-const StyledLogoImage = styled.div<{ dark: boolean }>`
-  position: absolute;
-  top: 14px;
-  left: 8px;
-  z-index: 1001;
-  color: ${(props) => (props.dark ? colors.white : colors.black)};
-  img {
-    fill: currentColor;
-  }
-`;
-
 const StyledDivImage = styled.div<IStyledDivImage>`
   overflow: hidden;
   position: absolute;
@@ -257,9 +246,6 @@ interface Props {
 export function Hero({ project }: Props) {
   return (
     <>
-      <StyledLogoImage dark={false}>
-        <img src="/svg/logo-icon-white.svg" alt="Logo" width={40} height={40} />
-      </StyledLogoImage>
       <StyledDivImage imageSrc={project.featuredImage?.node.sourceUrl} />
       <StyledTitleRow>
         <Col start={2} span={7}>

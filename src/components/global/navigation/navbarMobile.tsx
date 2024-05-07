@@ -5,19 +5,17 @@ import styled from "@emotion/styled";
 import { colors, dimensions } from "../../../styles/variables";
 import { getRemSize } from "../../../styles/globalCss";
 import { Contact } from "../../../components/contact";
+import ChatIcon from "../../../icons/chatIcon";
 
 const StyledImageWrapper = styled.div<{ dark: boolean }>`
   position: fixed;
   top: 14px;
   left: 8px;
   z-index: 999;
-  color: ${(props) =>
-    props.dark
-      ? colors.white
-      : colors.black}; // Changes the color based on the dark prop
+  color: ${(props) => (props.dark ? colors.white : colors.black)};
 
   img {
-    fill: currentColor; // Makes the SVG inherit the color property
+    fill: currentColor;
   }
 `;
 
@@ -149,12 +147,20 @@ const StyledLinkContactMobile = styled.a<{
   }
 `;
 
+const StyledChatIcon = styled(ChatIcon)`
+  width: 24px;
+  height: 24px;
+  & path {
+    stroke: ${colors.white};
+  }
+`;
+
 interface NavbarMobileProps {
   dark: boolean;
   links: {
     name: string;
     path: string;
-    icon?: string | undefined;
+    icon?: JSX.Element | undefined;
   }[];
 }
 
@@ -220,9 +226,6 @@ export function NavbarMobile({ dark, links }: NavbarMobileProps) {
           {links.slice(0, -1).map((link, index) => (
             <StyledDivMobile key={index} index={index}>
               <StyledLinkMobile href={`/${link.path}`} dark={dark}>
-                {link.icon && (
-                  <Image src={link.icon} alt={link.name} style={iconStyle} />
-                )}
                 {!link.icon && link.name}
               </StyledLinkMobile>
             </StyledDivMobile>
@@ -235,14 +238,15 @@ export function NavbarMobile({ dark, links }: NavbarMobileProps) {
               dark={dark}
               onClick={isMenuOpen ? undefined : openContactModal}
             >
-              {links[links.length - 1].icon && (
+              <StyledChatIcon />
+              {/* {links[links.length - 1].icon && (
                 <Image
                   src={links[links.length - 1].icon}
                   alt={links[links.length - 1].name}
                   style={{ width: "20px", height: "20px" }}
                 />
-              )}
-              {!links[links.length - 1].icon && links[links.length - 1].name}
+              )} */}
+              {/* {!links[links.length - 1].icon && links[links.length - 1].name} */}
             </StyledLinkContactMobile>
           </StyledDivContactMobile>
         )}
