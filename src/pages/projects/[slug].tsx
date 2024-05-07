@@ -21,7 +21,7 @@ interface IProject extends IProjectData {
 export default function Project({ siteData, project, projects }: IProject) {
   const router = useRouter();
 
-  if (!router.isFallback && !project?.slug) {
+  if (!project || (!router.isFallback && !project?.slug)) {
     return <ErrorPage statusCode={404} />;
   }
 
