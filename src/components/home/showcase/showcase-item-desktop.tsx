@@ -44,7 +44,7 @@ const StyledShowcaseImage = styled(motion.div)`
   }
 `;
 
-const StyledShowcaseContent = styled.div<{ fullwidth: boolean }>`
+const StyledShowcaseContent = styled.div`
   position: absolute;
   top: 50%;
   bottom: 50%;

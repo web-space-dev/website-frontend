@@ -43,12 +43,12 @@ const StyledAllProjects = styled.div`
   margin: auto 10px;
 `;
 
-const StyledShowcaseImage = styled(motion.div)<{ fullwidth: boolean }>`
+const StyledShowcaseImage = styled(motion.div)`
   position: relative;
   height: 100%;
   flex: 1;
   margin: auto 10px;
-  overflow: ${(props) => (props.fullwidth ? "hidden" : "visible")};
+  overflow: hidden;
   & img {
     width: 100%;
     object-fit: cover;
@@ -57,13 +57,13 @@ const StyledShowcaseImage = styled(motion.div)<{ fullwidth: boolean }>`
   }
 `;
 
-const StyledShowcaseContent = styled.div<{ fullwidth: boolean }>`
+const StyledShowcaseContent = styled.div`
   position: absolute;
   top: 50%;
   bottom: 50%;
   left: 0;
   right: 0;
-  width: ${(props) => (props.fullwidth ? "100%" : "80%")};
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -187,7 +187,7 @@ export default function ShowcaseItemFinalDesktop({
   return (
     <StyledShowcaseWrapper open={isOpen} ref={ref}>
       <StyledShowcaseDetails>
-        <StyledShowcaseImage fullwidth>
+        <StyledShowcaseImage>
           <Link href={`/projects/${project.slug}`}>
             <CustomImage
               alt={project.featuredImage.node.altText}
@@ -196,7 +196,7 @@ export default function ShowcaseItemFinalDesktop({
               src={project.featuredImage.node.sourceUrl}
               blurDataURL={project.featuredImage.node.placeholderDataURI}
             />
-            <StyledShowcaseContent fullwidth>
+            <StyledShowcaseContent>
               <StyledShowcaseTitle>{project.title}</StyledShowcaseTitle>
               <StyledShowcaseCategory>
                 {project.projectCategories?.nodes[0]?.name}

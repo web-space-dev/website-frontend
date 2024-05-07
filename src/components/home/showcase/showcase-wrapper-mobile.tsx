@@ -123,26 +123,6 @@ export default function ShowcaseWrapperMobile({ title, projects }: IShowcase) {
     canScale ? [0.2, 1] : canSnapScroll ? [1, 1] : [0.2, 0.2]
   );
 
-  // useEffect(() => {
-  //   if (isOpen) {
-  //     document.body.style.overflow = "hidden";
-  //   } else {
-  //     document.body.style.overflow = "auto";
-  //   }
-  // }, [isOpen]);
-
-  // const reverseScale = () => {
-  //   setCanScale(true);
-  //   setIsOpen(false);
-  //   setCanSnapScroll(false);
-  //   setBreakpoint(0);
-  //   setFromStart(true);
-  // };
-
-  // const forwardScale = (isOpen: boolean) => {
-  //   setIsOpen(isOpen);
-  // };
-
   // new stuff
 
   const scrollRef = useRef(null);
