@@ -4,18 +4,12 @@ import Footer from "./global/footer";
 import Wrapper from "./global/wrapper";
 
 interface ILayout {
-  preview: boolean;
   children: React.ReactNode;
   pageTitle?: string;
   siteData?: ISiteData;
 }
 
-export default function Layout({
-  preview,
-  pageTitle,
-  siteData,
-  children,
-}: ILayout) {
+export default function Layout({ pageTitle, siteData, children }: ILayout) {
   return (
     <StyledWrapper>
       <Wrapper pageTitle={pageTitle} siteData={siteData} />

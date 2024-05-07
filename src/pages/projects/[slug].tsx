@@ -16,15 +16,9 @@ import Navbar from "../../components/navbar";
 
 interface IProject extends IProjectData {
   siteData: ISiteData;
-  preview: boolean;
 }
 
-export default function Project({
-  siteData,
-  project,
-  projects,
-  preview,
-}: IProject) {
+export default function Project({ siteData, project, projects }: IProject) {
   const router = useRouter();
 
   if (!router.isFallback && !project?.slug) {
@@ -32,7 +26,7 @@ export default function Project({
   }
 
   return (
-    <Layout preview={preview} pageTitle={project?.title} siteData={siteData}>
+    <Layout pageTitle={project?.title} siteData={siteData}>
       <Navbar dark={true} />
 
       {router.isFallback ? (
@@ -65,11 +59,9 @@ export default function Project({
   );
 }
 
-export const getStaticProps: GetStaticProps = async ({
-  params,
-  preview = false,
-}) => {
-  const { project, projects } = await getProjectAndMoreProjects(params?.slug);
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const slug = typeof params.slug === "string" ? params.slug : params.slug[0];
+  const { project, projects } = await getProjectAndMoreProjects(slug);
   const siteData = await getSiteData();
 
   return {
@@ -77,7 +69,6 @@ export const getStaticProps: GetStaticProps = async ({
       siteData,
       project,
       projects,
-      preview,
     },
     revalidate: 10,
   };
