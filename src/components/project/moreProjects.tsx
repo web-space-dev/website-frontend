@@ -5,6 +5,7 @@ import { breakpoints, dimensions } from "../../styles/variables";
 import { getRemSize } from "../../styles/globalCss";
 import useIsDesktop from "../../hooks/useIsDesktop";
 import { Fragment } from "react";
+import Image from "next/image";
 
 interface IProjectsData {
   projects: Projects;
@@ -42,11 +43,7 @@ const StyledProjectCardsWrapper = styled.div`
     flex-direction: column;
   }
 `;
-const StyledProjectCard = styled.div<{ bgImage: string }>`
-  background-image: url(${(props) => props.bgImage});
-  background-size: cover;
-  background-position: center;
-  border-radius: 26px;
+const StyledProjectCard = styled.div`
   max-width: 680px;
   min-width: 200px;
   width: 100%;
@@ -54,6 +51,17 @@ const StyledProjectCard = styled.div<{ bgImage: string }>`
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+  position: relative;
+  & img {
+    border-radius: 26px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+  }
 
   @media (max-width: ${breakpoints.md}px) {
     max-width: 100%;
@@ -88,7 +96,40 @@ const StyledTitleWrapperMobile = styled.div`
   margin-bottom: 10px;
   width: 100%;
 `;
+const H2 = styled.h2`
+  margin: 0;
+  font-size: 1.25rem;
+  line-height: 1.25rem;
+  font-weight: normal;
 
+  @media (max-width: 700px) {
+    font-size: 1rem;
+  }
+`;
+const StyledProjectInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  max-width: 35rem;
+  width: auto;
+  // padding: 0 2rem 0 1rem;
+  justify-content: center;
+  align-items: center;
+  // gap: 0.5rem;
+`;
+const StyledShowcaseCategory = styled.p`
+  margin: 0;
+  font-size: 1.25rem;
+  line-height: 1.25rem;
+
+  @media (max-width: 700px) {
+    font-size: 1rem;
+  }
+`;
+const StyledLink = styled.a`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 export function MoreProjects({ projects }: IProjectsData) {
   const isDesktop = useIsDesktop();
   return (
@@ -97,19 +138,23 @@ export function MoreProjects({ projects }: IProjectsData) {
       {isDesktop ? (
         <StyledProjectCardsWrapper>
           {projects.nodes.map((project, index) => (
-            <StyledProjectCard
-              key={index}
-              bgImage={project?.featuredImage?.node.sourceUrl}
-            >
-              <img
-                src={project?.featuredImage?.node.sourceUrl}
-                alt={`Cover Image for ${project.title}`}
-                width={714}
-                height={264}
-                style={{ display: "none" }}
-              />
+            <StyledProjectCard key={index}>
+              {project?.featuredImage?.node.sourceUrl && (
+                <Image
+                  src={project.featuredImage.node.sourceUrl}
+                  alt={project.title}
+                  layout="fill"
+                  objectFit="cover"
+                  objectPosition="center"
+                  priority={true}
+                />
+              )}
               <StyledTitleWrapper>
-                <StyledTitle>{project.title}</StyledTitle>
+                <StyledTitle>
+                  {project.title}
+                  {project.projectCategories.nodes[0] &&
+                    " - " + project.projectCategories.nodes[0].name}
+                </StyledTitle>
                 <IconButton />
               </StyledTitleWrapper>
             </StyledProjectCard>
@@ -119,20 +164,28 @@ export function MoreProjects({ projects }: IProjectsData) {
         <StyledProjectCardsWrapper>
           {projects.nodes.map((project, index) => (
             <Fragment key={index}>
-              <StyledProjectCard
-                bgImage={project?.featuredImage?.node.sourceUrl}
-              >
-                <img
-                  src={project?.featuredImage?.node.sourceUrl}
-                  alt={`Cover Image for ${project.title}`}
-                  width={714}
-                  height={264}
-                  style={{ display: "none" }}
-                />
+              <StyledProjectCard>
+                {project?.featuredImage?.node.sourceUrl && (
+                  <Image
+                    src={project.featuredImage.node.sourceUrl}
+                    alt={project.title}
+                    layout="fill"
+                    objectFit="cover"
+                    objectPosition="center"
+                    priority={true}
+                  />
+                )}
               </StyledProjectCard>
               <StyledTitleWrapperMobile>
-                <StyledTitle>{project.title}</StyledTitle>
-                <IconButton />
+                <StyledProjectInfo>
+                  <H2>{project.title}</H2>
+                  <StyledShowcaseCategory>
+                    {project.projectCategories?.nodes[0]?.name}
+                  </StyledShowcaseCategory>
+                </StyledProjectInfo>
+                <StyledLink href={`/projects/${project.slug}`}>
+                  <IconButton />
+                </StyledLink>
               </StyledTitleWrapperMobile>
             </Fragment>
           ))}
