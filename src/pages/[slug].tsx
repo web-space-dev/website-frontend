@@ -18,16 +18,14 @@ interface IProject {
 export default function Project({ siteData, page }: IProject) {
   const router = useRouter();
 
-  if (!router.isFallback && !page?.slug) {
+  if (!page || (!router.isFallback && !page?.slug)) {
     return <ErrorPage statusCode={404} />;
   }
 
-  const { content } = page;
+  const content = page.content;
   const paragraphs = content
     .split("\n")
     .filter((paragraph) => paragraph.trim() !== "");
-
-  console.log(paragraphs);
 
   return (
     <Layout pageTitle={page?.title} siteData={siteData}>
