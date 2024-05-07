@@ -9,6 +9,7 @@ import { Col } from "../../global/grid/Col";
 import { Row } from "../../global/grid/Row";
 import { IShowcase } from "../showcase";
 import ShowcaseItemDesktop from "./showcase-item-desktop";
+import ShowcaseItemFinalDesktop from "./showcase-item-final-desktop";
 
 const StyledSpacer = styled.div<{ height: number }>`
   height: ${({ height }) => height}vh;
@@ -16,6 +17,7 @@ const StyledSpacer = styled.div<{ height: number }>`
 
 interface IStyledWrapper {
   open: boolean;
+  reverse?: boolean;
 }
 
 const StyledWrapper = styled(GridContainer)<IStyledWrapper>`
@@ -24,6 +26,8 @@ const StyledWrapper = styled(GridContainer)<IStyledWrapper>`
   z-index: 20;
   background-color: ${colors.black};
   top: 0;
+  ${({ reverse }) => (reverse ? `bottom: 0;` : `top: 0;`)}
+  /* top: ${({ reverse }) => (reverse ? "" : "")} 0; */
   left: 0;
   right: 0;
 
@@ -82,7 +86,7 @@ export default function ShowcaseWrapperDesktop({ title, projects }: IShowcase) {
   const [fromStart, setFromStart] = useState(true);
 
   const ref = useRef(null);
-  const isDesktop = useIsDesktop();
+  // const isDesktop = useIsDesktop();
   const { scrollY } = useScroll();
   const scale = useTransform(
     scrollY,
@@ -137,11 +141,12 @@ export default function ShowcaseWrapperDesktop({ title, projects }: IShowcase) {
 
   const forwardScale = (isOpen: boolean) => {
     setIsOpen(isOpen);
+    setFromStart(false);
   };
 
   return (
     <div style={{ position: "relative" }}>
-      <StyledWrapper ref={ref} open={isOpen}>
+      <StyledWrapper ref={ref} open={isOpen} reverse={!fromStart && !isOpen}>
         <Row>
           <Col start={1} span={12}>
             <StyledTitle color={isOpen ? colors.accent : colors.white}>
@@ -151,6 +156,22 @@ export default function ShowcaseWrapperDesktop({ title, projects }: IShowcase) {
         </Row>
         <StyledMotionWrapper open={isOpen}>
           {projects.nodes.map((project, index: number) => {
+            if (index === projects.nodes.length - 1) {
+              return (
+                <ShowcaseItemFinalDesktop
+                  key={index}
+                  project={project}
+                  // scale={index === 0 ? scale : undefined}
+                  isOpen={isOpen}
+                  // showAllProjects={index === projects.nodes.length - 1}
+                  // isFirst={index === 0}
+                  // isLast={index === projects.nodes.length - 1}
+                  reverseScale={reverseScale}
+                  forwardScale={forwardScale}
+                />
+              );
+            }
+
             return (
               <ShowcaseItemDesktop
                 key={index}

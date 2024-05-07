@@ -112,22 +112,22 @@ const StyledLink = styled(Link)`
 
 interface ShowcaseItemProps {
   project: Project;
-  scale?: MotionValue;
+  // scale?: MotionValue;
   isOpen: boolean;
-  showAllProjects: boolean;
-  isFirst: boolean;
-  isLast: boolean;
+  // showAllProjects: boolean;
+  // isFirst: boolean;
+  // isLast: boolean;
   reverseScale: () => void;
   forwardScale: (param: boolean) => void;
 }
 
-export default function ShowcaseItemDesktop({
+export default function ShowcaseItemFinalDesktop({
   project,
-  scale,
+  // scale,
   isOpen,
-  showAllProjects,
-  isFirst,
-  isLast,
+  // showAllProjects,
+  // isFirst,
+  // isLast,
   reverseScale,
   forwardScale,
 }: ShowcaseItemProps) {
@@ -140,68 +140,53 @@ export default function ShowcaseItemDesktop({
   const [listening, setListening] = useState(false);
 
   useEffect(() => {
-    /**
-     * Checking if the user is trying to scroll up, if so,
-     * let them scroll a tiny bit (`wiggleRoom`) and then we start
-     * to reverse the scale
-     * @param e WheelEvent
-     */
     const wiggleRoom = 200;
-    const handleScrollUp = (e: WheelEvent) => {
-      if (e.deltaY < 0) {
-        scrollRef.current.y -= e.deltaY;
-        if (scrollRef.current.y > wiggleRoom) {
-          reverseScale();
-          scrollRef.current.y = 0; // Reset the counter
-        }
-      } else {
-        scrollRef.current.y = 0; // Reset the counter if the user scrolls down
-      }
-    };
     const handleScrollDown = (e: WheelEvent) => {
       console.log("scrolling down");
       // User is scrolling down
       scrollRef.current.y += e.deltaY;
       if (scrollRef.current.y > wiggleRoom) {
+        console.log("trigger!");
         forwardScale(false);
         scrollRef.current.y = 0; // Reset the counter
+        // remove the event listener
+        window.removeEventListener("wheel", handleScrollDown);
+        setListening(false);
       }
     };
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (isFirst || isLast) {
-          /**
-           * Checking if it's the first element AND if it's in view
-           * (we know that because scale will be defined)
-           */
-          if (entry.isIntersecting && !listening) {
-            // Oh also we check if the window is defined because of SSR
-            if (typeof window !== "undefined") {
-              setListening(true);
+        console.log("checking");
+        /**
+         * Checking if it's the first element AND if it's in view
+         * (we know that because scale will be defined)
+         */
+        if (entry.isIntersecting && !listening) {
+          // Oh also we check if the window is defined because of SSR
+          if (typeof window !== "undefined") {
+            console.log("is in view", entry.intersectionRatio);
+            setListening(true);
 
-              window.addEventListener(
-                "wheel",
-                isFirst ? handleScrollUp : handleScrollDown
-              );
-            }
-          } else {
-            // Element is not in view, remove the event listener
-            if (typeof window !== "undefined") {
-              window.removeEventListener(
-                "wheel",
-                isFirst ? handleScrollUp : handleScrollDown
-              );
-
-              setListening(false);
-            }
+            window.addEventListener("wheel", handleScrollDown);
           }
-          if (isLast && entry.isIntersecting && !isOpen) {
+
+          if (entry.isIntersecting && !isOpen) {
+            console.log("trigger reverse scale!");
             forwardScale(true);
+          }
+        } else {
+          if (listening) {
+            window.removeEventListener("wheel", handleScrollDown);
+            setListening(false);
           }
         }
       },
-      { threshold: 1.0 }
+      {
+        root: null, // relative to document viewport
+        rootMargin: "0px", // margin around root. Values are similar to css property. Unitless values not allowed
+        threshold: 0.9, // visible amount of item shown in relation to root
+      }
     );
 
     if (ref.current) {
@@ -213,11 +198,7 @@ export default function ShowcaseItemDesktop({
         observer.unobserve(ref.current);
       }
       if (typeof window !== "undefined") {
-        // window.removeEventListener("wheel", handleScroll);
-        window.removeEventListener(
-          "wheel",
-          isFirst ? handleScrollUp : handleScrollDown
-        );
+        window.removeEventListener("wheel", handleScrollDown);
       }
     };
   }, []);
@@ -228,10 +209,10 @@ export default function ShowcaseItemDesktop({
       transition={{ duration: 1 }}
       open={isOpen}
       ref={ref}
-      style={scale ? { scale } : {}}
+      // style={scale ? { scale } : {}}
     >
       <StyledShowcaseDetails>
-        <StyledShowcaseImage fullwidth={showAllProjects}>
+        <StyledShowcaseImage fullwidth>
           <Link href={`/projects/${project.slug}`}>
             <CustomImage
               alt={project.featuredImage.node.altText}
@@ -240,7 +221,7 @@ export default function ShowcaseItemDesktop({
               src={project.featuredImage.node.sourceUrl}
               blurDataURL={project.featuredImage.node.placeholderDataURI}
             />
-            <StyledShowcaseContent fullwidth={showAllProjects}>
+            <StyledShowcaseContent fullwidth>
               <StyledShowcaseTitle>{project.title}</StyledShowcaseTitle>
               <StyledShowcaseCategory>
                 {project.projectCategories?.nodes[0]?.name}
@@ -249,14 +230,12 @@ export default function ShowcaseItemDesktop({
           </Link>
         </StyledShowcaseImage>
 
-        {showAllProjects && (
-          <StyledAllProjects>
-            <StyledLink href="/projects">
-              <StyledShowcaseTitle>All projects</StyledShowcaseTitle>
-              <IconButton />
-            </StyledLink>
-          </StyledAllProjects>
-        )}
+        <StyledAllProjects>
+          <StyledLink href="/projects">
+            <StyledShowcaseTitle>All projects</StyledShowcaseTitle>
+            <IconButton />
+          </StyledLink>
+        </StyledAllProjects>
       </StyledShowcaseDetails>
     </StyledShowcaseWrapper>
   );
