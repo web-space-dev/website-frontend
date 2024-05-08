@@ -144,9 +144,6 @@ export function MoreProjects({ projects }: IProjectsData) {
                 <Image
                   src={project.featuredImage.node.sourceUrl}
                   alt={project.title}
-                  // layout="fill"
-                  // objectFit="cover"
-                  // objectPosition="center"
                   width={714}
                   height={264}
                 />
@@ -174,12 +171,8 @@ export function MoreProjects({ projects }: IProjectsData) {
                   <Image
                     src={project.featuredImage.node.sourceUrl}
                     alt={project.title}
-                    // layout="fill"
-                    // objectFit="cover"
-                    // objectPosition="center"
                     width={714}
                     height={264}
-                    // style={{ width: "100%", height: "100%" }}
                   />
                 )}
               </StyledProjectCard>
