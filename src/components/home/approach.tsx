@@ -327,7 +327,7 @@ export default function Approach({ items }: ApproachProps) {
               </SmallerIconButton>
             </StyledCardPill>
           ) : (
-            <PillIconButton text="Check out more">
+            <PillIconButton text="Check out more" onClick={() => {}}>
               <ArrowUpRight />
             </PillIconButton>
           )}

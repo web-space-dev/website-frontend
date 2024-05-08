@@ -31,9 +31,8 @@ const StyledIcon = styled.div`
 `;
 
 const StyledPillButton = styled(motion.div)`
-  width: 47%;
   max-width: 300px;
-  min-width: 237px;
+  min-width: 257px;
   margin-left: auto;
   margin-right: auto;
   margin-top: 24px;
@@ -41,7 +40,7 @@ const StyledPillButton = styled(motion.div)`
   color: ${colors.black};
   font-weight: 500;
   border-radius: 26px;
-  padding: 3vw;
+  padding: 20px 23px 21px 20px;
   font-size: 25px;
   letter-spacing: 2px;
   display: flex;
@@ -63,29 +62,24 @@ const StyledPillButton = styled(motion.div)`
   &:hover .styled-icon {
     transform: rotate(45deg);
   }
-
-  @media all and (max-width: ${breakpoints.md}px) {
-    padding: 2vw;
-  }
-
-  @media all and (max-width: ${breakpoints.sm}px) {
-    min-width: 237px;
-    padding: 4vw;
-    font-size: 25px;
-  }
 `;
 interface StyledPillButtonProps {
   text: string;
   children: React.ReactNode;
   className?: string;
+  onClick: () => void;
 }
 
 const StyledPillIconButton: React.FC<StyledPillButtonProps> = ({
   className = "",
   text,
   children,
+  onClick,
 }) => (
-  <StyledPillButton className={`styled-pill-button ${className}`}>
+  <StyledPillButton
+    className={`styled-pill-button ${className}`}
+    onClick={onClick}
+  >
     <span>{text}</span>
     <StyledIcon className="styled-icon">{children}</StyledIcon>
   </StyledPillButton>
@@ -95,9 +89,10 @@ export function PillIconButton({
   text,
   className = "",
   children,
+  onClick,
 }: StyledPillButtonProps) {
   return (
-    <StyledPillIconButton text={text} className={className}>
+    <StyledPillIconButton text={text} className={className} onClick={onClick}>
       {children}
     </StyledPillIconButton>
   );

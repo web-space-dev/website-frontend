@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import { Content } from "../../interfaces/project";
 import { ContentParagraph } from "./sections/content-paragraph";
 import Gallery1 from "./sections/gallery-1";
@@ -32,7 +33,7 @@ export default function ProjectBody({ content }: IProps) {
   return (
     <>
       {content?.map((item, index) => {
-        return <div key={index}>{renderContent(item)}</div>;
+        return <Fragment key={index}>{renderContent(item)}</Fragment>;
       })}
     </>
   );

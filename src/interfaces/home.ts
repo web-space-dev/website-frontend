@@ -44,6 +44,7 @@ export interface WhatWeDo {
 
 export interface Pill {
   pillText: string;
+  id: number;
 }
 
 export interface SkillCategories {

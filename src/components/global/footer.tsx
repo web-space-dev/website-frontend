@@ -4,7 +4,6 @@ import { PillIconButton as OriginalPillIconButton } from "../global/pillIconButt
 import Pill from "../global/pill";
 import { breakpoints, colors, dimensions } from "../../styles/variables";
 import ChatIcon from "../../icons/chatIcon";
-import chatIcon from "../../../public/svg/icon-chat.svg";
 import Image from "next/image";
 import Link from "next/link";
 import { getRemSize } from "../../styles/globalCss";
@@ -13,15 +12,15 @@ import {
   StyledParagraphWrapper as OriginalStyledParagraphWrapper,
   StyledParagraphText as OriginalStyledParagraphText,
   StyledPillWrapper as OriginalStyledPillWrapper,
-  StyledTextSpacer as OriginalStyledTextSpacer,
 } from "../../components/home/approach";
 import useIsDesktop from "../../hooks/useIsDesktop";
 import { Row } from "./grid/Row";
 import { Col } from "./grid/Col";
-import { get } from "http";
+import React, { useState } from "react";
+import { Contact } from "../contact";
 
 const StyledWrapper = styled(GridContainer)`
-  margin: 300px 0 260px 0;
+  margin: 300px auto 260px auto;
 
   @media all and (max-width: ${breakpoints.md}px) {
     margin: 159px 0;
@@ -91,19 +90,33 @@ const StyledPillWrapper = styled(OriginalStyledPillWrapper)`
 
 const StyledTextSpacer = styled.span`
   position: relative;
-  padding: 0 53px;
+  padding: 0 40px;
 
   color: transparent;
   @media all and (max-width: ${breakpoints.md}px) {
     display: initial;
+    padding: 0 43px;
+  }
+
+  @media all and (max-width: ${breakpoints.sm}px) {
+    display: initial;
+    padding: 0 31px;
   }
 `;
 
 const StyledImage = styled(Image)`
-  width: 44px;
-  height: 44px;
-  margin-left: 0.7rem;
+  width: 70px;
+  height: 70px;
+  margin-left: 25px;
   vertical-align: middle;
+  position: relative;
+  top: -10px;
+
+  @media all and (max-width: ${breakpoints.md}px) {
+    width: 60px;
+    height: 60px;
+    top: -14px;
+  }
 
   @media all and (max-width: ${breakpoints.sm}px) {
     display: none;
@@ -111,13 +124,13 @@ const StyledImage = styled(Image)`
 `;
 
 const StyledIconButton = styled.button`
-  width: 44px;
-  height: 44px;
-  margin: 0 0 0 0.7rem;
+  width: 70px;
+  height: 70px;
+  margin-left: 25px;
   padding: 0;
   border: 2px solid ${colors.blackLight};
   transition: 0.3s ease;
-  border-radius: 0.75rem;
+  border-radius: 26px;
   vertical-align: middle;
 
   &:hover {
@@ -127,8 +140,12 @@ const StyledIconButton = styled.button`
 `;
 
 const PillIconButton = styled(OriginalPillIconButton)`
-  && {
-    margin: 60px 0;
+  max-width: 257px;
+  margin: 60px 0;
+  font-size: 24px;
+  font-weight: 500;
+  & .styled-icon {
+    top: 28%;
   }
 `;
 
@@ -236,7 +253,7 @@ const StyledSlideText = styled.span`
   letter-spacing: 0.6rem;
   width: 100%;
   line-height: 72px;
-  text-shadow: 9px 0px ${colors.accent};
+  text-shadow: 9px 0px ${colors.accentDark};
 
   @media all and (max-width: ${breakpoints.md}px) {
     font-size: 185px;
@@ -250,8 +267,33 @@ const StyledSlideText = styled.span`
   }
 `;
 
+const StyledPillIconButton = styled(PillIconButton)`
+  &:hover .styled-icon {
+    transform: rotate(0deg);
+  }
+  &:hover {
+    path {
+      stroke: ${colors.white};
+      fill: none;
+    }
+  }
+`;
+const StyledChatIcon = styled(ChatIcon)`
+  position: relative;
+  top: -10px;
+`;
 export default function Footer() {
+  const [isModalOpen, setModalOpen] = useState(false);
   const isDesktop = useIsDesktop();
+
+  const openContactModal = () => {
+    setModalOpen(true);
+  };
+
+  const closeContactModal = () => {
+    setModalOpen(false);
+  };
+
   return (
     <footer>
       <StyledWrapper>
@@ -269,24 +311,28 @@ export default function Footer() {
                   Get in contact, have a chat with Eoan
                   {<StyledImage src={eoanPicture} alt="Eoan" />} or chat
                   {isDesktop && (
-                    <Link href="#">
-                      <StyledIconButton>
-                        <Image src={chatIcon} alt="Chat" />
-                      </StyledIconButton>
-                    </Link>
+                    <StyledIconButton onClick={openContactModal}>
+                      <ChatIcon />
+                    </StyledIconButton>
                   )}{" "}
                   with us
                 </StyledParagraphText>
               </StyledParagraphWrapper>
               {!isDesktop && (
-                <Link href="#">
-                  <PillIconButton text="Chat with us">
-                    <ChatIcon />
-                  </PillIconButton>
-                </Link>
+                <StyledPillIconButton
+                  text="Chat with us"
+                  onClick={openContactModal}
+                >
+                  <StyledChatIcon />
+                </StyledPillIconButton>
               )}
             </StyledContent>
           </Col>
+          <Contact
+            isOpen={isModalOpen}
+            onClose={closeContactModal}
+            dark={true}
+          />
         </Row>
       </StyledWrapper>
       <StyledLinkWrapper>

@@ -64,6 +64,7 @@ const WrapperContent = styled.div`
 const StyledBoxContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
 `;
 
 const StyledBox = styled.div`
@@ -196,6 +197,10 @@ const StyledButton = styled.button`
   @media all and (max-width: ${breakpoints.md}px) {
     width: 100%;
     padding: 10px;
+  }
+
+  @media (max-width: ${breakpoints.sm}px) {
+    margin-bottom: 20px;
   }
 `;
 
