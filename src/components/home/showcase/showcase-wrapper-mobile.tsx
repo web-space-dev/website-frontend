@@ -134,7 +134,7 @@ export default function ShowcaseWrapperMobile({ title, projects }: IShowcase) {
   );
 
   return (
-    <div style={{ position: "relative" }}>
+    <div style={{ position: "relative", overflow: "hidden" }}>
       <StyledWrapper open={false} ref={wrapperRef}>
         <Row>
           <Col start={1} span={12}>
