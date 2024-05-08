@@ -64,26 +64,13 @@ const StyledMotionWrapper = styled(motion.div)`
   top: 0;
   bottom: 0;
   left: 0;
-  /* width: 100%; */
-
-  /* ${({ open }) => (open ? `height: 100vh;` : `overflow: hidden;`)} */
-  /* @media all and (max-width: ${breakpoints.sm}px) {
-    display: flex;
-    align-items: center;
-    overflow-x: scroll;
-    scroll-snap-type: x mandatory;
-  } */
 `;
 
 const StyledItemContainer = styled.div`
   overflow-y: scroll;
-  /* scroll-snap-type: y mandatory; */
-
   display: flex;
   align-items: center;
   overflow-x: scroll;
-  /* scroll-snap-type: x mandatory; */
-
   position: relative;
   height: 100vh;
   width: max-content;
@@ -94,7 +81,6 @@ const StyledTitle = styled.h2<{ color: string }>`
   margin-top: 0;
   font-size: ${getRemSize(dimensions.headingSizes.display2.desktop)};
   text-align: center;
-  /* grid-column: 1 / span 12; */
   line-height: 225px;
   color: ${({ color }) => color};
   @media all and (max-width: 1164px) {
@@ -172,110 +158,3 @@ export default function ShowcaseWrapperMobile({ title, projects }: IShowcase) {
     </div>
   );
 }
-
-// old stuff
-
-// const [isOpen, setIsOpen] = useState(false);
-// const [canScale, setCanScale] = useState(false);
-// const [canSnapScroll, setCanSnapScroll] = useState(false);
-// const [breakpoint, setBreakpoint] = useState(0);
-// const [beginScalePos, setBeginScalePos] = useState(0);
-// const [fromStart, setFromStart] = useState(true);
-
-// const ref = useRef(null);
-
-// const { scrollY } = useScroll();
-// const scale = useTransform(
-//   scrollY,
-//   [beginScalePos, beginScalePos + 700],
-//   canScale ? [0.2, 1] : canSnapScroll ? [1, 1] : [0.2, 0.2]
-// );
-
-// // new stuff
-// const scrollRef = useRef(null);
-// const ghostRef = useRef(null);
-// const [scrollRange, setScrollRange] = useState(0);
-// const [viewportW, setViewportW] = useState(0);
-
-// useLayoutEffect(() => {
-//   scrollRef && setScrollRange(scrollRef.current.scrollWidth);
-// }, [scrollRef]);
-
-// const onResize = useCallback((entries) => {
-//   for (let entry of entries) {
-//     setViewportW(entry.contentRect.width);
-//   }
-// }, []);
-
-// useLayoutEffect(() => {
-//   const resizeObserver = new ResizeObserver((entries) => onResize(entries));
-//   resizeObserver.observe(ghostRef.current);
-//   return () => resizeObserver.disconnect();
-// }, [onResize]);
-
-// const { scrollYProgress } = useViewportScroll();
-// const transform = useTransform(
-//   scrollYProgress,
-//   [0, 1],
-//   isOpen && !fromStart ? [0, -scrollRange + viewportW] : [0, 0]
-//   // [0, -scrollRange + viewportW]
-// );
-// const physics = { damping: 15, mass: 1, stiffness: 80 };
-// const spring = useSpring(transform, physics);
-
-// useEffect(() => {
-//   // console.log("transforming", );
-// }, [scrollYProgress]);
-
-// const debugPanel = useDebugPanel({
-//   // isOpen,
-//   // canScale,
-//   // canSnapScroll,
-//   breakpoint,
-//   beginScalePos,
-//   scrollRange,
-//   viewportW,
-//   scrollYProgress: scrollYProgress.get(),
-//   transform: transform.get(),
-//   spring: spring.get(),
-// });
-
-// useEffect(() => {
-//   const handleScroll = () => {
-//     if (ref.current) {
-//       const { bottom } = ref.current.getBoundingClientRect();
-
-//       if (bottom - window.innerHeight < 1 && !breakpoint) {
-//         setCanScale(true);
-//         if (beginScalePos === 0) {
-//           setBeginScalePos(scrollY.get());
-//         }
-//       }
-
-//       if (scale.get() === 1 && breakpoint === 0) {
-//         setIsOpen(true);
-//         setCanSnapScroll(true);
-//         setBreakpoint(scrollY.get());
-//         setCanScale(false);
-//         setFromStart(false);
-//       }
-
-//       // scrollRange - viewportW
-
-//       const firstVal = scrollRange - viewportW - 50;
-//       const secondVal = transform.get() * -1;
-//       console.log("first value", firstVal, "second value", secondVal);
-//       console.log("check", firstVal < secondVal);
-//       if (firstVal < secondVal) {
-//         console.log("end of scroll");
-//         // setIsOpen(false);
-//       }
-//     }
-//   };
-
-//   window.addEventListener("scroll", handleScroll);
-
-//   return () => {
-//     window.removeEventListener("scroll", handleScroll);
-//   };
-// }, [breakpoint, beginScalePos]);
