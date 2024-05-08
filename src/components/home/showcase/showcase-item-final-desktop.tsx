@@ -29,6 +29,7 @@ const StyledShowcaseDetails = styled(motion.div)`
   height: -webkit-fill-available;
   margin: 40px auto;
   max-width: 1448px;
+  height: 100%;
 `;
 
 const StyledAllProjects = styled.div`
@@ -51,8 +52,8 @@ const StyledShowcaseImage = styled(motion.div)`
   overflow: hidden;
   & img {
     width: 100%;
-    object-fit: cover;
     height: 100%;
+    object-fit: cover;
     border-radius: 12px;
   }
 `;

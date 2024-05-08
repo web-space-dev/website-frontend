@@ -39,7 +39,6 @@ const StyledShowcaseImage = styled(motion.div)`
   & img {
     width: 100%;
     object-fit: cover;
-    height: 100%;
     border-radius: 12px;
   }
 `;
