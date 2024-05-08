@@ -37,7 +37,6 @@ interface IStyledWrapper {
 }
 
 const StyledWrapper = styled(GridContainer)<IStyledWrapper>`
-  /* position: ${({ open }) => (open ? "fixed" : "sticky")}; */
   position: sticky;
 
   height: 100vh;
@@ -47,6 +46,7 @@ const StyledWrapper = styled(GridContainer)<IStyledWrapper>`
   left: 0;
   right: 0;
   will-change: transform;
+  overflow: hidden;
 
   @media (max-width: ${breakpoints.sm}px) {
     display: flex;
@@ -76,7 +76,7 @@ const StyledItemContainer = styled.div`
   width: max-content;
 `;
 
-const StyledTitle = styled.h2<{ color: string }>`
+const StyledTitle = styled(motion.h2)<{ color: string }>`
   transition: 0.3s ease-in-out;
   margin-top: 0;
   font-size: ${getRemSize(dimensions.headingSizes.display2.desktop)};
@@ -132,19 +132,35 @@ export default function ShowcaseWrapperMobile({ title, projects }: IShowcase) {
     [0, 1],
     isInView ? [0, -horizontalWidth] : [0, 0]
   );
+  const cappedTransform = useMotionValue(Math.min(transform.get(), 1450));
+
+  const textOpacityTransform = useTransform(scrollProgress, [0, 0.1], [1, 0]);
+
+  // const cappedTransform = useMotionValue(transform.get());
+
+  useEffect(() => {
+    const unsubscribe = transform.onChange((value) => {
+      cappedTransform.set(Math.max(value, -1410));
+    });
+
+    return unsubscribe;
+  }, [transform, cappedTransform]);
 
   return (
-    <div style={{ position: "relative", overflow: "hidden" }}>
+    <div style={{ position: "relative" }}>
       <StyledWrapper open={false} ref={wrapperRef}>
         <Row>
           <Col start={1} span={12}>
-            <StyledTitle color={false ? colors.accent : colors.white}>
+            <StyledTitle
+              color={false ? colors.accent : colors.white}
+              style={{ opacity: textOpacityTransform }}
+            >
               {title}
             </StyledTitle>
           </Col>
         </Row>
 
-        <StyledMotionWrapper ref={horizontalRef} style={{ x: transform }}>
+        <StyledMotionWrapper ref={horizontalRef} style={{ x: cappedTransform }}>
           <StyledItemContainer>
             <StyledMobileSpacer />
             {projects.nodes.map((project, index: number) => {
