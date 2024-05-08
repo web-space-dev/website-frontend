@@ -8,17 +8,13 @@ import ChatIcon from "../../../icons/chatIcon";
 import CloseIcon from "../../../icons/closeIcon";
 import BurgerIcon from "../../../icons/burgerIcon";
 import LogoIcon from "../../../icons/logoIcon";
+import Link from "next/link";
 
-const StyledImageWrapper = styled.div<{ dark: boolean }>`
+const StyledImageWrapper = styled(Link)`
   position: fixed;
   top: 14px;
   left: 8px;
   z-index: 999;
-  color: ${(props) => (props.dark ? colors.white : colors.black)};
-
-  img {
-    fill: currentColor;
-  }
 `;
 
 const StyledNavMobile = styled.nav<{ dark: boolean; isMenuOpen: boolean }>`
@@ -198,7 +194,7 @@ export function NavbarMobile({ dark, links }: NavbarMobileProps) {
 
   return (
     <>
-      <StyledImageWrapper dark={topDark}>
+      <StyledImageWrapper href="/">
         <LogoIcon dark={topDark} />
       </StyledImageWrapper>
       <StyledNavMobile

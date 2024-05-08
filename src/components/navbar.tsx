@@ -189,7 +189,7 @@ export default function Navbar({ dark }) {
             marginRight: "30px",
           }}
         >
-          <ArrowLeft />
+          <ArrowLeft dark={dark} />
         </span>
         Projects
       </StyledBackLink>
