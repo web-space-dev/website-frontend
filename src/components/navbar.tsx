@@ -257,7 +257,7 @@ export default function Navbar({ dark }) {
       <Contact
         isOpen={isContactModalOpen}
         onClose={() => setIsContactModalOpen(false)}
-        dark={undefined}
+        dark={dark}
       />
     </>
   );

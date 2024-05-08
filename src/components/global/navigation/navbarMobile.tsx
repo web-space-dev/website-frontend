@@ -199,9 +199,16 @@ export function NavbarMobile({ dark, links }: NavbarMobileProps) {
       <StyledImageWrapper dark={dark}>
         <img src="/logo-icon-black.svg" alt="Logo" width={40} height={40} />
       </StyledImageWrapper>
-      <StyledNavMobile isMenuOpen={isMenuOpen} dark={dark}>
+      <StyledNavMobile
+        isMenuOpen={isMenuOpen}
+        dark={dark}
+        onClick={() => setIsMenuOpen(false)}
+      >
         <StyledBtnMobile
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsMenuOpen(!isMenuOpen);
+          }}
           isOpen={isMenuOpen}
         >
           {isMenuOpen ? (
@@ -222,7 +229,14 @@ export function NavbarMobile({ dark, links }: NavbarMobileProps) {
             />
           )}
         </StyledBtnMobile>
-        <StyledWrapperMobile isMenuOpen={isMenuOpen}>
+
+        <StyledWrapperMobile
+          isMenuOpen={isMenuOpen}
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsMenuOpen(!isMenuOpen);
+          }}
+        >
           {links.slice(0, -1).map((link, index) => (
             <StyledDivMobile key={index} index={index}>
               <StyledLinkMobile href={`/${link.path}`} dark={dark}>
@@ -239,14 +253,6 @@ export function NavbarMobile({ dark, links }: NavbarMobileProps) {
               onClick={isMenuOpen ? undefined : openContactModal}
             >
               <StyledChatIcon />
-              {/* {links[links.length - 1].icon && (
-                <Image
-                  src={links[links.length - 1].icon}
-                  alt={links[links.length - 1].name}
-                  style={{ width: "20px", height: "20px" }}
-                />
-              )} */}
-              {/* {!links[links.length - 1].icon && links[links.length - 1].name} */}
             </StyledLinkContactMobile>
           </StyledDivContactMobile>
         )}
