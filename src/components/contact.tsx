@@ -86,6 +86,8 @@ const StyledBox = styled.div`
   @media all and (max-width: ${breakpoints.sm}px) {
     max-width: 100%;
     padding: 25px;
+    height: 80vh;
+    overflow-y: scroll;
   }
   @media (max-width: 375px) {
     margin-top: 8px;
@@ -292,7 +294,7 @@ export function Contact({ isOpen, onClose, dark }) {
     <StyledWrapper onClick={onClose}>
       <Link href="/">
         <StyledImage dark={dark} onClick={onClose}>
-          <img src="/logo-icon-white.svg" alt="Logo" width={40} height={40} />
+          <Image src="/logo-icon-white.svg" alt="Logo" width={40} height={40} />
         </StyledImage>
       </Link>
       <WrapperContent>

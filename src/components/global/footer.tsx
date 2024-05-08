@@ -1,4 +1,3 @@
-import { EXAMPLE_PATH } from "../../lib/constants";
 import styled from "@emotion/styled";
 import { GridContainer } from "../global/grid/gridContainer";
 import { PillIconButton as OriginalPillIconButton } from "../global/pillIconButton";
@@ -270,7 +269,7 @@ export default function Footer() {
                   Get in contact, have a chat with Eoan
                   {<StyledImage src={eoanPicture} alt="Eoan" />} or chat
                   {isDesktop && (
-                    <Link href="/contact">
+                    <Link href="#">
                       <StyledIconButton>
                         <Image src={chatIcon} alt="Chat" />
                       </StyledIconButton>
@@ -281,7 +280,7 @@ export default function Footer() {
               </StyledParagraphWrapper>
               {!isDesktop && (
                 <Link href="#">
-                  <PillIconButton text="Check out more">
+                  <PillIconButton text="Chat with us">
                     <ChatIcon />
                   </PillIconButton>
                 </Link>

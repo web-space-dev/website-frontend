@@ -260,7 +260,7 @@ export function NavbarMobile({ dark, links }: NavbarMobileProps) {
       <Contact
         isOpen={isContactModalOpen}
         onClose={() => setIsContactModalOpen(false)}
-        dark={undefined}
+        dark={dark}
       />
     </>
   );
