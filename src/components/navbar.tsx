@@ -11,6 +11,7 @@ import ArrowLeft from "../icons/arrowLeft";
 import { SVGProps } from "react";
 import ChatIcon from "../icons/chatIcon";
 import Link from "next/link";
+import Image from "next/image";
 
 const StyledLogoImage = styled.div<{ dark: boolean }>`
   position: fixed;
@@ -88,18 +89,6 @@ const StyledLink = styled.a<NavbarProps>`
   }
 `;
 
-interface StyledChatIconProps extends SVGProps<SVGSVGElement> {
-  dark?: boolean;
-}
-
-export const StyledChatIcon = styled(ChatIcon)<StyledChatIconProps>`
-  width: 23px;
-  height: 22px;
-  & path {
-    stroke: ${colors.white};
-  }
-`;
-
 const StyledBackbutton = styled.div`
   display: flex;
   justify-content: space-between;
@@ -174,11 +163,6 @@ export default function Navbar({ dark }) {
   const isDesktop = useIsDesktop();
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
 
-  const iconStyle = {
-    // width: "1rem",
-    margin: "-0.25rem 0",
-  };
-
   const openContactModal = () => {
     setIsContactModalOpen(true);
   };
@@ -190,7 +174,7 @@ export default function Navbar({ dark }) {
     {
       name: "chat",
       path: "#",
-      icon: <StyledChatIcon />,
+      icon: <ChatIcon dark={dark} />,
       onClick: openContactModal,
     },
   ];
@@ -219,7 +203,7 @@ export default function Navbar({ dark }) {
         <>
           <StyledLogoImage dark={false}>
             <Link href="/">
-              <img
+              <Image
                 src="/svg/logo-icon-white.svg"
                 alt="Logo"
                 width={40}
