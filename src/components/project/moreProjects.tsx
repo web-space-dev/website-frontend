@@ -12,7 +12,7 @@ interface IProjectsData {
 }
 
 const StyledHeading = styled.h2`
-  font-weight: 500;
+  font-weight: 400;
   text-align: center;
   width: 100%;
   margin-bottom: 60px;
@@ -38,6 +38,7 @@ const StyledProjectCardsWrapper = styled.div`
   align-items: center;
   gap: 20px;
   width: 100%;
+  gap: 11px;
 
   @media (max-width: ${breakpoints.md}px) {
     flex-direction: column;
@@ -57,14 +58,13 @@ const StyledProjectCard = styled.div`
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
     object-fit: cover;
+    object-position: center;
     z-index: -1;
+    filter: brightness(0.7);
   }
 
   @media (max-width: ${breakpoints.md}px) {
-    max-width: 100%;
     margin-right: auto;
     margin-left: auto;
   }
@@ -79,11 +79,6 @@ const StyledTitleWrapper = styled.div`
   backdrop-filter: blur(15px);
   margin: 0px 27px 20px 20px;
 `;
-const StyledTitle = styled.h3`
-  margin: 0px;
-  font-weight: 400;
-  font-size: ${getRemSize(dimensions.textSizes.normal.desktop)};
-`;
 
 const StyledTitleWrapperMobile = styled.div`
   display: flex;
@@ -93,36 +88,42 @@ const StyledTitleWrapperMobile = styled.div`
   padding: 8px 8px 8px 24px;
   background-color: rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(15px);
-  margin-bottom: 10px;
+  margin-bottom: 9px;
   width: 100%;
+`;
+const StyledProjectDetailes = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: auto;
+  justify-content: center;
+  align-items: start;
+  @media (min-width: 1157px) {
+    flex-direction: row;
+  }
 `;
 const H2 = styled.h2`
   margin: 0;
-  font-size: 1.25rem;
+  font-size: ${getRemSize(dimensions.headingSizes.cta.mobile)};
   line-height: 1.25rem;
-  font-weight: normal;
+  font-weight: 500;
+  letter-spacing: 1px;
 
-  @media (max-width: 700px) {
-    font-size: 1rem;
+  @media (max-width: ${breakpoints.sm}px) {
+    font-size: ${getRemSize(dimensions.headingSizes.small.mobile)};
   }
-`;
-const StyledProjectInfo = styled.div`
-  display: flex;
-  flex-direction: column;
-  max-width: 35rem;
-  width: auto;
-  // padding: 0 2rem 0 1rem;
-  justify-content: center;
-  align-items: center;
-  // gap: 0.5rem;
+  @media (min-width: 1157px) {
+    margin-right: 30px;
+  }
 `;
 const StyledShowcaseCategory = styled.p`
   margin: 0;
-  font-size: 1.25rem;
+  font-size: ${getRemSize(dimensions.headingSizes.cta.mobile)};
   line-height: 1.25rem;
+  font-weight: 500;
+  letter-spacing: 1px;
 
-  @media (max-width: 700px) {
-    font-size: 1rem;
+  @media (max-width: ${breakpoints.sm}px) {
+    font-size: ${getRemSize(dimensions.headingSizes.small.mobile)};
   }
 `;
 const StyledLink = styled.a`
@@ -143,19 +144,23 @@ export function MoreProjects({ projects }: IProjectsData) {
                 <Image
                   src={project.featuredImage.node.sourceUrl}
                   alt={project.title}
-                  layout="fill"
-                  objectFit="cover"
-                  objectPosition="center"
-                  priority={true}
+                  // layout="fill"
+                  // objectFit="cover"
+                  // objectPosition="center"
+                  width={714}
+                  height={264}
                 />
               )}
               <StyledTitleWrapper>
-                <StyledTitle>
-                  {project.title}
-                  {project.projectCategories.nodes[0] &&
-                    " - " + project.projectCategories.nodes[0].name}
-                </StyledTitle>
-                <IconButton />
+                <StyledProjectDetailes>
+                  <H2>{project.title}</H2>
+                  <StyledShowcaseCategory>
+                    {project.projectCategories?.nodes[0]?.name}
+                  </StyledShowcaseCategory>
+                </StyledProjectDetailes>
+                <StyledLink href={`/projects/${project.slug}`}>
+                  <IconButton />
+                </StyledLink>
               </StyledTitleWrapper>
             </StyledProjectCard>
           ))}
@@ -169,20 +174,22 @@ export function MoreProjects({ projects }: IProjectsData) {
                   <Image
                     src={project.featuredImage.node.sourceUrl}
                     alt={project.title}
-                    layout="fill"
-                    objectFit="cover"
-                    objectPosition="center"
-                    priority={true}
+                    // layout="fill"
+                    // objectFit="cover"
+                    // objectPosition="center"
+                    width={714}
+                    height={264}
+                    // style={{ width: "100%", height: "100%" }}
                   />
                 )}
               </StyledProjectCard>
               <StyledTitleWrapperMobile>
-                <StyledProjectInfo>
+                <StyledProjectDetailes>
                   <H2>{project.title}</H2>
                   <StyledShowcaseCategory>
                     {project.projectCategories?.nodes[0]?.name}
                   </StyledShowcaseCategory>
-                </StyledProjectInfo>
+                </StyledProjectDetailes>
                 <StyledLink href={`/projects/${project.slug}`}>
                   <IconButton />
                 </StyledLink>
