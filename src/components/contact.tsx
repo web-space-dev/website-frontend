@@ -8,6 +8,9 @@ import ArrowUpRight from "../icons/arrowUpRight";
 import Image from "next/image";
 import { useAnimate, stagger, motion } from "framer-motion";
 
+// Slack webhook URL
+const SLACK_WEBHOOK_URL = 'https://hooks.slack.com/services/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'
+
 const StyledWrapper = styled.div`
   position: fixed;
   top: 0;
