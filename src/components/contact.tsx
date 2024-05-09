@@ -1,4 +1,5 @@
 "use client";
+import axios from 'axios';
 import styled from "@emotion/styled";
 import React, { useState, useEffect } from "react";
 import { breakpoints, dimensions, colors } from "../styles/variables";
@@ -246,6 +247,19 @@ const StyledSquare = styled.div<StyledSquareProps>`
   }
 `;
 
+const StyledPopup = styled.div`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  color: black;
+  padding: 50px;
+  border-radius: 20px;
+  z-index: 1000;
+  text-align: center;
+  `;
+
 interface StyledSquareProps {
   dark: boolean;
 }
@@ -279,39 +293,33 @@ const InputField = ({ type, id, name, placeholder }) => {
   );
 };
 
+
 export function Contact({ isOpen, onClose, dark }) {
   if (!isOpen) {
     return null;
   }
-  // const [open, setOpen] = useState(false);
-  // const [scope, animate] = useAnimate();
-  // const items = ["Item 1", "Item 2", "Item 3", "Item 4"];
-  // const items = [
-  //   <InputField type="text" id="name" name="name" placeholder="Name" />,
-  //   <InputField type="email" id="email" name="email" placeholder="Email" />,
-  //   <InputField type="tel" id="number" name="number" placeholder="Number" />,
-  //   <InputField
-  //     type="text"
-  //     id="message"
-  //     name="message"
-  //     placeholder="Message"
-  //   />,
-  //   <StyledButton type="submit" className="my-button">
-  //     Submit
-  //     <StyledIcon className="styled-icon" />
-  //   </StyledButton>,
-  // ];
 
-  // <motion.ul layout>
-  //   <StyledBox />
-  //   <StyledContactWrapper />
-  //   {items.map((item, index) => (
-  //     <motion.li key={index} layout>
-  //       {item}
-  //     </motion.li>
-  //   ))}
-  // </motion.ul>;
+  const [submitStatus, setSubmitStatus] = useState('idle')
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
+    // Get form data
+    const formData = new FormData(event.target);
+    const data = Object.fromEntries(formData);
+
+    // Send a message to Slack
+    try {
+      await axios.post('/api/slack', data);
+
+      // Optionally, you can handle success (e.g., show a success message)
+      // console.log('Form submitted successfully');
+      setSubmitStatus('success');
+    } catch (error) {
+      // Handle error
+      console.error('Error submitting form:', error);
+      setSubmitStatus('error');
+    }
+  };
   return (
     <StyledWrapper>
       <StyledImage dark={dark}>
@@ -324,7 +332,7 @@ export function Contact({ isOpen, onClose, dark }) {
               Get in contact and leave a little description of your request and
               one of our team will get back to you.
             </StyledHeading>
-            <StyledForm>
+            <StyledForm onSubmit={handleSubmit}>
               <InputField
                 type="text"
                 id="name"
@@ -369,6 +377,13 @@ export function Contact({ isOpen, onClose, dark }) {
           </StyledSquare>
         </StyledContactWrapper>
       </WrapperContent>
+
+      {submitStatus === 'success' && (
+      <StyledPopup>Form submitted successfully!</StyledPopup>
+      )}
+      {submitStatus === 'error' && (
+        <StyledPopup>The form is not sent. Please try again.</StyledPopup>
+      )}
     </StyledWrapper>
   );
 }
