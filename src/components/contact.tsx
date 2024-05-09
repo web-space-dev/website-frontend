@@ -283,6 +283,28 @@ const InputField = ({ type, id, name, placeholder }) => {
   );
 };
 
+// Function to send a messge to Slack
+const sendToSlack = async (data) => {
+  await axios.post(SLACK_WEBHOOK_URL, data);
+  // try {
+  //   await axios.post('api/slack', { message });
+  // } catch (error) {
+  //   console.error('Error sending message to Slack:', error);
+  // }
+};
+
+// Form submit handler
+const handleSubmit = async (event) => {
+  event.preventDefault();
+
+  // Get form data
+  const formData = new FormData(event.target);
+  const data = Object.fromEntries(formData);
+
+  // Send a message to Slack
+  await sendToSlack(data)
+};
+
 export function Contact({ isOpen, onClose, dark }) {
   if (!isOpen) {
     return null;
@@ -328,7 +350,7 @@ export function Contact({ isOpen, onClose, dark }) {
               Get in contact and leave a little description of your request and
               one of our team will get back to you.
             </StyledHeading>
-            <StyledForm>
+            <StyledForm onSubmit={handleSubmit}>
               <InputField
                 type="text"
                 id="name"
