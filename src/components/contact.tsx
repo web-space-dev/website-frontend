@@ -1,4 +1,5 @@
 "use client";
+import axios from 'axios';
 import styled from "@emotion/styled";
 import React, { useState, useEffect } from "react";
 import { breakpoints, dimensions, colors } from "../styles/variables";
