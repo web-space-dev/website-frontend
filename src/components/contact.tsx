@@ -8,9 +8,6 @@ import ArrowUpRight from "../icons/arrowUpRight";
 import Image from "next/image";
 import { useAnimate, stagger, motion } from "framer-motion";
 
-// Slack webhook URL
-const SLACK_WEBHOOK_URL = 'https://hooks.slack.com/services/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'
-
 const StyledWrapper = styled.div`
   position: fixed;
   top: 0;
@@ -283,15 +280,6 @@ const InputField = ({ type, id, name, placeholder }) => {
   );
 };
 
-// Function to send a messge to Slack
-const sendToSlack = async (data) => {
-  await axios.post(SLACK_WEBHOOK_URL, data);
-  // try {
-  //   await axios.post('api/slack', { message });
-  // } catch (error) {
-  //   console.error('Error sending message to Slack:', error);
-  // }
-};
 
 // Form submit handler
 const handleSubmit = async (event) => {
@@ -302,7 +290,15 @@ const handleSubmit = async (event) => {
   const data = Object.fromEntries(formData);
 
   // Send a message to Slack
-  await sendToSlack(data)
+  try {
+    await axios.post('/api/slack', data);
+
+    // Optionally, you can handle success (e.g., show a success message)
+    console.log('Form submitted successfully');
+  } catch (error) {
+    // Handle error
+    console.error('Error submitting form:', error);
+  }
 };
 
 export function Contact({ isOpen, onClose, dark }) {
