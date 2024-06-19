@@ -153,10 +153,10 @@ export default function ShowcaseItemFinalDesktop({
             window.addEventListener("wheel", handleScrollDown);
           }
 
-          if (entry.isIntersecting && !isOpen) {
-            console.log("trigger reverse scale!");
-            forwardScale(true);
-          }
+          // if (entry.isIntersecting && !isOpen) {
+          //   console.log("trigger reverse scale!");
+          //   forwardScale(true);
+          // }
         } else {
           if (listening) {
             window.removeEventListener("wheel", handleScrollDown);

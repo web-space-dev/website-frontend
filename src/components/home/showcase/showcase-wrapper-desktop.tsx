@@ -17,13 +17,11 @@ const StyledSpacer = styled.div<{ height: number }>`
 
 interface IStyledWrapper {
   open: boolean;
-  reverse?: boolean;
 }
 
 const StyledWrapper = styled.section<IStyledWrapper>`
   position: relative;
   height: ${({ open }) => (open ? "100vh" : "auto")};
-  margin-top: ${({ reverse }) => (reverse ? "400px" : "0")};
 `;
 
 const StyledFollowingContainer = styled.div<IStyledWrapper>`
@@ -32,10 +30,9 @@ const StyledFollowingContainer = styled.div<IStyledWrapper>`
   z-index: 20;
   background-color: ${colors.black};
   top: 0;
-  bottom: ${({ reverse }) => (reverse ? `0` : `unset`)};
   left: 0;
   right: 0;
-  padding-top: 100px;
+  /* padding-top: 100px; */
 
   @media (max-width: ${breakpoints.sm}px) {
     display: flex;
@@ -80,6 +77,7 @@ const StyledTitle = styled.h2<{ color: string }>`
 
 export default function ShowcaseWrapperDesktop({ title, projects }: IShowcase) {
   const [isOpen, setIsOpen] = useState(false);
+  const [isFinished, setIsFinished] = useState(false)
   const [canScale, setCanScale] = useState(false);
   const [canSnapScroll, setCanSnapScroll] = useState(false);
   const [breakpoint, setBreakpoint] = useState(0);
@@ -142,19 +140,20 @@ export default function ShowcaseWrapperDesktop({ title, projects }: IShowcase) {
   const forwardScale = (isOpen: boolean) => {
     setIsOpen(isOpen);
     setFromStart(false);
+    setIsFinished(true)
   };
 
   return (
-    <StyledWrapper open={isOpen} reverse={!fromStart}>
+    <StyledWrapper open={isOpen}>
       <StyledFollowingContainer
         ref={ref}
         open={isOpen}
-        reverse={!fromStart && !isOpen}
+        // reverse={!fromStart && !isOpen}
       >
         <GridContainer>
           <Row>
             <Col start={1} span={12}>
-              <StyledTitle color={isOpen ? colors.accent : colors.white}>
+              <StyledTitle color={(isOpen || isFinished) ? colors.accent : colors.white}>
                 {title}
               </StyledTitle>
             </Col>
