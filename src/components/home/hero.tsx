@@ -4,6 +4,7 @@ import { GridContainer } from "../global/grid/gridContainer";
 import Image from "next/image";
 import { Row } from "../global/grid/Row";
 import { Col } from "../global/grid/Col";
+import useIsDesktop from "../../hooks/useIsDesktop";
 
 const StyledWrapper = styled(GridContainer)`
   height: 100vh;
@@ -36,7 +37,7 @@ const StyledImage = styled(Image)`
 `;
 
 export default function Hero({ title }) {
-  // const isDesktop = useIsDesktop();
+  const isDesktop = useIsDesktop();
 
   return (
     <Background>
@@ -44,12 +45,14 @@ export default function Hero({ title }) {
         <StyledRow>
           <Col start={2} span={10}>
             <StyledHeading>
-              <StyledImage
-                src={"/logo-icon.png"}
-                alt="WebSpace Icon"
-                width="33"
-                height="40"
-              />
+              {isDesktop ? (
+                <StyledImage
+                  src={"/logo-icon.png"}
+                  alt="WebSpace Icon"
+                  width="33"
+                  height="40"
+                />
+              ) : null}
               {title}
             </StyledHeading>
           </Col>

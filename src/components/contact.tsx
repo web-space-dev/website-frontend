@@ -6,13 +6,14 @@ import { getRemSize } from "../styles/globalCss";
 import ArrowUpRight from "../icons/arrowUpRight";
 import Image from "next/image";
 import { useAnimate, stagger, motion } from "framer-motion";
+import Link from "next/link";
 
 const StyledWrapper = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   background: rgba(29, 29, 29, 0.2);
   backdrop-filter: blur(15px);
   z-index: 1000;
@@ -63,6 +64,7 @@ const WrapperContent = styled.div`
 const StyledBoxContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
 `;
 
 const StyledBox = styled.div`
@@ -85,6 +87,8 @@ const StyledBox = styled.div`
   @media all and (max-width: ${breakpoints.sm}px) {
     max-width: 100%;
     padding: 25px;
+    height: 80vh;
+    overflow-y: scroll;
   }
   @media (max-width: 375px) {
     margin-top: 8px;
@@ -194,13 +198,17 @@ const StyledButton = styled.button`
     width: 100%;
     padding: 10px;
   }
+
+  @media (max-width: ${breakpoints.sm}px) {
+    margin-bottom: 20px;
+  }
 `;
 
 const StyledContactWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 596px;
+  width: 602px;
   background-color: rgba(57, 151, 156, 0.2);
   padding: 10px;
   border-radius: 20px;
@@ -283,42 +291,19 @@ export function Contact({ isOpen, onClose, dark }) {
   if (!isOpen) {
     return null;
   }
-  // const [open, setOpen] = useState(false);
-  // const [scope, animate] = useAnimate();
-  // const items = ["Item 1", "Item 2", "Item 3", "Item 4"];
-  // const items = [
-  //   <InputField type="text" id="name" name="name" placeholder="Name" />,
-  //   <InputField type="email" id="email" name="email" placeholder="Email" />,
-  //   <InputField type="tel" id="number" name="number" placeholder="Number" />,
-  //   <InputField
-  //     type="text"
-  //     id="message"
-  //     name="message"
-  //     placeholder="Message"
-  //   />,
-  //   <StyledButton type="submit" className="my-button">
-  //     Submit
-  //     <StyledIcon className="styled-icon" />
-  //   </StyledButton>,
-  // ];
-
-  // <motion.ul layout>
-  //   <StyledBox />
-  //   <StyledContactWrapper />
-  //   {items.map((item, index) => (
-  //     <motion.li key={index} layout>
-  //       {item}
-  //     </motion.li>
-  //   ))}
-  // </motion.ul>;
+  const stopPropagation = (e) => {
+    e.stopPropagation();
+  };
 
   return (
-    <StyledWrapper>
-      <StyledImage dark={dark}>
-        <img src="/logo-icon-white.svg" alt="Logo" width={40} height={40} />
-      </StyledImage>
+    <StyledWrapper onClick={onClose}>
+      <Link href="/">
+        <StyledImage dark={dark} onClick={onClose}>
+          <Image src="/logo-icon-white.svg" alt="Logo" width={40} height={40} />
+        </StyledImage>
+      </Link>
       <WrapperContent>
-        <StyledBox>
+        <StyledBox onClick={stopPropagation}>
           <StyledBoxContentWrapper>
             <StyledHeading>
               Get in contact and leave a little description of your request and
@@ -357,8 +342,11 @@ export function Contact({ isOpen, onClose, dark }) {
           </StyledBoxContentWrapper>
         </StyledBox>
 
-        <StyledContactWrapper>
-          <StyledSquare dark={dark}> Contact </StyledSquare>
+        <StyledContactWrapper onClick={stopPropagation}>
+          <StyledSquare dark={dark} onClick={stopPropagation}>
+            {" "}
+            Contact{" "}
+          </StyledSquare>
           <StyledSquare dark={dark} onClick={onClose}>
             <Image
               src={dark ? "/svg/icon-close.svg" : "/svg/icon-close-black.svg"}
