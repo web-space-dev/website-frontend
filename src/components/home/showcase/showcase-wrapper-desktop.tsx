@@ -12,10 +12,8 @@ import ShowcaseItemDesktop from "./showcase-item-desktop";
 import ShowcaseItemFinalDesktop from "./showcase-item-final-desktop";
 
 
-// height={fromStart ? 300 : 140}
-
 const StyledGridContainer = styled(GridContainer)`
-@media all and (min-width: 1024px) {
+@media all and (min-width: 2000px) {
   padding-top: 150px
 }
 `
@@ -48,7 +46,6 @@ const StyledFollowingContainer = styled.div<IStyledWrapper>`
   top: 0;
   left: 0;
   right: 0;
-  /* padding-top: 100px; */
 
   @media (max-width: ${breakpoints.sm}px) {
     display: flex;
@@ -64,13 +61,13 @@ const StyledMotionWrapper = styled(motion.div)<IStyledWrapper>`
   left: 0;
   width: 100%;
   overflow-y: scroll;
-  /* scroll-snap-type: y mandatory; */
+  scroll-snap-type: y mandatory;
   ${({ open }) => (open ? `height: 100vh;` : `overflow: hidden;`)}
   @media all and (max-width: ${breakpoints.sm}px) {
     display: flex;
     align-items: center;
     overflow-x: scroll;
-    /* scroll-snap-type: x mandatory; */
+    scroll-snap-type: x mandatory;
   }
 `;
 

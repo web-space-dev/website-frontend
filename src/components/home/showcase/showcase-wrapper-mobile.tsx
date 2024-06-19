@@ -43,7 +43,7 @@ const StyledWrapper = styled(GridContainer)<IStyledWrapper>`
   z-index: 20;
   background-color: ${colors.black};
   top: 0;
-  left: 0;
+  left: 0px;
   right: 0;
   will-change: transform;
   overflow: hidden;
@@ -63,7 +63,7 @@ const StyledMotionWrapper = styled(motion.div)`
   position: absolute;
   top: 0;
   bottom: 0;
-  left: 0;
+  left: 50px;
 `;
 
 const StyledItemContainer = styled.div`
@@ -132,7 +132,7 @@ export default function ShowcaseWrapperMobile({ title, projects }: IShowcase) {
     [0, 1],
     isInView ? [0, -horizontalWidth] : [0, 0]
   );
-  const cappedTransform = useMotionValue(Math.min(transform.get(), 1450));
+  const cappedTransform = useMotionValue(Math.min(transform.get(), 450));
 
   const textOpacityTransform = useTransform(scrollProgress, [0, 0.1], [1, 0]);
 
@@ -160,7 +160,7 @@ export default function ShowcaseWrapperMobile({ title, projects }: IShowcase) {
           </Col>
         </Row>
 
-        <StyledMotionWrapper ref={horizontalRef} style={{ x: cappedTransform }}>
+        <StyledMotionWrapper ref={horizontalRef} style={{ x: cappedTransform  }}>
           <StyledItemContainer>
             <StyledMobileSpacer />
             {projects.nodes.map((project, index: number) => {
