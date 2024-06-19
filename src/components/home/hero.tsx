@@ -23,7 +23,7 @@ const StyledRow = styled(Row)`
 
 const StyledHeading = styled.h1`
   color: ${colors.black};
-  font-weight: 600;
+  font-weight: 500;
 
   @media all and (max-width: ${breakpoints.md}px) {
     text-indent: 60px;

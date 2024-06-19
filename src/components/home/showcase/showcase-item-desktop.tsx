@@ -35,6 +35,9 @@ const StyledShowcaseImage = styled(motion.div)`
   height: 100%;
   flex: 1;
   margin: auto 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   & img {
     width: 100%;

@@ -35,6 +35,7 @@ const StyledFollowingContainer = styled.div<IStyledWrapper>`
   bottom: ${({ reverse }) => (reverse ? `0` : `unset`)};
   left: 0;
   right: 0;
+  padding-top: 100px;
 
   @media (max-width: ${breakpoints.sm}px) {
     display: flex;
@@ -50,13 +51,13 @@ const StyledMotionWrapper = styled(motion.div)<IStyledWrapper>`
   left: 0;
   width: 100%;
   overflow-y: scroll;
-  scroll-snap-type: y mandatory;
+  /* scroll-snap-type: y mandatory; */
   ${({ open }) => (open ? `height: 100vh;` : `overflow: hidden;`)}
   @media all and (max-width: ${breakpoints.sm}px) {
     display: flex;
     align-items: center;
     overflow-x: scroll;
-    scroll-snap-type: x mandatory;
+    /* scroll-snap-type: x mandatory; */
   }
 `;
 
@@ -185,7 +186,7 @@ export default function ShowcaseWrapperDesktop({ title, projects }: IShowcase) {
           })}
         </StyledMotionWrapper>
       </StyledFollowingContainer>
-      <StyledSpacer height={fromStart ? 140 : 100} />
+      <StyledSpacer height={fromStart ? 300 : 100} />
     </StyledWrapper>
   );
 }
