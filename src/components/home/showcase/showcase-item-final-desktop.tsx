@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { Project } from "../../../interfaces/project";
 import Link from "next/link";
-import { colors, dimensions } from "../../../styles/variables";
+import { breakpoints, colors, dimensions } from "../../../styles/variables";
 import { getRemSize } from "../../../styles/globalCss";
 import { IconButton } from "../../global/iconButton";
 import { CustomImage } from "../../global/image";
@@ -30,6 +30,10 @@ const StyledShowcaseDetails = styled(motion.div)`
   margin: 40px auto;
   max-width: 1448px;
   /* height: 100%; */
+  @media all and (max-width: ${breakpoints.md}px) {
+    flex-direction: column;
+  }
+
 `;
 
 const StyledAllProjects = styled.div`
@@ -42,6 +46,10 @@ const StyledAllProjects = styled.div`
   font-size: ${getRemSize(dimensions.headingSizes.medium.desktop)};
   height: -webkit-fill-available;
   margin: auto 10px;
+  @media all and (max-width: ${breakpoints.md}px) {
+    margin-top: 10px;
+    width: -webkit-fill-available;
+  }
 `;
 
 const StyledShowcaseImage = styled(motion.div)`
@@ -50,6 +58,9 @@ const StyledShowcaseImage = styled(motion.div)`
   flex: 1;
   margin: auto 10px;
   overflow: hidden;
+  @media all and (max-width: ${breakpoints.md}px) {
+    width: -webkit-fill-available;
+  }
   & img {
     width: 100%;
     height: 100%;

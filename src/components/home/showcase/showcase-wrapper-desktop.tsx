@@ -11,8 +11,24 @@ import { IShowcase } from "../showcase";
 import ShowcaseItemDesktop from "./showcase-item-desktop";
 import ShowcaseItemFinalDesktop from "./showcase-item-final-desktop";
 
-const StyledSpacer = styled.div<{ height: number }>`
-  height: ${({ height }) => height}vh;
+
+// height={fromStart ? 300 : 140}
+
+const StyledGridContainer = styled(GridContainer)`
+@media all and (min-width: 1024px) {
+  padding-top: 150px
+}
+`
+
+const StyledSpacer = styled.div<{ start: boolean }>`
+  height: 300vh;
+  
+  ${({ start }) => (!start && `
+  height: 140vh;
+  @media all and (max-width: 1024px) {
+    height: 160vh;
+  }
+  `)}
 `;
 
 interface IStyledWrapper {
@@ -66,8 +82,11 @@ const StyledTitle = styled.h2<{ color: string }>`
   /* grid-column: 1 / span 12; */
   line-height: 225px;
   color: ${({ color }) => color};
+
+
   @media all and (max-width: 1164px) {
     font-size: ${getRemSize(dimensions.headingSizes.display2.desktop - 50)};
+    line-height: 195px;
   }
   @media all and (max-width: ${breakpoints.md}px) {
     font-size: ${getRemSize(dimensions.headingSizes.display2.mobile)};
@@ -150,7 +169,7 @@ export default function ShowcaseWrapperDesktop({ title, projects }: IShowcase) {
         open={isOpen}
         // reverse={!fromStart && !isOpen}
       >
-        <GridContainer>
+        <StyledGridContainer>
           <Row>
             <Col start={1} span={12}>
               <StyledTitle color={(isOpen || isFinished) ? colors.accent : colors.white}>
@@ -158,7 +177,7 @@ export default function ShowcaseWrapperDesktop({ title, projects }: IShowcase) {
               </StyledTitle>
             </Col>
           </Row>
-        </GridContainer>
+        </StyledGridContainer>
         <StyledMotionWrapper open={isOpen}>
           {projects.nodes.map((project, index: number) => {
             if (index === projects.nodes.length - 1) {
@@ -185,7 +204,7 @@ export default function ShowcaseWrapperDesktop({ title, projects }: IShowcase) {
           })}
         </StyledMotionWrapper>
       </StyledFollowingContainer>
-      <StyledSpacer height={fromStart ? 300 : 140} />
+      <StyledSpacer start={fromStart} />
     </StyledWrapper>
   );
 }
