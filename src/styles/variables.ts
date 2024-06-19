@@ -7,6 +7,7 @@ export const colors = {
   accent: "#39979C",
   accentLight: "#39979C33",
   bgLight: "#FFFFFF33",
+  accentDark: "#284E51",
 } as const;
 /**
  * Keys for the global color variable

@@ -7,35 +7,27 @@ import {
   getProjectAndMoreProjects,
   getSiteData,
 } from "../../lib/api";
-import Image from "next/image";
 import { ISiteData } from "../../interfaces/site";
 import { IProjectData } from "../../interfaces/project";
 import { Hero } from "../../components/project/hero";
 import ProjectBody from "../../components/project/content";
 import { GridContainer } from "../../components/global/grid/gridContainer";
-import styled from "@emotion/styled";
 import Navbar from "../../components/navbar";
 import { MoreProjects } from "../../components/project/moreProjects";
 
 interface IProject extends IProjectData {
   siteData: ISiteData;
-  preview: boolean;
 }
 
-export default function Project({
-  siteData,
-  project,
-  projects,
-  preview,
-}: IProject) {
+export default function Project({ siteData, project, projects }: IProject) {
   const router = useRouter();
 
-  if (!router.isFallback && !project?.slug) {
+  if (!project || (!router.isFallback && !project?.slug)) {
     return <ErrorPage statusCode={404} />;
   }
 
   return (
-    <Layout preview={preview} pageTitle={project?.title} siteData={siteData}>
+    <Layout pageTitle={project?.title} siteData={siteData}>
       <Navbar dark={true} />
 
       {router.isFallback ? (
@@ -55,11 +47,9 @@ export default function Project({
   );
 }
 
-export const getStaticProps: GetStaticProps = async ({
-  params,
-  preview = false,
-}) => {
-  const { project, projects } = await getProjectAndMoreProjects(params?.slug);
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const slug = typeof params.slug === "string" ? params.slug : params.slug[0];
+  const { project, projects } = await getProjectAndMoreProjects(slug);
   const siteData = await getSiteData();
 
   return {
@@ -67,7 +57,6 @@ export const getStaticProps: GetStaticProps = async ({
       siteData,
       project,
       projects,
-      preview,
     },
     revalidate: 10,
   };

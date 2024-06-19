@@ -5,28 +5,12 @@ import { getRemSize } from "../../styles/globalCss";
 import { Row } from "../global/grid/Row";
 import { Col } from "../global/grid/Col";
 import ArrowUpRight from "../../icons/arrowUpRight";
+import Image from "next/image";
+import useIsDesktop from "../../hooks/useIsDesktop";
 
-interface IStyledDivImage {
-  imageSrc: string;
-}
-
-const StyledLogoImage = styled.div<{ dark: boolean }>`
-  position: absolute;
-  top: 14px;
-  left: 8px;
-  z-index: 1001;
-  color: ${(props) => (props.dark ? colors.white : colors.black)};
-  img {
-    fill: currentColor;
-  }
-`;
-
-const StyledDivImage = styled.div<IStyledDivImage>`
+const StyledDivImage = styled.div`
   overflow: hidden;
   position: absolute;
-  background-image: url(${(props) => props.imageSrc});
-  background-size: cover;
-  background-position: center;
   width: 100%;
   height: 585px;
   left: 0;
@@ -34,8 +18,16 @@ const StyledDivImage = styled.div<IStyledDivImage>`
   z-index: -1;
   border-radius: 0px 0px 20px 20px;
 
+  & img {
+    width: auto;
+    height: inherit;
+  }
+
   @media (max-width: ${breakpoints.md}px) {
     height: 650px;
+    & img {
+      height: 100%;
+    }
   }
 `;
 
@@ -164,6 +156,7 @@ const StyledProjectFieldValue = styled.p`
 
   @media (max-width: ${breakpoints.md}px) {
     letter-spacing: 1px;
+  }
 `;
 
 const StyledTagsWrapper = styled.div`
@@ -255,12 +248,30 @@ interface Props {
 }
 
 export function Hero({ project }: Props) {
+  const isDesktop = useIsDesktop();
+
   return (
     <>
-      <StyledLogoImage dark={false}>
-        <img src="/svg/logo-icon-white.svg" alt="Logo" width={40} height={40} />
-      </StyledLogoImage>
-      <StyledDivImage imageSrc={project.featuredImage?.node.sourceUrl} />
+      <StyledDivImage>
+        {isDesktop ? (
+          <Image
+            fill
+            src={project.featuredImage?.node.sourceUrl}
+            alt={`${project.title} Feature Image`}
+            placeholder="blur"
+            blurDataURL={project.featuredImage.node.placeholderDataURI}
+          />
+        ) : (
+          <Image
+            src={project.featuredImage?.node.sourceUrl}
+            alt={`${project.title} Feature Image`}
+            placeholder="blur"
+            blurDataURL={project.featuredImage.node.placeholderDataURI}
+            width={374}
+            height={649}
+          />
+        )}
+      </StyledDivImage>
       <StyledTitleRow>
         <Col start={2} span={7}>
           <StyledHeading1>{project.title}</StyledHeading1>

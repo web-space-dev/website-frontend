@@ -9,6 +9,7 @@ import SkillsDesktop from "./skills/skillsDesktop";
 import useIsDesktop from "../../hooks/useIsDesktop";
 import { Row } from "../global/grid/Row";
 import { Col } from "../global/grid/Col";
+import Image from "next/image";
 
 const StyledWrapper = styled(GridContainer)`
   margin: 140px auto;
@@ -36,10 +37,6 @@ const SkillsMobile = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 13px;
-  img {
-    height: auto;
-    width: 100%;
-  }
 `;
 
 const StyledText = styled.p`
@@ -73,10 +70,15 @@ export default function Skills({ title, categories, skills }: ISkills) {
                 <SkillsMobile>
                   {skills.nodes.map((skill, index) => {
                     return (
-                      <img
+                      <Image
                         key={index}
                         src={skill.featuredImage.node.sourceUrl}
+                        blurDataURL={
+                          skill.featuredImage.node.placeholderDataURI
+                        }
                         alt={skill.title + "Logo"}
+                        width={87}
+                        height={87}
                       />
                     );
                   })}

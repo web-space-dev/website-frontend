@@ -7,6 +7,7 @@ const StyledIconButton = styled.button`
   /* width: 58px;
   height: 70px;
   padding: 20px 14px; */
+  margin: 0;
   width: 3.5rem;
   height: 3rem;
   padding: 0;
