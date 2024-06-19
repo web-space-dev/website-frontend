@@ -185,7 +185,7 @@ export default function ShowcaseWrapperDesktop({ title, projects }: IShowcase) {
           })}
         </StyledMotionWrapper>
       </StyledFollowingContainer>
-      <StyledSpacer height={fromStart ? 300 : 100} />
+      <StyledSpacer height={fromStart ? 300 : 140} />
     </StyledWrapper>
   );
 }

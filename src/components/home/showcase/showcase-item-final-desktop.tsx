@@ -29,7 +29,7 @@ const StyledShowcaseDetails = styled(motion.div)`
   height: -webkit-fill-available;
   margin: 40px auto;
   max-width: 1448px;
-  height: 100%;
+  /* height: 100%; */
 `;
 
 const StyledAllProjects = styled.div`
