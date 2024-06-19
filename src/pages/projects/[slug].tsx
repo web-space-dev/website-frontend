@@ -43,9 +43,9 @@ export default function Project({
       ) : (
         <>
           <GridContainer>
-            {/* <Hero project={project} /> */}
+            <Hero project={project} />
             {/* <Content */}
-            {/* <ProjectBody content={project.projectFields.content} /> */}
+            <ProjectBody content={project.projectFields.content} />
             {/* Other Projects */}
             <MoreProjects projects={projects} />
           </GridContainer>
