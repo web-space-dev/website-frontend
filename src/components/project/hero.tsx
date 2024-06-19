@@ -8,17 +8,6 @@ import ArrowUpRight from "../../icons/arrowUpRight";
 import Image from "next/image";
 import useIsDesktop from "../../hooks/useIsDesktop";
 
-const StyledLogoImage = styled.div<{ dark: boolean }>`
-  position: absolute;
-  top: 14px;
-  left: 8px;
-  z-index: 1001;
-  color: ${(props) => (props.dark ? colors.white : colors.black)};
-  img {
-    fill: currentColor;
-  }
-`;
-
 const StyledDivImage = styled.div`
   overflow: hidden;
   position: absolute;
@@ -263,14 +252,6 @@ export function Hero({ project }: Props) {
 
   return (
     <>
-      <StyledLogoImage dark={false}>
-        <Image
-          src="/svg/logo-icon-white.svg"
-          alt="Logo"
-          width={40}
-          height={40}
-        />
-      </StyledLogoImage>
       <StyledDivImage>
         {isDesktop ? (
           <Image
