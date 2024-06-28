@@ -28,13 +28,12 @@ export default function Project({ siteData, project, projects }: IProject) {
 
   return (
     <Layout pageTitle={project?.title} siteData={siteData}>
-      <Navbar dark={true} />
-
       {router.isFallback ? (
         <h2>Loading</h2>
       ) : (
         <>
           <GridContainer>
+            <Navbar dark={true} />
             <Hero project={project} />
             {/* <Content */}
             <ProjectBody content={project.projectFields.content} />
