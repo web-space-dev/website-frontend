@@ -1,11 +1,9 @@
 "use client";
 import styled from "@emotion/styled";
-import React, { useState, useEffect } from "react";
-import { breakpoints, dimensions, colors } from "../styles/variables";
-import { getRemSize } from "../styles/globalCss";
+import React, { useState } from "react";
+import { breakpoints, colors } from "../styles/variables";
 import ArrowUpRight from "../icons/arrowUpRight";
 import Image from "next/image";
-import { useAnimate, stagger, motion } from "framer-motion";
 import Link from "next/link";
 
 const StyledWrapper = styled.div`
@@ -23,12 +21,9 @@ const StyledImage = styled.div<{ dark: boolean }>`
   top: 14px;
   left: 8px;
   z-index: 1001;
-  color: ${(props) =>
-    props.dark
-      ? colors.white
-      : colors.black}; // Changes the color based on the dark prop
+  color: ${(props) => (props.dark ? colors.white : colors.black)};
   img {
-    fill: currentColor; // Makes the SVG inherit the color property
+    fill: currentColor;
   }
 `;
 
@@ -38,7 +33,6 @@ const WrapperContent = styled.div`
   align-items: center;
   flex-direction: column;
   transform: scale(0.93);
-  // margin-top: 232px;
   margin-top: 35px;
 
   @media all and (max-width: ${breakpoints.md}px) {
@@ -48,6 +42,7 @@ const WrapperContent = styled.div`
   @media (max-width: 600px) {
     transform: scale(0.95);
     margin-top: 28px;
+    justify-content: flex-start;
   }
 
   @media (max-width: 500px) {
@@ -87,12 +82,10 @@ const StyledBox = styled.div`
   @media all and (max-width: ${breakpoints.sm}px) {
     max-width: 100%;
     padding: 25px;
-    height: 80vh;
-    overflow-y: scroll;
+    height: auto;
   }
   @media (max-width: 375px) {
     margin-top: 8px;
-    overflow: auto;
     max-height: 80vh;
     margin-top: 30px;
   }
@@ -100,12 +93,23 @@ const StyledBox = styled.div`
 
 const StyledHeading = styled.p`
   font-size: 36px;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 42px;
   color: ${colors.black};
-  letter-spacing: 1px;
+  letter-spacing: 2px;
   opacity: 0.87;
   margin: 0px 0px 30px 0px;
+  @media all and (max-width: ${breakpoints.md}px) {
+    font-size: 32px;
+    line-height: 40px;
+    margin: 0px 0px 25px 0px;
+  }
+  @media all and (max-width: ${breakpoints.sm}px) {
+    font-size: 26px;
+    line-height: 35px;
+    letter-spacing: 2px;
+    margin: 0px 0px 20px 0px;
+  }
 `;
 
 const StyledForm = styled.form`
@@ -134,6 +138,10 @@ const StyledInput = styled.input`
   }
   @media all and (max-width: ${breakpoints.md}px) {
     width: 100%;
+    height: 53px;
+  }
+  @media all and (max-width: ${breakpoints.sm}px) {
+    height: 50px;
   }
 `;
 
@@ -152,14 +160,29 @@ const Label = styled.label`
     left: 11px;
     font-size: 0.75rem;
   }
+  @media all and (max-width: ${breakpoints.md}px) {
+    margin-left: 7px;
+    font-size: 20px;
+    &.active {
+      font-size: 14px;
+      left: 14px;
+    }
+  }
+  @media all and (max-width: ${breakpoints.sm}px) {
+    margin-left: 4px;
+    font-size: 18px;
+    &.active {
+      font-size: 12px;
+      left: 17px;
+    }
+  }
 `;
 
 const StyledIcon = styled(ArrowUpRight)`
   height: 30px;
-  margin-left: 28px; */
+  margin-left: 28px;
 
   transition: 0.3s ease;
-
 `;
 const StyledButton = styled.button`
   display: flex;
@@ -196,6 +219,7 @@ const StyledButton = styled.button`
 
   @media all and (max-width: ${breakpoints.md}px) {
     width: 100%;
+    height: 63px;
     padding: 10px;
   }
 
@@ -251,6 +275,9 @@ const StyledSquare = styled.div<StyledSquareProps>`
 
   &:hover {
     background-color: rgba(57, 151, 156, 0.2);
+  }
+  @media all and (max-width: ${breakpoints.sm}px) {
+    font-size: 28px;
   }
 `;
 
